@@ -1,0 +1,17 @@
+Package compilador;
+ 
+Helpers
+ number = ['0' .. '9']+;
+ underscore = '_' '_'*;
+ charmin = ['a' .. 'z']+;
+ charmai = ['A' .. 'Z']+;
+ char = charmin | charmai;
+ 
+Tokens
+ programa = 'programa';
+ var = 'var';
+ inicio = 'inicio';
+ fim = 'fim';
+ eol = ';';
+ 
+ decl_programa = 'programa' charmai char* ';';
