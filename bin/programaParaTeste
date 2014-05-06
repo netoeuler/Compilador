@@ -1,1 +1,3 @@
-programa OlaMundo;
+programa O;
+inicio
+inteiro:var a;
