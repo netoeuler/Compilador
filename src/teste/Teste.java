@@ -3,11 +3,6 @@ package teste;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.PushbackReader;
-
-import main.MyLexer;
-
-import compilador.lexer.Lexer;
 
 class Teste {
 	
@@ -22,8 +17,6 @@ class Teste {
 			System.out.println(e);
 			return;
 		}
-		
-		MyLexer lex = new MyLexer(new PushbackReader(br));
-		lex.run();
+				
 	}
 }

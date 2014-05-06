@@ -7,14 +7,14 @@ import compilador.analysis.*;
 @SuppressWarnings("nls")
 public final class TEol extends Token
 {
-    public TEol()
+    public TEol(String text)
     {
-        super.setText(";");
+        setText(text);
     }
 
-    public TEol(int line, int pos)
+    public TEol(String text, int line, int pos)
     {
-        super.setText(";");
+        setText(text);
         setLine(line);
         setPos(pos);
     }
@@ -22,18 +22,12 @@ public final class TEol extends Token
     @Override
     public Object clone()
     {
-      return new TEol(getLine(), getPos());
+      return new TEol(getText(), getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTEol(this);
-    }
-
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TEol text.");
     }
 }
