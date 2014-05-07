@@ -5,14 +5,14 @@ package compilador.node;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TPonto extends Token
+public final class TComentarioLinha extends Token
 {
-    public TPonto(String text)
+    public TComentarioLinha(String text)
     {
         setText(text);
     }
 
-    public TPonto(String text, int line, int pos)
+    public TComentarioLinha(String text, int line, int pos)
     {
         setText(text);
         setLine(line);
@@ -22,12 +22,12 @@ public final class TPonto extends Token
     @Override
     public Object clone()
     {
-      return new TPonto(getText(), getLine(), getPos());
+      return new TComentarioLinha(getText(), getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTPonto(this);
+        ((Analysis) sw).caseTComentarioLinha(this);
     }
 }

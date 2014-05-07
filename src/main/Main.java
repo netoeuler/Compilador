@@ -4,14 +4,11 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PushbackReader;
 
 import compilador.lexer.Lexer;
 import compilador.lexer.LexerException;
-import compilador.node.Start;
-import compilador.parser.Parser;
-import compilador.parser.ParserException;
+import compilador.node.Token;
 
 
 class Main {
@@ -27,21 +24,29 @@ class Main {
 			return;
 		}
 		
-		try {
-			// Create a Parser instance.
-			Parser p =	new Parser(
-					new Lexer(new PushbackReader(br)));
+		Lexer l = new Lexer(new PushbackReader(br));
+		Token t = null;
+		String erros = "";
+		
+		while (true){
+			try{
+				t = l.next();
+			} catch (LexerException e){
+				erros += e+"\n";
+				continue;
+			} catch (IOException e) {
+				erros += e+"\n";
+				continue;
+			}
 			
-			// Parse the input.
-			//Start tree = p.parse();
-			p.parse();
+			System.out.println(t.getText() + " (" + t.getClass() + ")");
 			
-		 } catch (LexerException e) {
-			System.out.println(e);
-		 } catch (ParserException e) {
-			System.out.println(e);
-		} catch (IOException e) {
-			System.out.println(e);
+			if (t.getText().equals(""))
+				break;
 		}
+		
+		if (!erros.trim().isEmpty())
+			System.out.println(erros);
+		
 	 }
 }

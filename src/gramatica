@@ -1,29 +1,32 @@
 Package compilador;
   
 Helpers 
+ unicode = [0x0 .. 0xfffff];
  blank = (' ' | 10 | 13 | '\n')+; 
- real = 'real';
- inteiro = 'inteiro';
- caractere = 'caractere';
- 
-Tokens
- number = ['0' .. '9']+;
- underscore = '_';
+ tipo = ('real' | 'inteiro' | 'caractere');
  charmin = ['a' .. 'z']+;
- charmai = ['A' .. 'Z']+; 
+ charmai = ['A' .. 'Z']+;
+ char = (charmin | charmai);
+ numero = ['0' .. '9']+;
+ underscore = '_';
+ 
+ qualquer_caractere = (char | numero | underscore)*;
+ 
+Tokens  
+ nome_programa = charmai char*;
+ 
  eol = blank* ';' blank*;
  ponto = blank* '.';
  doispontos = blank* ':' blank*;
  
  programa = blank* 'programa' blank;
  inicio = blank* 'inicio' blank*;
- fim = blank* 'fim';
+ fim = blank* 'fim' blank*;
  
- var = blank* 'var' blank;
- def_tipo = blank* ('real' | 'inteiro' | 'caractere') blank*;
- tipo = blank* 'inteiro' blank*;
+ var = blank* 'var' blank ':';
  
-Productions
- decl_programa = programa charmai eol inicio declaracao fim ponto;
- declaracao = def_tipo doispontos var charmin eol;
+ def_tipo = blank* tipo blank*;
+ 
+ comentario_linha = '//' unicode* blank*;
+ comentario_bloco = '/*' unicode* blank* '*\' blank*;
  

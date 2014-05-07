@@ -69,43 +69,7 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseStart(Start node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseADeclPrograma(ADeclPrograma node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseADeclaracao(ADeclaracao node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseTNumber(TNumber node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseTUnderscore(TUnderscore node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseTCharmin(TCharmin node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseTCharmai(TCharmai node)
+    public void caseTNomePrograma(TNomePrograma node)
     {
         defaultCase(node);
     }
@@ -159,7 +123,13 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTTipo(TTipo node)
+    public void caseTComentarioLinha(TComentarioLinha node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTComentarioBloco(TComentarioBloco node)
     {
         defaultCase(node);
     }
