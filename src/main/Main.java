@@ -14,11 +14,16 @@ import compilador.node.Token;
 class Main {
 	
 	public static void main(String args[]) {
-		BufferedReader br = null;
-		String dir = System.getProperty("user.dir") + "/src/";
+		String arquivo = "";
+		if (args.length == 0)
+			arquivo = System.getProperty("user.dir") + "/src/teste/programaParaTeste";
+		else
+			arquivo = args[0];
 		
-		try {
-			br = new BufferedReader(new FileReader(dir + "programaParaTeste"));			
+		BufferedReader br = null;		
+		
+		try {						
+			br = new BufferedReader(new FileReader(arquivo));
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
 			return;
@@ -39,12 +44,18 @@ class Main {
 				continue;
 			}
 			
-			System.out.println(t.getText() + " (" + t.getClass() + ")");
+			//System.out.println(t.getText() + " (" + t.getClass() + ")");
+			Integer lenId = t.getClass().toString().split(" ")[1].split("\\.").length-1;
+			String id = t.getClass().toString().split(" ")[1].split("\\.")[lenId];
+			System.out.print(id + " ");
 			
+			if (id.equals("TQuebra") || id.equals("TCommentLine"))
+				System.out.println("");			
 			if (t.getText().equals(""))
 				break;
 		}
 		
+		System.out.println("");
 		if (!erros.trim().isEmpty())
 			System.out.println(erros);
 		
