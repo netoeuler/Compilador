@@ -1,0 +1,18 @@
+programa
+ OlaMundo
+ ;
+inicio
+//#1ab6bg53a2
+var 
+caractere : 
+texto[10];
+var caractere : 
+texto2;
+var inteiro : 9as;
+se x 
+>
+ 10
+  entao
+ escreva('sim');
+fim se
+fim.
