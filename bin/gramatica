@@ -1,32 +1,84 @@
 Package compilador;
-  
-Helpers 
- unicode = [0x0 .. 0xfffff];
- blank = (' ' | 10 | 13 | '\n')+; 
- tipo = ('real' | 'inteiro' | 'caractere');
- charmin = ['a' .. 'z']+;
- charmai = ['A' .. 'Z']+;
- char = (charmin | charmai);
- numero = ['0' .. '9']+;
- underscore = '_';
  
- qualquer_caractere = (char | numero | underscore)*;
+Helpers     
+    charmin = ['a' .. 'z']+;
+    charmai = ['A' .. 'Z']+;
+    char = charmin|charmai;
+    digito = ['0' .. '9']+;
+    qualquer_char = [0x0 .. 0xffff];
+    
+    underscore = '_';
+    
+    cr = 13 ;
+    lf = 10 ;
+    tab = 9 ;
+    blank = ' ';
+    hchar_ignored = cr|lf|blank|tab|'\n';
+    nao_cr_lf = [qualquer_char - [13 + 10]];
+    nao_estrela = [qualquer_char - '*'];
+    nao_estrela_barra = [nao_estrela - '/'];    
  
-Tokens  
- nome_programa = charmai char*;
+Tokens
+    numero = digito+;
+    comment_line = '//' [qualquer_char - 10]* hchar_ignored*;
+    coment_bloco = '/*' nao_estrela* '*'+ (nao_estrela_barra nao_estrela* '*'+)* '/';
+    
+    nome_programa = charmai (charmin|charmai)*;
+    
+    string = ''' [nao_cr_lf - ''']+ ''';
+    
+    espaco = ' ';
+    quebra = 10;
+    
+    mais = '+';
+    menos = '-';
+    barra = '/';
+    estrela = '*';
+    
+    menor = '<';
+    menor_igual = '<=';
+    maior = '>';
+    maior_igual = '>=';
+    
+    seta = '<-';
+    igual_igual = '==';
+    diferente = '!=';
+    igual = '=';    
  
- eol = blank* ';' blank*;
- ponto = blank* '.';
- doispontos = blank* ':' blank*;
- 
- programa = blank* 'programa' blank;
- inicio = blank* 'inicio' blank*;
- fim = blank* 'fim' blank*;
- 
- var = blank* 'var' blank ':';
- 
- def_tipo = blank* tipo blank*;
- 
- comentario_linha = '//' unicode* blank*;
- comentario_bloco = '/*' unicode* blank* '*\' blank*;
- 
+    ponto_e_virgula = ';';
+    virgula = ',';
+    abre_paren = '(' ;
+    fecha_paren = ')' ;
+    abre_colchete = '[' ;
+    fecha_colchete = ']' ;
+    abre_chave = '{' ;
+    fecha_chave = '}' ;
+    abre_coment = '/*' ;
+    fecha_coment = '*/' ;
+    ponto = '.';
+    doispontos = ':';
+    
+    escreva = 'escreva';
+    programa = 'programa';
+    var = 'var';
+    inicio = 'inicio';    
+    fim_ponto = 'fim.';
+    se = 'se';
+	fim_se = 'fim' hchar_ignored+ 'se';	
+	fim_enquanto = 'fim' hchar_ignored+ 'enquanto';
+	fim = 'fim';
+	enquanto = 'enquanto';
+	entao = 'entao';
+    
+    real = 'real';
+    inteiro = 'inteiro';
+    caractere = 'caractere';
+    logico = 'logico';
+    tipo = ('real' | 'inteiro' | 'caractere' | 'logico');
+    
+    identificador = (underscore|char) (char|digito)*;
+    char_ignored = hchar_ignored;
+    
+Ignored Tokens
+	char_ignored,
+    comment_line;
