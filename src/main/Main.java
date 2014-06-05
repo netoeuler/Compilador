@@ -8,15 +8,21 @@ import java.io.PushbackReader;
 
 import compilador.lexer.Lexer;
 import compilador.lexer.LexerException;
+import compilador.node.Start;
 import compilador.node.Token;
+import compilador.parser.Parser;
+import compilador.parser.ParserException;
 
 
 class Main {
 	
 	public static void main(String args[]) {
+		boolean checaLexico = false;
+		boolean checaSintatico = true;
+		
 		String arquivo = "";
 		if (args.length == 0)
-			arquivo = System.getProperty("user.dir") + "/teste/programaParaTeste";
+			arquivo = System.getProperty("user.dir") + "/teste/programaParaTeste3";
 		else
 			arquivo = args[0];
 		
@@ -33,31 +39,46 @@ class Main {
 		Token t = null;
 		String erros = "";
 		
-		while (true){
-			try{
-				t = l.next();
-			} catch (LexerException e){
-				erros += e+"\n";
-				continue;
-			} catch (IOException e) {
-				erros += e+"\n";
-				continue;
+		if (checaLexico){
+			while (true){
+				try{
+					t = l.next();
+				} catch (LexerException e){
+					erros += e+"\n";
+					continue;
+				} catch (IOException e) {
+					erros += e+"\n";
+					continue;
+				}
+				
+				Integer lenId = t.getClass().toString().split(" ")[1].split("\\.").length-1;
+				String id = t.getClass().toString().split(" ")[1].split("\\.")[lenId];
+				System.out.print(id + " ");
+				
+				if (id.equals("TQuebra") || id.equals("TCommentLine"))
+					System.out.println("");			
+				if (t.getText().equals(""))
+					break;
 			}
-			
-			//System.out.println(t.getText() + " (" + t.getClass() + ")");
-			Integer lenId = t.getClass().toString().split(" ")[1].split("\\.").length-1;
-			String id = t.getClass().toString().split(" ")[1].split("\\.")[lenId];
-			System.out.print(id + " ");
-			
-			if (id.equals("TQuebra") || id.equals("TCommentLine"))
-				System.out.println("");			
-			if (t.getText().equals(""))
-				break;
+		
+			System.out.println("");
+			if (!erros.trim().isEmpty())
+				System.out.println(erros);
 		}
 		
-		System.out.println("");
-		if (!erros.trim().isEmpty())
-			System.out.println(erros);
+		if (checaSintatico){
+			Parser p = new Parser(l);
+			try {
+				Start tree;
+				tree = p.parse();
+			} catch (ParserException e) {			
+				e.printStackTrace();
+			} catch (LexerException e) {			
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		
 	 }
 }
