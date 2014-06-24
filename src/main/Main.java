@@ -17,9 +17,6 @@ import compilador.parser.ParserException;
 class Main {
 	
 	public static void main(String args[]) {
-		boolean checaLexico = false;
-		boolean checaSintatico = true;
-		
 		String arquivo = "";
 		if (args.length == 0)
 			arquivo = System.getProperty("user.dir") + "/teste/programaParaTeste3";
@@ -28,6 +25,7 @@ class Main {
 		
 		BufferedReader br = null;		
 		
+		//Análise Léxica
 		try {						
 			br = new BufferedReader(new FileReader(arquivo));
 		} catch (FileNotFoundException e) {
@@ -38,47 +36,57 @@ class Main {
 		Lexer l = new Lexer(new PushbackReader(br));
 		Token t = null;
 		String erros = "";
+		int numTokens = 0;
 		
-		if (checaLexico){
-			while (true){
-				try{
-					t = l.next();
-				} catch (LexerException e){
-					erros += e+"\n";
-					continue;
-				} catch (IOException e) {
-					erros += e+"\n";
-					continue;
-				}
-				
-				Integer lenId = t.getClass().toString().split(" ")[1].split("\\.").length-1;
-				String id = t.getClass().toString().split(" ")[1].split("\\.")[lenId];
-				System.out.print(id + " ");
-				
-				if (id.equals("TQuebra") || id.equals("TCommentLine"))
-					System.out.println("");			
-				if (t.getText().equals(""))
-					break;
-			}
-		
-			System.out.println("");
-			if (!erros.trim().isEmpty())
-				System.out.println(erros);
-		}
-		
-		if (checaSintatico){
-			Parser p = new Parser(l);
-			try {
-				Start tree;
-				tree = p.parse();
-			} catch (ParserException e) {			
-				e.printStackTrace();
-			} catch (LexerException e) {			
-				e.printStackTrace();
+		while (true){
+			try{
+				t = l.next();
+				numTokens++;
+			} catch (LexerException e){
+				erros += e+"\n";
+				continue;
 			} catch (IOException e) {
-				e.printStackTrace();
+				erros += e+"\n";
+				continue;
 			}
+			
+			Integer lenId = t.getClass().toString().split(" ")[1].split("\\.").length-1;
+			String id = t.getClass().toString().split(" ")[1].split("\\.")[lenId];
+			/*System.out.print(id + " ");
+			
+			if (numTokens % 10 == 0)
+				System.out.println("");*/
+			if (t.getText().equals(""))
+				break;
 		}
+	
+		System.out.println("");
+		if (!erros.trim().isEmpty())
+			System.out.println(erros);		
+		
+		//Análise Sintática
+		try {						
+			br = new BufferedReader(new FileReader(arquivo));
+		} catch (FileNotFoundException e) {
+			System.out.println(e);
+			return;
+		}
+		
+		l = new Lexer(new PushbackReader(br));		
+		
+		Parser p = new Parser(l);
+		try {
+			Start tree;
+			tree = p.parse();
+		} catch (ParserException e) {			
+			//e.printStackTrace();
+			System.out.println(e.getMessage());
+		} catch (LexerException e) {			
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		
 	 }
 }

@@ -1,2 +1,14 @@
-escreva('tes
-te')
+programa ola;
+var inteiro : teste;
+var inteiro : teste2;
+inicio
+	teste <- 1;
+	se (nao (teste = 2 ou (teste = 1)) entao
+		escreva(teste);
+		se (teste = 1) entao
+			escreva(teste);
+		fim se;
+	senao
+		escreva(teste);	
+	fim se;
+fim.
