@@ -2,19 +2,19 @@
 
 package compilador.node;
 
+import java.util.*;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
 public final class ARepitaRepeticao extends PRepeticao
 {
     private TRepita _repita_;
-    private PCmdPontoVirgula _cmdPontoVirgula_;
-    private PParteComandos _parteComandos_;
-    private TPontoEVirgula _pontoEVirgula_;
+    private final LinkedList<PParteComandos> _parteComandos_ = new LinkedList<PParteComandos>();
     private TAte _ate_;
     private TAbreParen _abreParen_;
     private PExpressaoLogica _expressaoLogica_;
     private TFechaParen _fechaParen_;
+    private TPontoEVirgula _pontoEVirgula_;
 
     public ARepitaRepeticao()
     {
@@ -23,22 +23,17 @@ public final class ARepitaRepeticao extends PRepeticao
 
     public ARepitaRepeticao(
         @SuppressWarnings("hiding") TRepita _repita_,
-        @SuppressWarnings("hiding") PCmdPontoVirgula _cmdPontoVirgula_,
-        @SuppressWarnings("hiding") PParteComandos _parteComandos_,
-        @SuppressWarnings("hiding") TPontoEVirgula _pontoEVirgula_,
+        @SuppressWarnings("hiding") List<?> _parteComandos_,
         @SuppressWarnings("hiding") TAte _ate_,
         @SuppressWarnings("hiding") TAbreParen _abreParen_,
         @SuppressWarnings("hiding") PExpressaoLogica _expressaoLogica_,
-        @SuppressWarnings("hiding") TFechaParen _fechaParen_)
+        @SuppressWarnings("hiding") TFechaParen _fechaParen_,
+        @SuppressWarnings("hiding") TPontoEVirgula _pontoEVirgula_)
     {
         // Constructor
         setRepita(_repita_);
 
-        setCmdPontoVirgula(_cmdPontoVirgula_);
-
         setParteComandos(_parteComandos_);
-
-        setPontoEVirgula(_pontoEVirgula_);
 
         setAte(_ate_);
 
@@ -48,6 +43,8 @@ public final class ARepitaRepeticao extends PRepeticao
 
         setFechaParen(_fechaParen_);
 
+        setPontoEVirgula(_pontoEVirgula_);
+
     }
 
     @Override
@@ -55,13 +52,12 @@ public final class ARepitaRepeticao extends PRepeticao
     {
         return new ARepitaRepeticao(
             cloneNode(this._repita_),
-            cloneNode(this._cmdPontoVirgula_),
-            cloneNode(this._parteComandos_),
-            cloneNode(this._pontoEVirgula_),
+            cloneList(this._parteComandos_),
             cloneNode(this._ate_),
             cloneNode(this._abreParen_),
             cloneNode(this._expressaoLogica_),
-            cloneNode(this._fechaParen_));
+            cloneNode(this._fechaParen_),
+            cloneNode(this._pontoEVirgula_));
     }
 
     @Override
@@ -95,79 +91,30 @@ public final class ARepitaRepeticao extends PRepeticao
         this._repita_ = node;
     }
 
-    public PCmdPontoVirgula getCmdPontoVirgula()
-    {
-        return this._cmdPontoVirgula_;
-    }
-
-    public void setCmdPontoVirgula(PCmdPontoVirgula node)
-    {
-        if(this._cmdPontoVirgula_ != null)
-        {
-            this._cmdPontoVirgula_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._cmdPontoVirgula_ = node;
-    }
-
-    public PParteComandos getParteComandos()
+    public LinkedList<PParteComandos> getParteComandos()
     {
         return this._parteComandos_;
     }
 
-    public void setParteComandos(PParteComandos node)
+    public void setParteComandos(List<?> list)
     {
-        if(this._parteComandos_ != null)
+        for(PParteComandos e : this._parteComandos_)
         {
-            this._parteComandos_.parent(null);
+            e.parent(null);
         }
+        this._parteComandos_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PParteComandos e = (PParteComandos) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._parteComandos_.add(e);
         }
-
-        this._parteComandos_ = node;
-    }
-
-    public TPontoEVirgula getPontoEVirgula()
-    {
-        return this._pontoEVirgula_;
-    }
-
-    public void setPontoEVirgula(TPontoEVirgula node)
-    {
-        if(this._pontoEVirgula_ != null)
-        {
-            this._pontoEVirgula_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._pontoEVirgula_ = node;
     }
 
     public TAte getAte()
@@ -270,18 +217,42 @@ public final class ARepitaRepeticao extends PRepeticao
         this._fechaParen_ = node;
     }
 
+    public TPontoEVirgula getPontoEVirgula()
+    {
+        return this._pontoEVirgula_;
+    }
+
+    public void setPontoEVirgula(TPontoEVirgula node)
+    {
+        if(this._pontoEVirgula_ != null)
+        {
+            this._pontoEVirgula_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._pontoEVirgula_ = node;
+    }
+
     @Override
     public String toString()
     {
         return ""
             + toString(this._repita_)
-            + toString(this._cmdPontoVirgula_)
             + toString(this._parteComandos_)
-            + toString(this._pontoEVirgula_)
             + toString(this._ate_)
             + toString(this._abreParen_)
             + toString(this._expressaoLogica_)
-            + toString(this._fechaParen_);
+            + toString(this._fechaParen_)
+            + toString(this._pontoEVirgula_);
     }
 
     @Override
@@ -294,21 +265,8 @@ public final class ARepitaRepeticao extends PRepeticao
             return;
         }
 
-        if(this._cmdPontoVirgula_ == child)
+        if(this._parteComandos_.remove(child))
         {
-            this._cmdPontoVirgula_ = null;
-            return;
-        }
-
-        if(this._parteComandos_ == child)
-        {
-            this._parteComandos_ = null;
-            return;
-        }
-
-        if(this._pontoEVirgula_ == child)
-        {
-            this._pontoEVirgula_ = null;
             return;
         }
 
@@ -336,6 +294,12 @@ public final class ARepitaRepeticao extends PRepeticao
             return;
         }
 
+        if(this._pontoEVirgula_ == child)
+        {
+            this._pontoEVirgula_ = null;
+            return;
+        }
+
         throw new RuntimeException("Not a child.");
     }
 
@@ -349,22 +313,22 @@ public final class ARepitaRepeticao extends PRepeticao
             return;
         }
 
-        if(this._cmdPontoVirgula_ == oldChild)
+        for(ListIterator<PParteComandos> i = this._parteComandos_.listIterator(); i.hasNext();)
         {
-            setCmdPontoVirgula((PCmdPontoVirgula) newChild);
-            return;
-        }
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PParteComandos) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
 
-        if(this._parteComandos_ == oldChild)
-        {
-            setParteComandos((PParteComandos) newChild);
-            return;
-        }
-
-        if(this._pontoEVirgula_ == oldChild)
-        {
-            setPontoEVirgula((TPontoEVirgula) newChild);
-            return;
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         if(this._ate_ == oldChild)
@@ -388,6 +352,12 @@ public final class ARepitaRepeticao extends PRepeticao
         if(this._fechaParen_ == oldChild)
         {
             setFechaParen((TFechaParen) newChild);
+            return;
+        }
+
+        if(this._pontoEVirgula_ == oldChild)
+        {
+            setPontoEVirgula((TPontoEVirgula) newChild);
             return;
         }
 

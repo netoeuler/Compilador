@@ -12,6 +12,7 @@ public final class ALeiaParteComandos extends PParteComandos
     private PIdVirgula _idVirgula_;
     private TIdentificador _identificador_;
     private TFechaParen _fechaParen_;
+    private TPontoEVirgula _pontoEVirgula_;
 
     public ALeiaParteComandos()
     {
@@ -23,7 +24,8 @@ public final class ALeiaParteComandos extends PParteComandos
         @SuppressWarnings("hiding") TAbreParen _abreParen_,
         @SuppressWarnings("hiding") PIdVirgula _idVirgula_,
         @SuppressWarnings("hiding") TIdentificador _identificador_,
-        @SuppressWarnings("hiding") TFechaParen _fechaParen_)
+        @SuppressWarnings("hiding") TFechaParen _fechaParen_,
+        @SuppressWarnings("hiding") TPontoEVirgula _pontoEVirgula_)
     {
         // Constructor
         setLeia(_leia_);
@@ -36,6 +38,8 @@ public final class ALeiaParteComandos extends PParteComandos
 
         setFechaParen(_fechaParen_);
 
+        setPontoEVirgula(_pontoEVirgula_);
+
     }
 
     @Override
@@ -46,7 +50,8 @@ public final class ALeiaParteComandos extends PParteComandos
             cloneNode(this._abreParen_),
             cloneNode(this._idVirgula_),
             cloneNode(this._identificador_),
-            cloneNode(this._fechaParen_));
+            cloneNode(this._fechaParen_),
+            cloneNode(this._pontoEVirgula_));
     }
 
     @Override
@@ -180,6 +185,31 @@ public final class ALeiaParteComandos extends PParteComandos
         this._fechaParen_ = node;
     }
 
+    public TPontoEVirgula getPontoEVirgula()
+    {
+        return this._pontoEVirgula_;
+    }
+
+    public void setPontoEVirgula(TPontoEVirgula node)
+    {
+        if(this._pontoEVirgula_ != null)
+        {
+            this._pontoEVirgula_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._pontoEVirgula_ = node;
+    }
+
     @Override
     public String toString()
     {
@@ -188,7 +218,8 @@ public final class ALeiaParteComandos extends PParteComandos
             + toString(this._abreParen_)
             + toString(this._idVirgula_)
             + toString(this._identificador_)
-            + toString(this._fechaParen_);
+            + toString(this._fechaParen_)
+            + toString(this._pontoEVirgula_);
     }
 
     @Override
@@ -222,6 +253,12 @@ public final class ALeiaParteComandos extends PParteComandos
         if(this._fechaParen_ == child)
         {
             this._fechaParen_ = null;
+            return;
+        }
+
+        if(this._pontoEVirgula_ == child)
+        {
+            this._pontoEVirgula_ = null;
             return;
         }
 
@@ -259,6 +296,12 @@ public final class ALeiaParteComandos extends PParteComandos
         if(this._fechaParen_ == oldChild)
         {
             setFechaParen((TFechaParen) newChild);
+            return;
+        }
+
+        if(this._pontoEVirgula_ == oldChild)
+        {
+            setPontoEVirgula((TPontoEVirgula) newChild);
             return;
         }
 

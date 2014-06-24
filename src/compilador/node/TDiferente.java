@@ -9,12 +9,12 @@ public final class TDiferente extends Token
 {
     public TDiferente()
     {
-        super.setText("!=");
+        super.setText("<>");
     }
 
     public TDiferente(int line, int pos)
     {
-        super.setText("!=");
+        super.setText("<>");
         setLine(line);
         setPos(pos);
     }

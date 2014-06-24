@@ -3,11 +3,12 @@ Package compilador;
 Helpers     
     charmin = ['a' .. 'z']+;
     charmai = ['A' .. 'Z']+;
-    char = charmin|charmai;
+    char = [['a'..'z'] + ['A'..'Z']];
     digito = ['0' .. '9']+;
     qualquer_char = [0x0 .. 0xffff];
     
-    underscore = '_';
+    hunderscore = '_';
+    hponto = '.';
     
     cr = 13 ;
     lf = 10 ;
@@ -16,24 +17,25 @@ Helpers
     hchar_ignored = cr|lf|blank|tab|'\n';
     nao_cr_lf = [qualquer_char - [13 + 10]];
     nao_estrela = [qualquer_char - '*'];
-    nao_estrela_barra = [nao_estrela - '/'];    
+    nao_estrela_barra = [nao_estrela - '/'];
+    hstring = ''' [nao_cr_lf - ''']+ ''';
  
 Tokens
-    numero = digito+;
     comment_line = '//' [qualquer_char - 10]* hchar_ignored*;
     coment_bloco = '/*' nao_estrela* '*'+ (nao_estrela_barra nao_estrela* '*'+)* '/';
     
-    nome_programa = charmai (charmin|charmai)*;
-    
-    string = ''' [nao_cr_lf - ''']+ ''';
-    
-    espaco = ' ';
-    quebra = 10;
+    underscore = hunderscore;
+    numero = digito+;  
+        
+    e = 'e';
+    ou = 'ou';
+    xor = 'xor';
+    nao = 'nao';
     
     mais = '+';
     menos = '-';
-    barra = '/';
-    estrela = '*';
+    divisao = '/';
+    mult = '*';    
     
     menor = '<';
     menor_igual = '<=';
@@ -42,7 +44,7 @@ Tokens
     
     seta = '<-';
     igual_igual = '==';
-    diferente = '!=';
+    diferente = '<>';
     igual = '=';    
  
     ponto_e_virgula = ';';
@@ -56,29 +58,88 @@ Tokens
     abre_coment = '/*' ;
     fecha_coment = '*/' ;
     ponto = '.';
-    doispontos = ':';
+    dois_pontos = ':';
     
+    leia = 'leia';
     escreva = 'escreva';
     programa = 'programa';
     var = 'var';
-    inicio = 'inicio';    
-    fim_ponto = 'fim.';
     se = 'se';
-	fim_se = 'fim' hchar_ignored+ 'se';	
-	fim_enquanto = 'fim' hchar_ignored+ 'enquanto';
-	fim = 'fim';
-	enquanto = 'enquanto';
-	entao = 'entao';
+    entao = 'entao';
+    senao = 'senao';
+    enquanto = 'enquanto';    
+    faca = 'faca';
+    repita = 'repita';
+    ate = 'ate';
+    para = 'para';
+    de = 'de';
+    passo = 'passo';
+    inicio = 'inicio';
+    fim_ponto = 'fim.';
+    fim_se = 'fim' hchar_ignored+ 'se';    
+    fim_enquanto = 'fim' hchar_ignored+ 'enquanto';
+    fim_para = 'fim para';
+    fim = 'fim';
     
     real = 'real';
     inteiro = 'inteiro';
     caractere = 'caractere';
-    logico = 'logico';
-    tipo = ('real' | 'inteiro' | 'caractere' | 'logico');
     
-    identificador = (underscore|char) (char|digito)*;
+    string = hstring;
+    valor = hstring | digito+;
+    
+    identificador = (hunderscore | char) (char | digito | hunderscore)*;
     char_ignored = hchar_ignored;
     
 Ignored Tokens
-	char_ignored,
-    comment_line;
+    char_ignored, comment_line;
+    
+Productions
+    start = {start} esqueleto_programa;
+    esqueleto_programa = {esqueleto} programa identificador ponto_e_virgula parte_declaracao+ inicio parte_comandos+ fim_ponto;
+    
+    parte_declaracao = {declaracao} var tipo dois_pontos id_virgula? identificador ponto_e_virgula;
+    
+    parte_comandos = {atribuicao} identificador seta atrib1 ponto_e_virgula
+                    | {leia} leia abre_paren id_virgula identificador fecha_paren ponto_e_virgula
+                    | {escreva} escreva abre_paren exp_virgula? expressao fecha_paren ponto_e_virgula
+                    | {condicional} condicional
+                    | {repeticao} repeticao;
+    
+    condicional = {if_a} se abre_paren expressao_logica fecha_paren entao  parte_comandos+ cond_senao? fim_se ponto_e_virgula;
+    cond_senao = senao  parte_comandos+;
+    
+    repeticao = {enquanto} enquanto abre_paren expressao_logica fecha_paren faca  parte_comandos+ fim_enquanto
+            | {repita} repita  parte_comandos+ ate abre_paren expressao_logica fecha_paren ponto_e_virgula
+            | {para} para identificador de numero_inteiro para_sub  parte_comandos+ fim_para ponto_e_virgula;
+    
+    id_virgula = {id_virgula} identificador virgula;
+    exp_virgula = {exp_virgula} expressao virgula;
+    fim_para_ponto_virgula = {fp_pv} fim_para ponto_e_virgula;
+    atrib1 = {atrib_id} identificador | {atrib_num} numero | {atrib_str} string;
+    para_sub = {p_sub_ate} ate numero_inteiro para_sub_passo;
+    para_sub_passo = {p_sub_passo1} passo numero_inteiro para_sub_ate | {p_sub_passo2} para_sub_ate;
+    para_sub_ate = {p_sub_ate} ate numero_inteiro;
+    
+    numero_inteiro = {num_int} numero;
+    numero_real = {num_real} numero_inteiro? parte_frac;
+    parte_frac = {p_frac} ponto numero_inteiro+;
+     
+    tipo = {real} real | {int} inteiro | {char} caractere;
+    soma = {mais} mais | {menos} menos;
+    multiplicacao = {mult} mult | {div} divisao;
+    op_relacional = {menor} menor | {menor_igual} menor_igual | {maior} maior | {maior_igual} maior_igual 
+                | {igual} igual | {diferente} diferente;
+    op_logico = {e} e | {ou} ou | {xor} xor;    
+    
+    expressao = {exp1} expressao soma termo | {termo} termo;
+    termo = {term1} termo mult fator | {fator} fator;
+    fator = {fator1} abre_paren expressao fecha_paren | {num} numero | {id} identificador;    
+    
+    expressao_logica = {expl1} nao? termo_log;
+    termo_log = {tlog} termo_log op_logico termo_rel | {tlog2} termo_rel;
+    termo_rel = {trel} termo_rel soma termo2 | {trel2} termo2;
+    termo2 = {term1} termo2 mult fator2 | {fator} fator2;
+    fator2 = {ft2} fator2 op_relacional fator3 | {ft3} fator3;
+    fator3 = {fator} abre_paren expressao_logica fecha_paren | {num} numero | {id} identificador;
+    

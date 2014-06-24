@@ -10,6 +10,7 @@ public final class AAtribuicaoParteComandos extends PParteComandos
     private TIdentificador _identificador_;
     private TSeta _seta_;
     private PAtrib1 _atrib1_;
+    private TPontoEVirgula _pontoEVirgula_;
 
     public AAtribuicaoParteComandos()
     {
@@ -19,7 +20,8 @@ public final class AAtribuicaoParteComandos extends PParteComandos
     public AAtribuicaoParteComandos(
         @SuppressWarnings("hiding") TIdentificador _identificador_,
         @SuppressWarnings("hiding") TSeta _seta_,
-        @SuppressWarnings("hiding") PAtrib1 _atrib1_)
+        @SuppressWarnings("hiding") PAtrib1 _atrib1_,
+        @SuppressWarnings("hiding") TPontoEVirgula _pontoEVirgula_)
     {
         // Constructor
         setIdentificador(_identificador_);
@@ -27,6 +29,8 @@ public final class AAtribuicaoParteComandos extends PParteComandos
         setSeta(_seta_);
 
         setAtrib1(_atrib1_);
+
+        setPontoEVirgula(_pontoEVirgula_);
 
     }
 
@@ -36,7 +40,8 @@ public final class AAtribuicaoParteComandos extends PParteComandos
         return new AAtribuicaoParteComandos(
             cloneNode(this._identificador_),
             cloneNode(this._seta_),
-            cloneNode(this._atrib1_));
+            cloneNode(this._atrib1_),
+            cloneNode(this._pontoEVirgula_));
     }
 
     @Override
@@ -120,13 +125,39 @@ public final class AAtribuicaoParteComandos extends PParteComandos
         this._atrib1_ = node;
     }
 
+    public TPontoEVirgula getPontoEVirgula()
+    {
+        return this._pontoEVirgula_;
+    }
+
+    public void setPontoEVirgula(TPontoEVirgula node)
+    {
+        if(this._pontoEVirgula_ != null)
+        {
+            this._pontoEVirgula_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._pontoEVirgula_ = node;
+    }
+
     @Override
     public String toString()
     {
         return ""
             + toString(this._identificador_)
             + toString(this._seta_)
-            + toString(this._atrib1_);
+            + toString(this._atrib1_)
+            + toString(this._pontoEVirgula_);
     }
 
     @Override
@@ -148,6 +179,12 @@ public final class AAtribuicaoParteComandos extends PParteComandos
         if(this._atrib1_ == child)
         {
             this._atrib1_ = null;
+            return;
+        }
+
+        if(this._pontoEVirgula_ == child)
+        {
+            this._pontoEVirgula_ = null;
             return;
         }
 
@@ -173,6 +210,12 @@ public final class AAtribuicaoParteComandos extends PParteComandos
         if(this._atrib1_ == oldChild)
         {
             setAtrib1((PAtrib1) newChild);
+            return;
+        }
+
+        if(this._pontoEVirgula_ == oldChild)
+        {
+            setPontoEVirgula((TPontoEVirgula) newChild);
             return;
         }
 

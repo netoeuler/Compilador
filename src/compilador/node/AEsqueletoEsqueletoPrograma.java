@@ -13,6 +13,7 @@ public final class AEsqueletoEsqueletoPrograma extends PEsqueletoPrograma
     private TPontoEVirgula _pontoEVirgula_;
     private final LinkedList<PParteDeclaracao> _parteDeclaracao_ = new LinkedList<PParteDeclaracao>();
     private TInicio _inicio_;
+    private final LinkedList<PParteComandos> _parteComandos_ = new LinkedList<PParteComandos>();
     private TFimPonto _fimPonto_;
 
     public AEsqueletoEsqueletoPrograma()
@@ -26,6 +27,7 @@ public final class AEsqueletoEsqueletoPrograma extends PEsqueletoPrograma
         @SuppressWarnings("hiding") TPontoEVirgula _pontoEVirgula_,
         @SuppressWarnings("hiding") List<?> _parteDeclaracao_,
         @SuppressWarnings("hiding") TInicio _inicio_,
+        @SuppressWarnings("hiding") List<?> _parteComandos_,
         @SuppressWarnings("hiding") TFimPonto _fimPonto_)
     {
         // Constructor
@@ -38,6 +40,8 @@ public final class AEsqueletoEsqueletoPrograma extends PEsqueletoPrograma
         setParteDeclaracao(_parteDeclaracao_);
 
         setInicio(_inicio_);
+
+        setParteComandos(_parteComandos_);
 
         setFimPonto(_fimPonto_);
 
@@ -52,6 +56,7 @@ public final class AEsqueletoEsqueletoPrograma extends PEsqueletoPrograma
             cloneNode(this._pontoEVirgula_),
             cloneList(this._parteDeclaracao_),
             cloneNode(this._inicio_),
+            cloneList(this._parteComandos_),
             cloneNode(this._fimPonto_));
     }
 
@@ -187,6 +192,32 @@ public final class AEsqueletoEsqueletoPrograma extends PEsqueletoPrograma
         this._inicio_ = node;
     }
 
+    public LinkedList<PParteComandos> getParteComandos()
+    {
+        return this._parteComandos_;
+    }
+
+    public void setParteComandos(List<?> list)
+    {
+        for(PParteComandos e : this._parteComandos_)
+        {
+            e.parent(null);
+        }
+        this._parteComandos_.clear();
+
+        for(Object obj_e : list)
+        {
+            PParteComandos e = (PParteComandos) obj_e;
+            if(e.parent() != null)
+            {
+                e.parent().removeChild(e);
+            }
+
+            e.parent(this);
+            this._parteComandos_.add(e);
+        }
+    }
+
     public TFimPonto getFimPonto()
     {
         return this._fimPonto_;
@@ -221,6 +252,7 @@ public final class AEsqueletoEsqueletoPrograma extends PEsqueletoPrograma
             + toString(this._pontoEVirgula_)
             + toString(this._parteDeclaracao_)
             + toString(this._inicio_)
+            + toString(this._parteComandos_)
             + toString(this._fimPonto_);
     }
 
@@ -254,6 +286,11 @@ public final class AEsqueletoEsqueletoPrograma extends PEsqueletoPrograma
         if(this._inicio_ == child)
         {
             this._inicio_ = null;
+            return;
+        }
+
+        if(this._parteComandos_.remove(child))
+        {
             return;
         }
 
@@ -310,6 +347,24 @@ public final class AEsqueletoEsqueletoPrograma extends PEsqueletoPrograma
         {
             setInicio((TInicio) newChild);
             return;
+        }
+
+        for(ListIterator<PParteComandos> i = this._parteComandos_.listIterator(); i.hasNext();)
+        {
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PParteComandos) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         if(this._fimPonto_ == oldChild)

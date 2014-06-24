@@ -8,7 +8,7 @@ import compilador.analysis.*;
 public final class ADeclaracaoParteDeclaracao extends PParteDeclaracao
 {
     private TVar _var_;
-    private TTipo _tipo_;
+    private PTipo _tipo_;
     private TDoisPontos _doisPontos_;
     private PIdVirgula _idVirgula_;
     private TIdentificador _identificador_;
@@ -21,7 +21,7 @@ public final class ADeclaracaoParteDeclaracao extends PParteDeclaracao
 
     public ADeclaracaoParteDeclaracao(
         @SuppressWarnings("hiding") TVar _var_,
-        @SuppressWarnings("hiding") TTipo _tipo_,
+        @SuppressWarnings("hiding") PTipo _tipo_,
         @SuppressWarnings("hiding") TDoisPontos _doisPontos_,
         @SuppressWarnings("hiding") PIdVirgula _idVirgula_,
         @SuppressWarnings("hiding") TIdentificador _identificador_,
@@ -85,12 +85,12 @@ public final class ADeclaracaoParteDeclaracao extends PParteDeclaracao
         this._var_ = node;
     }
 
-    public TTipo getTipo()
+    public PTipo getTipo()
     {
         return this._tipo_;
     }
 
-    public void setTipo(TTipo node)
+    public void setTipo(PTipo node)
     {
         if(this._tipo_ != null)
         {
@@ -277,7 +277,7 @@ public final class ADeclaracaoParteDeclaracao extends PParteDeclaracao
 
         if(this._tipo_ == oldChild)
         {
-            setTipo((TTipo) newChild);
+            setTipo((PTipo) newChild);
             return;
         }
 

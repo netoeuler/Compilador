@@ -2,6 +2,7 @@
 
 package compilador.node;
 
+import java.util.*;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
@@ -10,12 +11,11 @@ public final class AParaRepeticao extends PRepeticao
     private TPara _para_;
     private TIdentificador _identificador_;
     private TDe _de_;
-    private TNumeroInteiro _numeroInteiro_;
+    private PNumeroInteiro _numeroInteiro_;
     private PParaSub _paraSub_;
-    private PCmdPontoVirgula _cmdPontoVirgula_;
-    private PParteComandos _parteComandos_;
+    private final LinkedList<PParteComandos> _parteComandos_ = new LinkedList<PParteComandos>();
+    private TFimPara _fimPara_;
     private TPontoEVirgula _pontoEVirgula_;
-    private PFimParaPontoVirgula _fimParaPontoVirgula_;
 
     public AParaRepeticao()
     {
@@ -26,12 +26,11 @@ public final class AParaRepeticao extends PRepeticao
         @SuppressWarnings("hiding") TPara _para_,
         @SuppressWarnings("hiding") TIdentificador _identificador_,
         @SuppressWarnings("hiding") TDe _de_,
-        @SuppressWarnings("hiding") TNumeroInteiro _numeroInteiro_,
+        @SuppressWarnings("hiding") PNumeroInteiro _numeroInteiro_,
         @SuppressWarnings("hiding") PParaSub _paraSub_,
-        @SuppressWarnings("hiding") PCmdPontoVirgula _cmdPontoVirgula_,
-        @SuppressWarnings("hiding") PParteComandos _parteComandos_,
-        @SuppressWarnings("hiding") TPontoEVirgula _pontoEVirgula_,
-        @SuppressWarnings("hiding") PFimParaPontoVirgula _fimParaPontoVirgula_)
+        @SuppressWarnings("hiding") List<?> _parteComandos_,
+        @SuppressWarnings("hiding") TFimPara _fimPara_,
+        @SuppressWarnings("hiding") TPontoEVirgula _pontoEVirgula_)
     {
         // Constructor
         setPara(_para_);
@@ -44,13 +43,11 @@ public final class AParaRepeticao extends PRepeticao
 
         setParaSub(_paraSub_);
 
-        setCmdPontoVirgula(_cmdPontoVirgula_);
-
         setParteComandos(_parteComandos_);
 
-        setPontoEVirgula(_pontoEVirgula_);
+        setFimPara(_fimPara_);
 
-        setFimParaPontoVirgula(_fimParaPontoVirgula_);
+        setPontoEVirgula(_pontoEVirgula_);
 
     }
 
@@ -63,10 +60,9 @@ public final class AParaRepeticao extends PRepeticao
             cloneNode(this._de_),
             cloneNode(this._numeroInteiro_),
             cloneNode(this._paraSub_),
-            cloneNode(this._cmdPontoVirgula_),
-            cloneNode(this._parteComandos_),
-            cloneNode(this._pontoEVirgula_),
-            cloneNode(this._fimParaPontoVirgula_));
+            cloneList(this._parteComandos_),
+            cloneNode(this._fimPara_),
+            cloneNode(this._pontoEVirgula_));
     }
 
     @Override
@@ -150,12 +146,12 @@ public final class AParaRepeticao extends PRepeticao
         this._de_ = node;
     }
 
-    public TNumeroInteiro getNumeroInteiro()
+    public PNumeroInteiro getNumeroInteiro()
     {
         return this._numeroInteiro_;
     }
 
-    public void setNumeroInteiro(TNumeroInteiro node)
+    public void setNumeroInteiro(PNumeroInteiro node)
     {
         if(this._numeroInteiro_ != null)
         {
@@ -200,41 +196,42 @@ public final class AParaRepeticao extends PRepeticao
         this._paraSub_ = node;
     }
 
-    public PCmdPontoVirgula getCmdPontoVirgula()
-    {
-        return this._cmdPontoVirgula_;
-    }
-
-    public void setCmdPontoVirgula(PCmdPontoVirgula node)
-    {
-        if(this._cmdPontoVirgula_ != null)
-        {
-            this._cmdPontoVirgula_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._cmdPontoVirgula_ = node;
-    }
-
-    public PParteComandos getParteComandos()
+    public LinkedList<PParteComandos> getParteComandos()
     {
         return this._parteComandos_;
     }
 
-    public void setParteComandos(PParteComandos node)
+    public void setParteComandos(List<?> list)
     {
-        if(this._parteComandos_ != null)
+        for(PParteComandos e : this._parteComandos_)
         {
-            this._parteComandos_.parent(null);
+            e.parent(null);
+        }
+        this._parteComandos_.clear();
+
+        for(Object obj_e : list)
+        {
+            PParteComandos e = (PParteComandos) obj_e;
+            if(e.parent() != null)
+            {
+                e.parent().removeChild(e);
+            }
+
+            e.parent(this);
+            this._parteComandos_.add(e);
+        }
+    }
+
+    public TFimPara getFimPara()
+    {
+        return this._fimPara_;
+    }
+
+    public void setFimPara(TFimPara node)
+    {
+        if(this._fimPara_ != null)
+        {
+            this._fimPara_.parent(null);
         }
 
         if(node != null)
@@ -247,7 +244,7 @@ public final class AParaRepeticao extends PRepeticao
             node.parent(this);
         }
 
-        this._parteComandos_ = node;
+        this._fimPara_ = node;
     }
 
     public TPontoEVirgula getPontoEVirgula()
@@ -275,31 +272,6 @@ public final class AParaRepeticao extends PRepeticao
         this._pontoEVirgula_ = node;
     }
 
-    public PFimParaPontoVirgula getFimParaPontoVirgula()
-    {
-        return this._fimParaPontoVirgula_;
-    }
-
-    public void setFimParaPontoVirgula(PFimParaPontoVirgula node)
-    {
-        if(this._fimParaPontoVirgula_ != null)
-        {
-            this._fimParaPontoVirgula_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._fimParaPontoVirgula_ = node;
-    }
-
     @Override
     public String toString()
     {
@@ -309,10 +281,9 @@ public final class AParaRepeticao extends PRepeticao
             + toString(this._de_)
             + toString(this._numeroInteiro_)
             + toString(this._paraSub_)
-            + toString(this._cmdPontoVirgula_)
             + toString(this._parteComandos_)
-            + toString(this._pontoEVirgula_)
-            + toString(this._fimParaPontoVirgula_);
+            + toString(this._fimPara_)
+            + toString(this._pontoEVirgula_);
     }
 
     @Override
@@ -349,27 +320,20 @@ public final class AParaRepeticao extends PRepeticao
             return;
         }
 
-        if(this._cmdPontoVirgula_ == child)
+        if(this._parteComandos_.remove(child))
         {
-            this._cmdPontoVirgula_ = null;
             return;
         }
 
-        if(this._parteComandos_ == child)
+        if(this._fimPara_ == child)
         {
-            this._parteComandos_ = null;
+            this._fimPara_ = null;
             return;
         }
 
         if(this._pontoEVirgula_ == child)
         {
             this._pontoEVirgula_ = null;
-            return;
-        }
-
-        if(this._fimParaPontoVirgula_ == child)
-        {
-            this._fimParaPontoVirgula_ = null;
             return;
         }
 
@@ -400,7 +364,7 @@ public final class AParaRepeticao extends PRepeticao
 
         if(this._numeroInteiro_ == oldChild)
         {
-            setNumeroInteiro((TNumeroInteiro) newChild);
+            setNumeroInteiro((PNumeroInteiro) newChild);
             return;
         }
 
@@ -410,27 +374,33 @@ public final class AParaRepeticao extends PRepeticao
             return;
         }
 
-        if(this._cmdPontoVirgula_ == oldChild)
+        for(ListIterator<PParteComandos> i = this._parteComandos_.listIterator(); i.hasNext();)
         {
-            setCmdPontoVirgula((PCmdPontoVirgula) newChild);
-            return;
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PParteComandos) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
-        if(this._parteComandos_ == oldChild)
+        if(this._fimPara_ == oldChild)
         {
-            setParteComandos((PParteComandos) newChild);
+            setFimPara((TFimPara) newChild);
             return;
         }
 
         if(this._pontoEVirgula_ == oldChild)
         {
             setPontoEVirgula((TPontoEVirgula) newChild);
-            return;
-        }
-
-        if(this._fimParaPontoVirgula_ == oldChild)
-        {
-            setFimParaPontoVirgula((PFimParaPontoVirgula) newChild);
             return;
         }
 
