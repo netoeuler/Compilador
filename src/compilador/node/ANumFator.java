@@ -7,7 +7,7 @@ import compilador.analysis.*;
 @SuppressWarnings("nls")
 public final class ANumFator extends PFator
 {
-    private TNumero _numero_;
+    private PValor _valor_;
 
     public ANumFator()
     {
@@ -15,10 +15,10 @@ public final class ANumFator extends PFator
     }
 
     public ANumFator(
-        @SuppressWarnings("hiding") TNumero _numero_)
+        @SuppressWarnings("hiding") PValor _valor_)
     {
         // Constructor
-        setNumero(_numero_);
+        setValor(_valor_);
 
     }
 
@@ -26,7 +26,7 @@ public final class ANumFator extends PFator
     public Object clone()
     {
         return new ANumFator(
-            cloneNode(this._numero_));
+            cloneNode(this._valor_));
     }
 
     @Override
@@ -35,16 +35,16 @@ public final class ANumFator extends PFator
         ((Analysis) sw).caseANumFator(this);
     }
 
-    public TNumero getNumero()
+    public PValor getValor()
     {
-        return this._numero_;
+        return this._valor_;
     }
 
-    public void setNumero(TNumero node)
+    public void setValor(PValor node)
     {
-        if(this._numero_ != null)
+        if(this._valor_ != null)
         {
-            this._numero_.parent(null);
+            this._valor_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ANumFator extends PFator
             node.parent(this);
         }
 
-        this._numero_ = node;
+        this._valor_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._numero_);
+            + toString(this._valor_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._numero_ == child)
+        if(this._valor_ == child)
         {
-            this._numero_ = null;
+            this._valor_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ANumFator extends PFator
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._numero_ == oldChild)
+        if(this._valor_ == oldChild)
         {
-            setNumero((TNumero) newChild);
+            setValor((PValor) newChild);
             return;
         }
 

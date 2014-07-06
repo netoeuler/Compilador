@@ -8,7 +8,7 @@ import compilador.analysis.*;
 @SuppressWarnings("nls")
 public final class APFracParteFrac extends PParteFrac
 {
-    private TPonto _ponto_;
+    private TVirgula _virgula_;
     private final LinkedList<PNumeroInteiro> _numeroInteiro_ = new LinkedList<PNumeroInteiro>();
 
     public APFracParteFrac()
@@ -17,11 +17,11 @@ public final class APFracParteFrac extends PParteFrac
     }
 
     public APFracParteFrac(
-        @SuppressWarnings("hiding") TPonto _ponto_,
+        @SuppressWarnings("hiding") TVirgula _virgula_,
         @SuppressWarnings("hiding") List<?> _numeroInteiro_)
     {
         // Constructor
-        setPonto(_ponto_);
+        setVirgula(_virgula_);
 
         setNumeroInteiro(_numeroInteiro_);
 
@@ -31,7 +31,7 @@ public final class APFracParteFrac extends PParteFrac
     public Object clone()
     {
         return new APFracParteFrac(
-            cloneNode(this._ponto_),
+            cloneNode(this._virgula_),
             cloneList(this._numeroInteiro_));
     }
 
@@ -41,16 +41,16 @@ public final class APFracParteFrac extends PParteFrac
         ((Analysis) sw).caseAPFracParteFrac(this);
     }
 
-    public TPonto getPonto()
+    public TVirgula getVirgula()
     {
-        return this._ponto_;
+        return this._virgula_;
     }
 
-    public void setPonto(TPonto node)
+    public void setVirgula(TVirgula node)
     {
-        if(this._ponto_ != null)
+        if(this._virgula_ != null)
         {
-            this._ponto_.parent(null);
+            this._virgula_.parent(null);
         }
 
         if(node != null)
@@ -63,7 +63,7 @@ public final class APFracParteFrac extends PParteFrac
             node.parent(this);
         }
 
-        this._ponto_ = node;
+        this._virgula_ = node;
     }
 
     public LinkedList<PNumeroInteiro> getNumeroInteiro()
@@ -96,7 +96,7 @@ public final class APFracParteFrac extends PParteFrac
     public String toString()
     {
         return ""
-            + toString(this._ponto_)
+            + toString(this._virgula_)
             + toString(this._numeroInteiro_);
     }
 
@@ -104,9 +104,9 @@ public final class APFracParteFrac extends PParteFrac
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._ponto_ == child)
+        if(this._virgula_ == child)
         {
-            this._ponto_ = null;
+            this._virgula_ = null;
             return;
         }
 
@@ -122,9 +122,9 @@ public final class APFracParteFrac extends PParteFrac
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._ponto_ == oldChild)
+        if(this._virgula_ == oldChild)
         {
-            setPonto((TPonto) newChild);
+            setVirgula((TVirgula) newChild);
             return;
         }
 

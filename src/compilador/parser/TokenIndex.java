@@ -340,7 +340,7 @@ class TokenIndex extends AnalysisAdapter
     }
 
     @Override
-    public void caseTValor(@SuppressWarnings("unused") TValor node)
+    public void caseTConst(@SuppressWarnings("unused") TConst node)
     {
         this.index = 55;
     }

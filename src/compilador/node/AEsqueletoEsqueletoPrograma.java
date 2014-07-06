@@ -11,7 +11,7 @@ public final class AEsqueletoEsqueletoPrograma extends PEsqueletoPrograma
     private TPrograma _programa_;
     private TIdentificador _identificador_;
     private TPontoEVirgula _pontoEVirgula_;
-    private final LinkedList<PParteDeclaracao> _parteDeclaracao_ = new LinkedList<PParteDeclaracao>();
+    private PDeclaracao _declaracao_;
     private TInicio _inicio_;
     private final LinkedList<PParteComandos> _parteComandos_ = new LinkedList<PParteComandos>();
     private TFimPonto _fimPonto_;
@@ -25,7 +25,7 @@ public final class AEsqueletoEsqueletoPrograma extends PEsqueletoPrograma
         @SuppressWarnings("hiding") TPrograma _programa_,
         @SuppressWarnings("hiding") TIdentificador _identificador_,
         @SuppressWarnings("hiding") TPontoEVirgula _pontoEVirgula_,
-        @SuppressWarnings("hiding") List<?> _parteDeclaracao_,
+        @SuppressWarnings("hiding") PDeclaracao _declaracao_,
         @SuppressWarnings("hiding") TInicio _inicio_,
         @SuppressWarnings("hiding") List<?> _parteComandos_,
         @SuppressWarnings("hiding") TFimPonto _fimPonto_)
@@ -37,7 +37,7 @@ public final class AEsqueletoEsqueletoPrograma extends PEsqueletoPrograma
 
         setPontoEVirgula(_pontoEVirgula_);
 
-        setParteDeclaracao(_parteDeclaracao_);
+        setDeclaracao(_declaracao_);
 
         setInicio(_inicio_);
 
@@ -54,7 +54,7 @@ public final class AEsqueletoEsqueletoPrograma extends PEsqueletoPrograma
             cloneNode(this._programa_),
             cloneNode(this._identificador_),
             cloneNode(this._pontoEVirgula_),
-            cloneList(this._parteDeclaracao_),
+            cloneNode(this._declaracao_),
             cloneNode(this._inicio_),
             cloneList(this._parteComandos_),
             cloneNode(this._fimPonto_));
@@ -141,30 +141,29 @@ public final class AEsqueletoEsqueletoPrograma extends PEsqueletoPrograma
         this._pontoEVirgula_ = node;
     }
 
-    public LinkedList<PParteDeclaracao> getParteDeclaracao()
+    public PDeclaracao getDeclaracao()
     {
-        return this._parteDeclaracao_;
+        return this._declaracao_;
     }
 
-    public void setParteDeclaracao(List<?> list)
+    public void setDeclaracao(PDeclaracao node)
     {
-        for(PParteDeclaracao e : this._parteDeclaracao_)
+        if(this._declaracao_ != null)
         {
-            e.parent(null);
+            this._declaracao_.parent(null);
         }
-        this._parteDeclaracao_.clear();
 
-        for(Object obj_e : list)
+        if(node != null)
         {
-            PParteDeclaracao e = (PParteDeclaracao) obj_e;
-            if(e.parent() != null)
+            if(node.parent() != null)
             {
-                e.parent().removeChild(e);
+                node.parent().removeChild(node);
             }
 
-            e.parent(this);
-            this._parteDeclaracao_.add(e);
+            node.parent(this);
         }
+
+        this._declaracao_ = node;
     }
 
     public TInicio getInicio()
@@ -250,7 +249,7 @@ public final class AEsqueletoEsqueletoPrograma extends PEsqueletoPrograma
             + toString(this._programa_)
             + toString(this._identificador_)
             + toString(this._pontoEVirgula_)
-            + toString(this._parteDeclaracao_)
+            + toString(this._declaracao_)
             + toString(this._inicio_)
             + toString(this._parteComandos_)
             + toString(this._fimPonto_);
@@ -278,8 +277,9 @@ public final class AEsqueletoEsqueletoPrograma extends PEsqueletoPrograma
             return;
         }
 
-        if(this._parteDeclaracao_.remove(child))
+        if(this._declaracao_ == child)
         {
+            this._declaracao_ = null;
             return;
         }
 
@@ -325,22 +325,10 @@ public final class AEsqueletoEsqueletoPrograma extends PEsqueletoPrograma
             return;
         }
 
-        for(ListIterator<PParteDeclaracao> i = this._parteDeclaracao_.listIterator(); i.hasNext();)
+        if(this._declaracao_ == oldChild)
         {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
-                    i.set((PParteDeclaracao) newChild);
-                    newChild.parent(this);
-                    oldChild.parent(null);
-                    return;
-                }
-
-                i.remove();
-                oldChild.parent(null);
-                return;
-            }
+            setDeclaracao((PDeclaracao) newChild);
+            return;
         }
 
         if(this._inicio_ == oldChild)

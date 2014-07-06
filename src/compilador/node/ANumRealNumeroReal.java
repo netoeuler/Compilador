@@ -2,13 +2,15 @@
 
 package compilador.node;
 
+import java.util.*;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
 public final class ANumRealNumeroReal extends PNumeroReal
 {
-    private PNumeroInteiro _numeroInteiro_;
-    private PParteFrac _parteFrac_;
+    private TNumero _numero_;
+    private TVirgula _virgula_;
+    private final LinkedList<PNumeroInteiro> _numeroInteiro_ = new LinkedList<PNumeroInteiro>();
 
     public ANumRealNumeroReal()
     {
@@ -16,13 +18,16 @@ public final class ANumRealNumeroReal extends PNumeroReal
     }
 
     public ANumRealNumeroReal(
-        @SuppressWarnings("hiding") PNumeroInteiro _numeroInteiro_,
-        @SuppressWarnings("hiding") PParteFrac _parteFrac_)
+        @SuppressWarnings("hiding") TNumero _numero_,
+        @SuppressWarnings("hiding") TVirgula _virgula_,
+        @SuppressWarnings("hiding") List<?> _numeroInteiro_)
     {
         // Constructor
-        setNumeroInteiro(_numeroInteiro_);
+        setNumero(_numero_);
 
-        setParteFrac(_parteFrac_);
+        setVirgula(_virgula_);
+
+        setNumeroInteiro(_numeroInteiro_);
 
     }
 
@@ -30,8 +35,9 @@ public final class ANumRealNumeroReal extends PNumeroReal
     public Object clone()
     {
         return new ANumRealNumeroReal(
-            cloneNode(this._numeroInteiro_),
-            cloneNode(this._parteFrac_));
+            cloneNode(this._numero_),
+            cloneNode(this._virgula_),
+            cloneList(this._numeroInteiro_));
     }
 
     @Override
@@ -40,77 +46,109 @@ public final class ANumRealNumeroReal extends PNumeroReal
         ((Analysis) sw).caseANumRealNumeroReal(this);
     }
 
-    public PNumeroInteiro getNumeroInteiro()
+    public TNumero getNumero()
+    {
+        return this._numero_;
+    }
+
+    public void setNumero(TNumero node)
+    {
+        if(this._numero_ != null)
+        {
+            this._numero_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._numero_ = node;
+    }
+
+    public TVirgula getVirgula()
+    {
+        return this._virgula_;
+    }
+
+    public void setVirgula(TVirgula node)
+    {
+        if(this._virgula_ != null)
+        {
+            this._virgula_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._virgula_ = node;
+    }
+
+    public LinkedList<PNumeroInteiro> getNumeroInteiro()
     {
         return this._numeroInteiro_;
     }
 
-    public void setNumeroInteiro(PNumeroInteiro node)
+    public void setNumeroInteiro(List<?> list)
     {
-        if(this._numeroInteiro_ != null)
+        for(PNumeroInteiro e : this._numeroInteiro_)
         {
-            this._numeroInteiro_.parent(null);
+            e.parent(null);
         }
+        this._numeroInteiro_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PNumeroInteiro e = (PNumeroInteiro) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._numeroInteiro_.add(e);
         }
-
-        this._numeroInteiro_ = node;
-    }
-
-    public PParteFrac getParteFrac()
-    {
-        return this._parteFrac_;
-    }
-
-    public void setParteFrac(PParteFrac node)
-    {
-        if(this._parteFrac_ != null)
-        {
-            this._parteFrac_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._parteFrac_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._numeroInteiro_)
-            + toString(this._parteFrac_);
+            + toString(this._numero_)
+            + toString(this._virgula_)
+            + toString(this._numeroInteiro_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._numeroInteiro_ == child)
+        if(this._numero_ == child)
         {
-            this._numeroInteiro_ = null;
+            this._numero_ = null;
             return;
         }
 
-        if(this._parteFrac_ == child)
+        if(this._virgula_ == child)
         {
-            this._parteFrac_ = null;
+            this._virgula_ = null;
+            return;
+        }
+
+        if(this._numeroInteiro_.remove(child))
+        {
             return;
         }
 
@@ -121,16 +159,34 @@ public final class ANumRealNumeroReal extends PNumeroReal
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._numeroInteiro_ == oldChild)
+        if(this._numero_ == oldChild)
         {
-            setNumeroInteiro((PNumeroInteiro) newChild);
+            setNumero((TNumero) newChild);
             return;
         }
 
-        if(this._parteFrac_ == oldChild)
+        if(this._virgula_ == oldChild)
         {
-            setParteFrac((PParteFrac) newChild);
+            setVirgula((TVirgula) newChild);
             return;
+        }
+
+        for(ListIterator<PNumeroInteiro> i = this._numeroInteiro_.listIterator(); i.hasNext();)
+        {
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PNumeroInteiro) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         throw new RuntimeException("Not a child.");

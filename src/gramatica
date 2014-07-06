@@ -86,8 +86,9 @@ Tokens
     caractere = 'caractere';
     
     string = hstring;
-    valor = hstring | digito+;
+//    valor = hstring | digito+;
     
+    const = 'const';
     identificador = (hunderscore | char) (char | digito | hunderscore)*;
     char_ignored = hchar_ignored;
     
@@ -96,9 +97,11 @@ Ignored Tokens
     
 Productions
     start = {start} esqueleto_programa;
-    esqueleto_programa = {esqueleto} programa identificador ponto_e_virgula parte_declaracao+ inicio parte_comandos+ fim_ponto;
+    esqueleto_programa = {esqueleto} programa identificador ponto_e_virgula declaracao? inicio parte_comandos+ fim_ponto;
     
-    parte_declaracao = {declaracao} var tipo dois_pontos id_virgula? identificador ponto_e_virgula;
+    declaracao = parte_declaracao+;
+    parte_declaracao = {declaracao} var tipo dois_pontos id_virgula? identificador ponto_e_virgula
+    					| {declaracao2} const identificador ponto_e_virgula;
     
     parte_comandos = {atribuicao} identificador seta atrib1 ponto_e_virgula
                     | {leia} leia abre_paren id_virgula identificador fecha_paren ponto_e_virgula
@@ -107,7 +110,7 @@ Productions
                     | {repeticao} repeticao;
     
     condicional = {if_a} se abre_paren expressao_logica fecha_paren entao  parte_comandos+ cond_senao? fim_se ponto_e_virgula;
-    cond_senao = senao  parte_comandos+;
+    cond_senao = senao parte_comandos+;
     
     repeticao = {enquanto} enquanto abre_paren expressao_logica fecha_paren faca  parte_comandos+ fim_enquanto
             | {repita} repita  parte_comandos+ ate abre_paren expressao_logica fecha_paren ponto_e_virgula
@@ -122,24 +125,30 @@ Productions
     para_sub_ate = {p_sub_ate} ate numero_inteiro;
     
     numero_inteiro = {num_int} numero;
-    numero_real = {num_real} numero_inteiro? parte_frac;
-    parte_frac = {p_frac} ponto numero_inteiro+;
+    numero_real = {num_real} numero? virgula numero_inteiro+;
+    //parte_frac = {p_frac} virgula numero_inteiro+;
+    
+    //valor = {v1} string | {v2} numero_inteiro | {v3} numero_real;
+    valor = {v1} string | {v2} numero_inteiro;
+    variavel = {v1} identificador | {v2} identificador abre_colchete numero_inteiro fecha_colchete;
      
     tipo = {real} real | {int} inteiro | {char} caractere;
     soma = {mais} mais | {menos} menos;
     multiplicacao = {mult} mult | {div} divisao;
-    op_relacional = {menor} menor | {menor_igual} menor_igual | {maior} maior | {maior_igual} maior_igual 
-                | {igual} igual | {diferente} diferente;
-    op_logico = {e} e | {ou} ou | {xor} xor;    
+    op_relacional = {opr1} op_relacional_igual | {opr2} op_relacional_comp; 
+	op_relacional_igual = {igual} igual | {diferente} diferente;
+	op_relacional_comp = {menor} menor | {menor_igual} menor_igual | {maior} maior | {maior_igual} maior_igual;
+    op_logico = {e} e | {ou} ou | {xor} xor;
+    op_logico_ou = {ou} ou | {xor} xor;
     
     expressao = {exp1} expressao soma termo | {termo} termo;
     termo = {term1} termo mult fator | {fator} fator;
-    fator = {fator1} abre_paren expressao fecha_paren | {num} numero | {id} identificador;    
+    fator = {fator1} abre_paren expressao fecha_paren | {num} valor | {id} variavel;    
     
-    expressao_logica = {expl1} nao? termo_log;
-    termo_log = {tlog} termo_log op_logico termo_rel | {tlog2} termo_rel;
-    termo_rel = {trel} termo_rel soma termo2 | {trel2} termo2;
-    termo2 = {term1} termo2 mult fator2 | {fator} fator2;
-    fator2 = {ft2} fator2 op_relacional fator3 | {ft3} fator3;
-    fator3 = {fator} abre_paren expressao_logica fecha_paren | {num} numero | {id} identificador;
+    expressao_logica = {expl1} expressao_logica op_logico_ou termo_log | {expl2} termo_log;
+    termo_log = {termol1} termo_log e exp_rel | {termol2} exp_rel;
+    exp_rel = {expr1} fator_rel op_relacional_igual termo_rel | {expr2} termo_rel;
+    termo_rel = {termor1} termo_rel op_relacional_comp fator_rel | {termor2} fator_rel;
+    fator_rel = {fr1} paren | {fr3} valor | {fr4} variavel;
+    paren = {p} abre_paren expressao_logica fecha_paren;
     

@@ -7,7 +7,8 @@ import compilador.analysis.*;
 @SuppressWarnings("nls")
 public final class AExpl1ExpressaoLogica extends PExpressaoLogica
 {
-    private TNao _nao_;
+    private PExpressaoLogica _expressaoLogica_;
+    private POpLogicoOu _opLogicoOu_;
     private PTermoLog _termoLog_;
 
     public AExpl1ExpressaoLogica()
@@ -16,11 +17,14 @@ public final class AExpl1ExpressaoLogica extends PExpressaoLogica
     }
 
     public AExpl1ExpressaoLogica(
-        @SuppressWarnings("hiding") TNao _nao_,
+        @SuppressWarnings("hiding") PExpressaoLogica _expressaoLogica_,
+        @SuppressWarnings("hiding") POpLogicoOu _opLogicoOu_,
         @SuppressWarnings("hiding") PTermoLog _termoLog_)
     {
         // Constructor
-        setNao(_nao_);
+        setExpressaoLogica(_expressaoLogica_);
+
+        setOpLogicoOu(_opLogicoOu_);
 
         setTermoLog(_termoLog_);
 
@@ -30,7 +34,8 @@ public final class AExpl1ExpressaoLogica extends PExpressaoLogica
     public Object clone()
     {
         return new AExpl1ExpressaoLogica(
-            cloneNode(this._nao_),
+            cloneNode(this._expressaoLogica_),
+            cloneNode(this._opLogicoOu_),
             cloneNode(this._termoLog_));
     }
 
@@ -40,16 +45,16 @@ public final class AExpl1ExpressaoLogica extends PExpressaoLogica
         ((Analysis) sw).caseAExpl1ExpressaoLogica(this);
     }
 
-    public TNao getNao()
+    public PExpressaoLogica getExpressaoLogica()
     {
-        return this._nao_;
+        return this._expressaoLogica_;
     }
 
-    public void setNao(TNao node)
+    public void setExpressaoLogica(PExpressaoLogica node)
     {
-        if(this._nao_ != null)
+        if(this._expressaoLogica_ != null)
         {
-            this._nao_.parent(null);
+            this._expressaoLogica_.parent(null);
         }
 
         if(node != null)
@@ -62,7 +67,32 @@ public final class AExpl1ExpressaoLogica extends PExpressaoLogica
             node.parent(this);
         }
 
-        this._nao_ = node;
+        this._expressaoLogica_ = node;
+    }
+
+    public POpLogicoOu getOpLogicoOu()
+    {
+        return this._opLogicoOu_;
+    }
+
+    public void setOpLogicoOu(POpLogicoOu node)
+    {
+        if(this._opLogicoOu_ != null)
+        {
+            this._opLogicoOu_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._opLogicoOu_ = node;
     }
 
     public PTermoLog getTermoLog()
@@ -94,7 +124,8 @@ public final class AExpl1ExpressaoLogica extends PExpressaoLogica
     public String toString()
     {
         return ""
-            + toString(this._nao_)
+            + toString(this._expressaoLogica_)
+            + toString(this._opLogicoOu_)
             + toString(this._termoLog_);
     }
 
@@ -102,9 +133,15 @@ public final class AExpl1ExpressaoLogica extends PExpressaoLogica
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._nao_ == child)
+        if(this._expressaoLogica_ == child)
         {
-            this._nao_ = null;
+            this._expressaoLogica_ = null;
+            return;
+        }
+
+        if(this._opLogicoOu_ == child)
+        {
+            this._opLogicoOu_ = null;
             return;
         }
 
@@ -121,9 +158,15 @@ public final class AExpl1ExpressaoLogica extends PExpressaoLogica
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._nao_ == oldChild)
+        if(this._expressaoLogica_ == oldChild)
         {
-            setNao((TNao) newChild);
+            setExpressaoLogica((PExpressaoLogica) newChild);
+            return;
+        }
+
+        if(this._opLogicoOu_ == oldChild)
+        {
+            setOpLogicoOu((POpLogicoOu) newChild);
             return;
         }
 
