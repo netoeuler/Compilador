@@ -7,7 +7,7 @@ import compilador.analysis.*;
 @SuppressWarnings("nls")
 public final class AV2Valor extends PValor
 {
-    private PNumeroInteiro _numeroInteiro_;
+    private TNumeroInteiro _numeroInteiro_;
 
     public AV2Valor()
     {
@@ -15,7 +15,7 @@ public final class AV2Valor extends PValor
     }
 
     public AV2Valor(
-        @SuppressWarnings("hiding") PNumeroInteiro _numeroInteiro_)
+        @SuppressWarnings("hiding") TNumeroInteiro _numeroInteiro_)
     {
         // Constructor
         setNumeroInteiro(_numeroInteiro_);
@@ -35,12 +35,12 @@ public final class AV2Valor extends PValor
         ((Analysis) sw).caseAV2Valor(this);
     }
 
-    public PNumeroInteiro getNumeroInteiro()
+    public TNumeroInteiro getNumeroInteiro()
     {
         return this._numeroInteiro_;
     }
 
-    public void setNumeroInteiro(PNumeroInteiro node)
+    public void setNumeroInteiro(TNumeroInteiro node)
     {
         if(this._numeroInteiro_ != null)
         {
@@ -86,7 +86,7 @@ public final class AV2Valor extends PValor
         // Replace child
         if(this._numeroInteiro_ == oldChild)
         {
-            setNumeroInteiro((PNumeroInteiro) newChild);
+            setNumeroInteiro((TNumeroInteiro) newChild);
             return;
         }
 

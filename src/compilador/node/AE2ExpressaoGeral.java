@@ -5,46 +5,46 @@ package compilador.node;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AAtribNumAtrib1 extends PAtrib1
+public final class AE2ExpressaoGeral extends PExpressaoGeral
 {
-    private TNumeroInteiro _numeroInteiro_;
+    private PExpressaoLogica _expressaoLogica_;
 
-    public AAtribNumAtrib1()
+    public AE2ExpressaoGeral()
     {
         // Constructor
     }
 
-    public AAtribNumAtrib1(
-        @SuppressWarnings("hiding") TNumeroInteiro _numeroInteiro_)
+    public AE2ExpressaoGeral(
+        @SuppressWarnings("hiding") PExpressaoLogica _expressaoLogica_)
     {
         // Constructor
-        setNumeroInteiro(_numeroInteiro_);
+        setExpressaoLogica(_expressaoLogica_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AAtribNumAtrib1(
-            cloneNode(this._numeroInteiro_));
+        return new AE2ExpressaoGeral(
+            cloneNode(this._expressaoLogica_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAAtribNumAtrib1(this);
+        ((Analysis) sw).caseAE2ExpressaoGeral(this);
     }
 
-    public TNumeroInteiro getNumeroInteiro()
+    public PExpressaoLogica getExpressaoLogica()
     {
-        return this._numeroInteiro_;
+        return this._expressaoLogica_;
     }
 
-    public void setNumeroInteiro(TNumeroInteiro node)
+    public void setExpressaoLogica(PExpressaoLogica node)
     {
-        if(this._numeroInteiro_ != null)
+        if(this._expressaoLogica_ != null)
         {
-            this._numeroInteiro_.parent(null);
+            this._expressaoLogica_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class AAtribNumAtrib1 extends PAtrib1
             node.parent(this);
         }
 
-        this._numeroInteiro_ = node;
+        this._expressaoLogica_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._numeroInteiro_);
+            + toString(this._expressaoLogica_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._numeroInteiro_ == child)
+        if(this._expressaoLogica_ == child)
         {
-            this._numeroInteiro_ = null;
+            this._expressaoLogica_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class AAtribNumAtrib1 extends PAtrib1
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._numeroInteiro_ == oldChild)
+        if(this._expressaoLogica_ == oldChild)
         {
-            setNumeroInteiro((TNumeroInteiro) newChild);
+            setExpressaoLogica((PExpressaoLogica) newChild);
             return;
         }
 

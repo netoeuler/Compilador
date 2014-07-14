@@ -8,7 +8,7 @@ import compilador.analysis.*;
 public final class APSubAteParaSub extends PParaSub
 {
     private TAte _ate_;
-    private PNumeroInteiro _numeroInteiro_;
+    private TNumeroInteiro _numeroInteiro_;
     private PParaSubPasso _paraSubPasso_;
 
     public APSubAteParaSub()
@@ -18,7 +18,7 @@ public final class APSubAteParaSub extends PParaSub
 
     public APSubAteParaSub(
         @SuppressWarnings("hiding") TAte _ate_,
-        @SuppressWarnings("hiding") PNumeroInteiro _numeroInteiro_,
+        @SuppressWarnings("hiding") TNumeroInteiro _numeroInteiro_,
         @SuppressWarnings("hiding") PParaSubPasso _paraSubPasso_)
     {
         // Constructor
@@ -70,12 +70,12 @@ public final class APSubAteParaSub extends PParaSub
         this._ate_ = node;
     }
 
-    public PNumeroInteiro getNumeroInteiro()
+    public TNumeroInteiro getNumeroInteiro()
     {
         return this._numeroInteiro_;
     }
 
-    public void setNumeroInteiro(PNumeroInteiro node)
+    public void setNumeroInteiro(TNumeroInteiro node)
     {
         if(this._numeroInteiro_ != null)
         {
@@ -166,7 +166,7 @@ public final class APSubAteParaSub extends PParaSub
 
         if(this._numeroInteiro_ == oldChild)
         {
-            setNumeroInteiro((PNumeroInteiro) newChild);
+            setNumeroInteiro((TNumeroInteiro) newChild);
             return;
         }
 

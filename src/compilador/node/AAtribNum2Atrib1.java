@@ -5,46 +5,46 @@ package compilador.node;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AAtribNumAtrib1 extends PAtrib1
+public final class AAtribNum2Atrib1 extends PAtrib1
 {
-    private TNumeroInteiro _numeroInteiro_;
+    private TNumeroReal _numeroReal_;
 
-    public AAtribNumAtrib1()
+    public AAtribNum2Atrib1()
     {
         // Constructor
     }
 
-    public AAtribNumAtrib1(
-        @SuppressWarnings("hiding") TNumeroInteiro _numeroInteiro_)
+    public AAtribNum2Atrib1(
+        @SuppressWarnings("hiding") TNumeroReal _numeroReal_)
     {
         // Constructor
-        setNumeroInteiro(_numeroInteiro_);
+        setNumeroReal(_numeroReal_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AAtribNumAtrib1(
-            cloneNode(this._numeroInteiro_));
+        return new AAtribNum2Atrib1(
+            cloneNode(this._numeroReal_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAAtribNumAtrib1(this);
+        ((Analysis) sw).caseAAtribNum2Atrib1(this);
     }
 
-    public TNumeroInteiro getNumeroInteiro()
+    public TNumeroReal getNumeroReal()
     {
-        return this._numeroInteiro_;
+        return this._numeroReal_;
     }
 
-    public void setNumeroInteiro(TNumeroInteiro node)
+    public void setNumeroReal(TNumeroReal node)
     {
-        if(this._numeroInteiro_ != null)
+        if(this._numeroReal_ != null)
         {
-            this._numeroInteiro_.parent(null);
+            this._numeroReal_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class AAtribNumAtrib1 extends PAtrib1
             node.parent(this);
         }
 
-        this._numeroInteiro_ = node;
+        this._numeroReal_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._numeroInteiro_);
+            + toString(this._numeroReal_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._numeroInteiro_ == child)
+        if(this._numeroReal_ == child)
         {
-            this._numeroInteiro_ = null;
+            this._numeroReal_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class AAtribNumAtrib1 extends PAtrib1
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._numeroInteiro_ == oldChild)
+        if(this._numeroReal_ == oldChild)
         {
-            setNumeroInteiro((TNumeroInteiro) newChild);
+            setNumeroReal((TNumeroReal) newChild);
             return;
         }
 

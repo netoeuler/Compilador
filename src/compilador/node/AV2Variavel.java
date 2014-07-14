@@ -9,7 +9,7 @@ public final class AV2Variavel extends PVariavel
 {
     private TIdentificador _identificador_;
     private TAbreColchete _abreColchete_;
-    private PNumeroInteiro _numeroInteiro_;
+    private TNumeroInteiro _numeroInteiro_;
     private TFechaColchete _fechaColchete_;
 
     public AV2Variavel()
@@ -20,7 +20,7 @@ public final class AV2Variavel extends PVariavel
     public AV2Variavel(
         @SuppressWarnings("hiding") TIdentificador _identificador_,
         @SuppressWarnings("hiding") TAbreColchete _abreColchete_,
-        @SuppressWarnings("hiding") PNumeroInteiro _numeroInteiro_,
+        @SuppressWarnings("hiding") TNumeroInteiro _numeroInteiro_,
         @SuppressWarnings("hiding") TFechaColchete _fechaColchete_)
     {
         // Constructor
@@ -100,12 +100,12 @@ public final class AV2Variavel extends PVariavel
         this._abreColchete_ = node;
     }
 
-    public PNumeroInteiro getNumeroInteiro()
+    public TNumeroInteiro getNumeroInteiro()
     {
         return this._numeroInteiro_;
     }
 
-    public void setNumeroInteiro(PNumeroInteiro node)
+    public void setNumeroInteiro(TNumeroInteiro node)
     {
         if(this._numeroInteiro_ != null)
         {
@@ -209,7 +209,7 @@ public final class AV2Variavel extends PVariavel
 
         if(this._numeroInteiro_ == oldChild)
         {
-            setNumeroInteiro((PNumeroInteiro) newChild);
+            setNumeroInteiro((TNumeroInteiro) newChild);
             return;
         }
 

@@ -5,51 +5,51 @@ package compilador.node;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class APSubAteParaSubAte extends PParaSubAte
+public final class AFr2FatorRel extends PFatorRel
 {
-    private TAte _ate_;
-    private TNumeroInteiro _numeroInteiro_;
+    private TNao _nao_;
+    private PParen _paren_;
 
-    public APSubAteParaSubAte()
+    public AFr2FatorRel()
     {
         // Constructor
     }
 
-    public APSubAteParaSubAte(
-        @SuppressWarnings("hiding") TAte _ate_,
-        @SuppressWarnings("hiding") TNumeroInteiro _numeroInteiro_)
+    public AFr2FatorRel(
+        @SuppressWarnings("hiding") TNao _nao_,
+        @SuppressWarnings("hiding") PParen _paren_)
     {
         // Constructor
-        setAte(_ate_);
+        setNao(_nao_);
 
-        setNumeroInteiro(_numeroInteiro_);
+        setParen(_paren_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new APSubAteParaSubAte(
-            cloneNode(this._ate_),
-            cloneNode(this._numeroInteiro_));
+        return new AFr2FatorRel(
+            cloneNode(this._nao_),
+            cloneNode(this._paren_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAPSubAteParaSubAte(this);
+        ((Analysis) sw).caseAFr2FatorRel(this);
     }
 
-    public TAte getAte()
+    public TNao getNao()
     {
-        return this._ate_;
+        return this._nao_;
     }
 
-    public void setAte(TAte node)
+    public void setNao(TNao node)
     {
-        if(this._ate_ != null)
+        if(this._nao_ != null)
         {
-            this._ate_.parent(null);
+            this._nao_.parent(null);
         }
 
         if(node != null)
@@ -62,19 +62,19 @@ public final class APSubAteParaSubAte extends PParaSubAte
             node.parent(this);
         }
 
-        this._ate_ = node;
+        this._nao_ = node;
     }
 
-    public TNumeroInteiro getNumeroInteiro()
+    public PParen getParen()
     {
-        return this._numeroInteiro_;
+        return this._paren_;
     }
 
-    public void setNumeroInteiro(TNumeroInteiro node)
+    public void setParen(PParen node)
     {
-        if(this._numeroInteiro_ != null)
+        if(this._paren_ != null)
         {
-            this._numeroInteiro_.parent(null);
+            this._paren_.parent(null);
         }
 
         if(node != null)
@@ -87,30 +87,30 @@ public final class APSubAteParaSubAte extends PParaSubAte
             node.parent(this);
         }
 
-        this._numeroInteiro_ = node;
+        this._paren_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._ate_)
-            + toString(this._numeroInteiro_);
+            + toString(this._nao_)
+            + toString(this._paren_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._ate_ == child)
+        if(this._nao_ == child)
         {
-            this._ate_ = null;
+            this._nao_ = null;
             return;
         }
 
-        if(this._numeroInteiro_ == child)
+        if(this._paren_ == child)
         {
-            this._numeroInteiro_ = null;
+            this._paren_ = null;
             return;
         }
 
@@ -121,15 +121,15 @@ public final class APSubAteParaSubAte extends PParaSubAte
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._ate_ == oldChild)
+        if(this._nao_ == oldChild)
         {
-            setAte((TAte) newChild);
+            setNao((TNao) newChild);
             return;
         }
 
-        if(this._numeroInteiro_ == oldChild)
+        if(this._paren_ == oldChild)
         {
-            setNumeroInteiro((TNumeroInteiro) newChild);
+            setParen((PParen) newChild);
             return;
         }
 

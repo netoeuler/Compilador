@@ -11,7 +11,7 @@ public final class AParaRepeticao extends PRepeticao
     private TPara _para_;
     private TIdentificador _identificador_;
     private TDe _de_;
-    private PNumeroInteiro _numeroInteiro_;
+    private TNumeroInteiro _numeroInteiro_;
     private PParaSub _paraSub_;
     private final LinkedList<PParteComandos> _parteComandos_ = new LinkedList<PParteComandos>();
     private TFimPara _fimPara_;
@@ -26,7 +26,7 @@ public final class AParaRepeticao extends PRepeticao
         @SuppressWarnings("hiding") TPara _para_,
         @SuppressWarnings("hiding") TIdentificador _identificador_,
         @SuppressWarnings("hiding") TDe _de_,
-        @SuppressWarnings("hiding") PNumeroInteiro _numeroInteiro_,
+        @SuppressWarnings("hiding") TNumeroInteiro _numeroInteiro_,
         @SuppressWarnings("hiding") PParaSub _paraSub_,
         @SuppressWarnings("hiding") List<?> _parteComandos_,
         @SuppressWarnings("hiding") TFimPara _fimPara_,
@@ -146,12 +146,12 @@ public final class AParaRepeticao extends PRepeticao
         this._de_ = node;
     }
 
-    public PNumeroInteiro getNumeroInteiro()
+    public TNumeroInteiro getNumeroInteiro()
     {
         return this._numeroInteiro_;
     }
 
-    public void setNumeroInteiro(PNumeroInteiro node)
+    public void setNumeroInteiro(TNumeroInteiro node)
     {
         if(this._numeroInteiro_ != null)
         {
@@ -364,7 +364,7 @@ public final class AParaRepeticao extends PRepeticao
 
         if(this._numeroInteiro_ == oldChild)
         {
-            setNumeroInteiro((PNumeroInteiro) newChild);
+            setNumeroInteiro((TNumeroInteiro) newChild);
             return;
         }
 

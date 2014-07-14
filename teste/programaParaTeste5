@@ -1,0 +1,5 @@
+programa ola;
+var inteiro : teste;
+inicio
+	teste <- 2;
+fim.

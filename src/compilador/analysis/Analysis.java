@@ -32,15 +32,15 @@ public interface Analysis extends Switch
     void caseAFpPvFimParaPontoVirgula(AFpPvFimParaPontoVirgula node);
     void caseAAtribIdAtrib1(AAtribIdAtrib1 node);
     void caseAAtribNumAtrib1(AAtribNumAtrib1 node);
+    void caseAAtribNum2Atrib1(AAtribNum2Atrib1 node);
     void caseAAtribStrAtrib1(AAtribStrAtrib1 node);
     void caseAPSubAteParaSub(APSubAteParaSub node);
     void caseAPSubPasso1ParaSubPasso(APSubPasso1ParaSubPasso node);
     void caseAPSubPasso2ParaSubPasso(APSubPasso2ParaSubPasso node);
     void caseAPSubAteParaSubAte(APSubAteParaSubAte node);
-    void caseANumIntNumeroInteiro(ANumIntNumeroInteiro node);
-    void caseANumRealNumeroReal(ANumRealNumeroReal node);
     void caseAV1Valor(AV1Valor node);
     void caseAV2Valor(AV2Valor node);
+    void caseAV3Valor(AV3Valor node);
     void caseAV1Variavel(AV1Variavel node);
     void caseAV2Variavel(AV2Variavel node);
     void caseARealTipo(ARealTipo node);
@@ -63,6 +63,8 @@ public interface Analysis extends Switch
     void caseAXorOpLogico(AXorOpLogico node);
     void caseAOuOpLogicoOu(AOuOpLogicoOu node);
     void caseAXorOpLogicoOu(AXorOpLogicoOu node);
+    void caseAE1ExpressaoGeral(AE1ExpressaoGeral node);
+    void caseAE2ExpressaoGeral(AE2ExpressaoGeral node);
     void caseAExp1Expressao(AExp1Expressao node);
     void caseATermoExpressao(ATermoExpressao node);
     void caseATerm1Termo(ATerm1Termo node);
@@ -79,6 +81,7 @@ public interface Analysis extends Switch
     void caseATermor1TermoRel(ATermor1TermoRel node);
     void caseATermor2TermoRel(ATermor2TermoRel node);
     void caseAFr1FatorRel(AFr1FatorRel node);
+    void caseAFr2FatorRel(AFr2FatorRel node);
     void caseAFr3FatorRel(AFr3FatorRel node);
     void caseAFr4FatorRel(AFr4FatorRel node);
     void caseAPParen(APParen node);
@@ -86,7 +89,8 @@ public interface Analysis extends Switch
     void caseTCommentLine(TCommentLine node);
     void caseTComentBloco(TComentBloco node);
     void caseTUnderscore(TUnderscore node);
-    void caseTNumero(TNumero node);
+    void caseTNumeroReal(TNumeroReal node);
+    void caseTNumeroInteiro(TNumeroInteiro node);
     void caseTE(TE node);
     void caseTOu(TOu node);
     void caseTXor(TXor node);

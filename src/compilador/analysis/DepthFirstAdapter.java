@@ -698,11 +698,32 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAAtribNumAtrib1(AAtribNumAtrib1 node)
     {
         inAAtribNumAtrib1(node);
-        if(node.getNumero() != null)
+        if(node.getNumeroInteiro() != null)
         {
-            node.getNumero().apply(this);
+            node.getNumeroInteiro().apply(this);
         }
         outAAtribNumAtrib1(node);
+    }
+
+    public void inAAtribNum2Atrib1(AAtribNum2Atrib1 node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAAtribNum2Atrib1(AAtribNum2Atrib1 node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAAtribNum2Atrib1(AAtribNum2Atrib1 node)
+    {
+        inAAtribNum2Atrib1(node);
+        if(node.getNumeroReal() != null)
+        {
+            node.getNumeroReal().apply(this);
+        }
+        outAAtribNum2Atrib1(node);
     }
 
     public void inAAtribStrAtrib1(AAtribStrAtrib1 node)
@@ -830,59 +851,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outAPSubAteParaSubAte(node);
     }
 
-    public void inANumIntNumeroInteiro(ANumIntNumeroInteiro node)
-    {
-        defaultIn(node);
-    }
-
-    public void outANumIntNumeroInteiro(ANumIntNumeroInteiro node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseANumIntNumeroInteiro(ANumIntNumeroInteiro node)
-    {
-        inANumIntNumeroInteiro(node);
-        if(node.getNumero() != null)
-        {
-            node.getNumero().apply(this);
-        }
-        outANumIntNumeroInteiro(node);
-    }
-
-    public void inANumRealNumeroReal(ANumRealNumeroReal node)
-    {
-        defaultIn(node);
-    }
-
-    public void outANumRealNumeroReal(ANumRealNumeroReal node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseANumRealNumeroReal(ANumRealNumeroReal node)
-    {
-        inANumRealNumeroReal(node);
-        if(node.getNumero() != null)
-        {
-            node.getNumero().apply(this);
-        }
-        if(node.getVirgula() != null)
-        {
-            node.getVirgula().apply(this);
-        }
-        {
-            List<PNumeroInteiro> copy = new ArrayList<PNumeroInteiro>(node.getNumeroInteiro());
-            for(PNumeroInteiro e : copy)
-            {
-                e.apply(this);
-            }
-        }
-        outANumRealNumeroReal(node);
-    }
-
     public void inAV1Valor(AV1Valor node)
     {
         defaultIn(node);
@@ -923,6 +891,27 @@ public class DepthFirstAdapter extends AnalysisAdapter
             node.getNumeroInteiro().apply(this);
         }
         outAV2Valor(node);
+    }
+
+    public void inAV3Valor(AV3Valor node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAV3Valor(AV3Valor node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAV3Valor(AV3Valor node)
+    {
+        inAV3Valor(node);
+        if(node.getNumeroReal() != null)
+        {
+            node.getNumeroReal().apply(this);
+        }
+        outAV3Valor(node);
     }
 
     public void inAV1Variavel(AV1Variavel node)
@@ -1399,6 +1388,48 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outAXorOpLogicoOu(node);
     }
 
+    public void inAE1ExpressaoGeral(AE1ExpressaoGeral node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAE1ExpressaoGeral(AE1ExpressaoGeral node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAE1ExpressaoGeral(AE1ExpressaoGeral node)
+    {
+        inAE1ExpressaoGeral(node);
+        if(node.getExpressao() != null)
+        {
+            node.getExpressao().apply(this);
+        }
+        outAE1ExpressaoGeral(node);
+    }
+
+    public void inAE2ExpressaoGeral(AE2ExpressaoGeral node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAE2ExpressaoGeral(AE2ExpressaoGeral node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAE2ExpressaoGeral(AE2ExpressaoGeral node)
+    {
+        inAE2ExpressaoGeral(node);
+        if(node.getExpressaoLogica() != null)
+        {
+            node.getExpressaoLogica().apply(this);
+        }
+        outAE2ExpressaoGeral(node);
+    }
+
     public void inAExp1Expressao(AExp1Expressao node)
     {
         defaultIn(node);
@@ -1789,6 +1820,31 @@ public class DepthFirstAdapter extends AnalysisAdapter
             node.getParen().apply(this);
         }
         outAFr1FatorRel(node);
+    }
+
+    public void inAFr2FatorRel(AFr2FatorRel node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAFr2FatorRel(AFr2FatorRel node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAFr2FatorRel(AFr2FatorRel node)
+    {
+        inAFr2FatorRel(node);
+        if(node.getNao() != null)
+        {
+            node.getNao().apply(this);
+        }
+        if(node.getParen() != null)
+        {
+            node.getParen().apply(this);
+        }
+        outAFr2FatorRel(node);
     }
 
     public void inAFr3FatorRel(AFr3FatorRel node)

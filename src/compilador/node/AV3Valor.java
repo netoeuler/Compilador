@@ -7,7 +7,7 @@ import compilador.analysis.*;
 @SuppressWarnings("nls")
 public final class AV3Valor extends PValor
 {
-    private PNumeroReal _numeroReal_;
+    private TNumeroReal _numeroReal_;
 
     public AV3Valor()
     {
@@ -15,7 +15,7 @@ public final class AV3Valor extends PValor
     }
 
     public AV3Valor(
-        @SuppressWarnings("hiding") PNumeroReal _numeroReal_)
+        @SuppressWarnings("hiding") TNumeroReal _numeroReal_)
     {
         // Constructor
         setNumeroReal(_numeroReal_);
@@ -35,12 +35,12 @@ public final class AV3Valor extends PValor
         ((Analysis) sw).caseAV3Valor(this);
     }
 
-    public PNumeroReal getNumeroReal()
+    public TNumeroReal getNumeroReal()
     {
         return this._numeroReal_;
     }
 
-    public void setNumeroReal(PNumeroReal node)
+    public void setNumeroReal(TNumeroReal node)
     {
         if(this._numeroReal_ != null)
         {
@@ -86,7 +86,7 @@ public final class AV3Valor extends PValor
         // Replace child
         if(this._numeroReal_ == oldChild)
         {
-            setNumeroReal((PNumeroReal) newChild);
+            setNumeroReal((TNumeroReal) newChild);
             return;
         }
 

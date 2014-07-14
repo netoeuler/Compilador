@@ -25,8 +25,9 @@ Tokens
     coment_bloco = '/*' nao_estrela* '*'+ (nao_estrela_barra nao_estrela* '*'+)* '/';
     
     underscore = hunderscore;
-    numero = digito+;  
-        
+    numero_real = digito? ',' digito+;
+    numero_inteiro = digito+;
+            
     e = 'e';
     ou = 'ou';
     xor = 'xor';
@@ -86,7 +87,6 @@ Tokens
     caractere = 'caractere';
     
     string = hstring;
-//    valor = hstring | digito+;
     
     const = 'const';
     identificador = (hunderscore | char) (char | digito | hunderscore)*;
@@ -96,59 +96,144 @@ Ignored Tokens
     char_ignored, comment_line;
     
 Productions
-    start = {start} esqueleto_programa;
-    esqueleto_programa = {esqueleto} programa identificador ponto_e_virgula declaracao? inicio parte_comandos+ fim_ponto;
+    start {-> start}= {start} esqueleto_programa {-> New start(esqueleto_programa)};
+    esqueleto_programa {-> esqueleto_programa}= programa identificador ponto_e_virgula declaracao inicio parte_comandos fim_ponto
+    {-> New esqueleto_programa(programa,identificador,ponto_e_virgula,declaracao,inicio,parte_comandos,fim_ponto)};
     
-    declaracao = parte_declaracao+;
-    parte_declaracao = {declaracao} var tipo dois_pontos id_virgula? identificador ponto_e_virgula
-    					| {declaracao2} const identificador ponto_e_virgula;
+    declaracao {-> declaracao} = {d1} parte_declaracao {-> New declaracao(parte_declaracao)}
+    							| {d2} {-> New declaracao(Null)};
+    parte_declaracao {-> parte_declaracao} = {declaracao} var tipo dois_pontos id_virgula? identificador ponto_e_virgula 
+    {-> New parte_declaracao.declaracao(var,tipo,dois_pontos,id_virgula,identificador,ponto_e_virgula)}
+    					| {declaracao2} const identificador ponto_e_virgula parte_declaracao {-> New parte_declaracao.const(const,identificador,ponto_e_virgula)}
+    					| {declaracao3} parte_declaracao var tipo dois_pontos id_virgula? identificador ponto_e_virgula 
+    {-> New parte_declaracao.declaracao_recur(parte_declaracaovar,tipo,dois_pontos,id_virgula,identificador,ponto_e_virgula)}
+    					| {declaracao4} parte_declaracao const identificador ponto_e_virgula parte_declaracao {-> New parte_declaracao.const_recur(parte_declaracao,const,identificador,ponto_e_virgula)};
     
-    parte_comandos = {atribuicao} identificador seta atrib1 ponto_e_virgula
+    parte_comandos {-> parte_comandos} = {c1} comandos {-> New parte_comandos.socomando(comandos)}| {c2} comandos parte_comandos {-> New parte_comandos.outrocomando(comando,parte_comandos)};
+                    
+    comandos {-> comandos} = {atribuicao} identificador seta atrib1 ponto_e_virgula {-> New comandos.atribuicao(identificador,seta,atrib1,ponto_e_virgula)}
+                    | {leia} leia abre_paren id_virgula identificador fecha_paren ponto_e_virgula {-> New comandos.leia(leia,abre_paren,id_virgula,identificador,fecha_paren,ponto_e_virgula)}
+                    | {escreva} escreva abre_paren exp_virgula? expressao fecha_paren ponto_e_virgula {-> New comandos.escreva(escreva,abre_paren,exp_virgula,expressao,fecha_paren,ponto_e_virgula)}
+                    | {condicional} condicional {-> New comandos.condicional(condicional)}
+                    | {repeticao} repeticao {-> New comandos.repeticao(repeticao)};
+    
+    condicional {-> condicional} = se abre_paren expressao_logica fecha_paren entao parte_comandos+ cond_senao? fim_se ponto_e_virgula
+    {-> New condicional(se,abre_paren,expressao_logica,fecha_paren,entao,parte_comandos,cond_senao,fim_se,ponto_e_virgula)};
+    cond_senao {-> cond_senao} = senao parte_comandos+ {-> New cond_senao(senao,parte_comandos)};
+    
+    repeticao {-> repeticao} = {enquanto} enquanto abre_paren expressao_logica fecha_paren faca parte_comandos+ fim_enquanto
+    {-> New repeticao.enquanto(enquanto,abre_paren,expressao_logica,fecha_paren,faca,parte_comandos,fim_enquanto)}
+            | {repita} repita parte_comandos+ ate abre_paren expressao_logica fecha_paren ponto_e_virgula
+            {-> New repeticao.repita(repita,parte_comandos,ate,abre_paren,expressao_logica,fecha_paren,ponto_e_virgula)}
+            | {para} para identificador de numero_inteiro para_sub parte_comandos+ fim_para ponto_e_virgula
+            {-> New repeticao.para(para,identificador,de,numero_inteiro,para_sub,parte_comandos,fim_para,ponto_e_virgula)};
+    
+    id_virgula {-> id_virgula}= {id_virgula} identificador virgula {-> New id_virgula(identificador,virgula)};
+    exp_virgula {-> exp_virgula} = {exp_virgula} expressao virgula {-> New exp_virgula(expressao,virgula)};
+    fim_para_ponto_virgula = {fp_pv} fim_para ponto_e_virgula;
+    atrib1 {-> atrib1} = {atrib_id} identificador {-> New atrib1.identificador(identificador)}
+    				| {atrib_numi} numero_inteiro {-> New atrib1.numero_inteiro(numero_inteiro)} 
+    				| {atrib_numr} numero_real {-> New atrib1.numero_real(numero_real)}
+    				| {atrib_str} string {-> New atrib1.string(string)};
+    para_sub {-> para_sub} = {p_sub_ate} ate numero_inteiro para_sub_passo {-> New para_sub(ate,numero_inteiro,para_sub_passo)};
+    para_sub_passo {-> para_sub_passo} = {p_sub_passo1} passo numero_inteiro para_sub_ate {-> New para_sub_passo.passoate(passo,numero_inteiro,para_sub_ate)} 
+    				| {p_sub_passo2} para_sub_ate {-> New para_sub.paraate(para_sub_ate)};
+    para_sub_ate {-> para_sub_ate} = {p_sub_ate} ate numero_inteiro {-> New para_sub_ate(ate,numero_inteiro)};
+    
+    valor {-> valor}= {v1} string {-> New valor.string(string)} 
+    				| {v2} numero_inteiro {-> New valor.numero_inteiro(numero_inteiro)} 
+    				| {v3} numero_real {-> New valor.numero_real(numero_real)};
+    variavel {-> variavel}= {v1} identificador {-> New variavel.identificador(identificador)} 
+    				| {v2} identificador abre_colchete numero_inteiro fecha_colchete
+    				{-> New variavel.vetor(identificador,abre_colchete,numero_inteiro,fecha_colchete)};
+     
+    tipo {-> tipo} = {real} real {-> New tipo.real(real)}
+    				| {int} inteiro {-> New tipo.inteiro(inteiro)}
+    				| {char} caractere {-> New tipo.caracatere(caractere)};
+    soma = {mais} mais | {menos} menos;
+    multiplicacao = {mult} mult | {div} divisao;
+    op_relacional = {opr1} op_relacional_igual | {opr2} op_relacional_comp; 
+	op_relacional_igual {-> op_relacional_igual} = {igual} igual {-> New op_relacional_igual.igual(igual)}
+						| {diferente} diferente {-> New op_relacional_igual.diferente(diferente)};
+	op_relacional_comp {-> op_relacional_comp} = {menor} menor {-> New op_relacional_comp.menor(menor)} 
+					| {menor_igual} menor_igual {-> New op_relacional_comp.menor_igual(menor_igual)}
+					| {maior} maior {-> New op_relacional_comp.maior(maior)}
+					| {maior_igual} maior_igual {-> New op_relacional_comp.maior_igual(maior_igual)};
+    op_logico = {e} e | {ou} ou | {xor} xor;
+    op_logico_ou {-> op_logico_ou} = {ou} ou {-> New op_logico_ou.ou(ou)}| {xor} xor {-> New op_logico_ou.xor(xor)};
+    
+    expressao_geral = {e1} expressao | {e2} expressao_logica;
+    
+    expressao {-> expressao} = {exp1} expressao mais termo {-> New expressao.mais(expressao,mais,termo)} 
+    			| {exp2} expressao menos termo {-> New expressao.menos(expressao,menos,termo)}
+    			| {termo} termo {-> New expressao.termo(termo)};
+    termo {-> termo} = {term1} termo mult fator {-> New termo.mult(termo,mult,fator)}
+    		| {term2} termo divisao fator {-> New termo.divisao(termo,divisao,fator)}
+    		| {fator} fator {-> New termo.fator(fator)};
+    fator {-> fator} = {fator1} abre_paren expressao fecha_paren {-> New fator.paren(abre_paren,expressao,fecha_paren)}
+    		| {valor} valor {-> New fator.valor(valor)} 
+    		| {variavel} variavel {-> New fator.variavel(variavel)};
+    
+    expressao_logica {-> expressao_logica} = {expl1} expressao_logica op_logico_ou termo_log {-> New expressao_logica.op_logico(expressao_logica,op_logico_ou,termo_log)} 
+    					| {expl2} termo_log {-> New termo_log(termo_log)};
+    termo_log {-> termo_log} = {termol1} termo_log e exp_rel {-> New termo_log.e(termo_log,e,exp_rel)} 
+    					| {termol2} exp_rel {-> New exp_rel(exp_rel)};
+    exp_rel {-> exp_rel} = {expr1} fator_rel op_relacional_igual termo_rel {-> New exp_rel.igual(fator_rel,op_relacional_igual,termo_rel)} 
+    					| {expr2} termo_rel {-> New termo_rel(termo_rel)};
+    termo_rel {-> termo_rel} = {termor1} termo_rel op_relacional_comp fator_rel {-> New termo_rel.comp(termo_rel,op_relacional_comp,fator_rel)} 
+    					| {termor2} fator_rel {-> New fator_rel(fator_rel)};
+    fator_rel {-> fator_rel} = {fr1} paren {-> New fator_rel.paren(paren)} 
+    					| {fr2} nao paren {-> New fator_rel.naoparen(nao,paren)}
+    					| {fr3} valor {-> New fator_rel.valor(valor)} 
+    					| {fr4} variavel {-> New fator_rel(variavel)};
+    paren = {p} abre_paren expressao_logica fecha_paren;
+    
+Abstract Syntax Tree
+	start = esqueleto_programa;
+	esqueleto_programa = programa identificador ponto_e_virgula declaracao inicio parte_comandos fim_ponto;
+	
+	declaracao = parte_declaracao?;
+	parte_declaracao = {declaracao} var tipo dois_pontos id_virgula? identificador ponto_e_virgula
+   					| {const} const identificador ponto_e_virgula
+   					| {declaracao_recur} parte_declaracao var tipo dois_pontos id_virgula? identificador ponto_e_virgula
+   					| {const_recur} parte_declaracao const identificador ponto_e_virgula;
+   	
+   	tipo = {real} real | {int} inteiro | {char} caractere;
+	
+	parte_comandos  = {c1} comandos | {c2} comandos parte_comandos;
+	comandos = {atribuicao} identificador seta atrib1 ponto_e_virgula
                     | {leia} leia abre_paren id_virgula identificador fecha_paren ponto_e_virgula
                     | {escreva} escreva abre_paren exp_virgula? expressao fecha_paren ponto_e_virgula
                     | {condicional} condicional
                     | {repeticao} repeticao;
-    
-    condicional = {if_a} se abre_paren expressao_logica fecha_paren entao  parte_comandos+ cond_senao? fim_se ponto_e_virgula;
-    cond_senao = senao parte_comandos+;
-    
-    repeticao = {enquanto} enquanto abre_paren expressao_logica fecha_paren faca  parte_comandos+ fim_enquanto
-            | {repita} repita  parte_comandos+ ate abre_paren expressao_logica fecha_paren ponto_e_virgula
-            | {para} para identificador de numero_inteiro para_sub  parte_comandos+ fim_para ponto_e_virgula;
-    
-    id_virgula = {id_virgula} identificador virgula;
-    exp_virgula = {exp_virgula} expressao virgula;
-    fim_para_ponto_virgula = {fp_pv} fim_para ponto_e_virgula;
-    atrib1 = {atrib_id} identificador | {atrib_num} numero | {atrib_str} string;
-    para_sub = {p_sub_ate} ate numero_inteiro para_sub_passo;
+                    
+	id_virgula = identificador virgula;
+	atrib1 = {atrib_id} identificador | {numero_inteiro} numero_inteiro | {numero_real} numero_real | {string} string;
+	exp_virgula = expressao virgula;
+	condicional = se abre_paren expressao_logica fecha_paren entao parte_comandos+ cond_senao? fim_se ponto_e_virgula;
+	cond_senao = senao parte_comandos+;
+	repeticao  = {enquanto} enquanto abre_paren expressao_logica fecha_paren faca parte_comandos+ fim_enquanto
+            | {repita} repita parte_comandos+ ate abre_paren expressao_logica fecha_paren ponto_e_virgula
+            | {para} para identificador de numero_inteiro para_sub parte_comandos+ fim_para ponto_e_virgula;
+
+	para_sub = ate numero_inteiro para_sub_passo;
     para_sub_passo = {p_sub_passo1} passo numero_inteiro para_sub_ate | {p_sub_passo2} para_sub_ate;
     para_sub_ate = {p_sub_ate} ate numero_inteiro;
-    
-    numero_inteiro = {num_int} numero;
-    numero_real = {num_real} numero? virgula numero_inteiro+;
-    //parte_frac = {p_frac} virgula numero_inteiro+;
-    
-    //valor = {v1} string | {v2} numero_inteiro | {v3} numero_real;
-    valor = {v1} string | {v2} numero_inteiro;
-    variavel = {v1} identificador | {v2} identificador abre_colchete numero_inteiro fecha_colchete;
-     
-    tipo = {real} real | {int} inteiro | {char} caractere;
-    soma = {mais} mais | {menos} menos;
-    multiplicacao = {mult} mult | {div} divisao;
-    op_relacional = {opr1} op_relacional_igual | {opr2} op_relacional_comp; 
-	op_relacional_igual = {igual} igual | {diferente} diferente;
+	
+	valor = {string} string | {numero_inteiro} numero_inteiro | {numero_real} numero_real;
+	variavel = {identificador} identificador | {vetor} identificador abre_colchete numero_inteiro fecha_colchete;
+
+    op_relacional_igual = {igual} igual | {diferente} diferente;
+    op_logico_ou = {ou} ou | {xor} xor;    
 	op_relacional_comp = {menor} menor | {menor_igual} menor_igual | {maior} maior | {maior_igual} maior_igual;
-    op_logico = {e} e | {ou} ou | {xor} xor;
-    op_logico_ou = {ou} ou | {xor} xor;
     
-    expressao = {exp1} expressao soma termo | {termo} termo;
-    termo = {term1} termo mult fator | {fator} fator;
-    fator = {fator1} abre_paren expressao fecha_paren | {num} valor | {id} variavel;    
+    expressao = {mais} expressao mais termo | {menos} expressao menos termo | {termo} termo;
+    termo = {mult} termo mult fator | {divisao} termo divisao fator | {fator} fator;
+    fator = {paren} abre_paren expressao fecha_paren | {valor} valor | {variavel} variavel;
     
     expressao_logica = {expl1} expressao_logica op_logico_ou termo_log | {expl2} termo_log;
-    termo_log = {termol1} termo_log e exp_rel | {termol2} exp_rel;
+    termo_log = {termol1} termo_log e exp_rel | {termol2} exp_rel;    
     exp_rel = {expr1} fator_rel op_relacional_igual termo_rel | {expr2} termo_rel;
     termo_rel = {termor1} termo_rel op_relacional_comp fator_rel | {termor2} fator_rel;
-    fator_rel = {fr1} paren | {fr3} valor | {fr4} variavel;
+    fator_rel = {fr1} paren | {fr2} nao paren | {fr3} valor | {fr4} variavel;
     paren = {p} abre_paren expressao_logica fecha_paren;
-    
