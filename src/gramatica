@@ -110,7 +110,7 @@ Productions
     					| {declaracao4} parte_declaracao const identificador ponto_e_virgula {-> New parte_declaracao.const_recur(parte_declaracao,const,identificador,ponto_e_virgula)};
     
     parte_comandos {-> parte_comandos} = 
-    	{c1} comandos {-> New parte_comandos.socomando(comandos)} 
+    	{c1} comandos {-> New parte_comandos.socomando(comandos)}  
     	| {c2} parte_comandos comandos {-> New parte_comandos.outrocomando(parte_comandos,comandos)};
                     
     comandos {-> comandos} = {atribuicao} identificador seta atrib1 ponto_e_virgula {-> New comandos.atribuicao(identificador,seta,atrib1,ponto_e_virgula)}
