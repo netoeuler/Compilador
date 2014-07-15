@@ -5,46 +5,46 @@ package compilador.node;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ADeclaracao extends PDeclaracao
+public final class ANumeroInteiroValor extends PValor
 {
-    private PParteDeclaracao _parteDeclaracao_;
+    private TNumeroInteiro _numeroInteiro_;
 
-    public ADeclaracao()
+    public ANumeroInteiroValor()
     {
         // Constructor
     }
 
-    public ADeclaracao(
-        @SuppressWarnings("hiding") PParteDeclaracao _parteDeclaracao_)
+    public ANumeroInteiroValor(
+        @SuppressWarnings("hiding") TNumeroInteiro _numeroInteiro_)
     {
         // Constructor
-        setParteDeclaracao(_parteDeclaracao_);
+        setNumeroInteiro(_numeroInteiro_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ADeclaracao(
-            cloneNode(this._parteDeclaracao_));
+        return new ANumeroInteiroValor(
+            cloneNode(this._numeroInteiro_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseADeclaracao(this);
+        ((Analysis) sw).caseANumeroInteiroValor(this);
     }
 
-    public PParteDeclaracao getParteDeclaracao()
+    public TNumeroInteiro getNumeroInteiro()
     {
-        return this._parteDeclaracao_;
+        return this._numeroInteiro_;
     }
 
-    public void setParteDeclaracao(PParteDeclaracao node)
+    public void setNumeroInteiro(TNumeroInteiro node)
     {
-        if(this._parteDeclaracao_ != null)
+        if(this._numeroInteiro_ != null)
         {
-            this._parteDeclaracao_.parent(null);
+            this._numeroInteiro_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ADeclaracao extends PDeclaracao
             node.parent(this);
         }
 
-        this._parteDeclaracao_ = node;
+        this._numeroInteiro_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._parteDeclaracao_);
+            + toString(this._numeroInteiro_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._parteDeclaracao_ == child)
+        if(this._numeroInteiro_ == child)
         {
-            this._parteDeclaracao_ = null;
+            this._numeroInteiro_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ADeclaracao extends PDeclaracao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._parteDeclaracao_ == oldChild)
+        if(this._numeroInteiro_ == oldChild)
         {
-            setParteDeclaracao((PParteDeclaracao) newChild);
+            setNumeroInteiro((TNumeroInteiro) newChild);
             return;
         }
 

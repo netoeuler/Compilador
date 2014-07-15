@@ -5,46 +5,46 @@ package compilador.node;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ADeclaracao extends PDeclaracao
+public final class AParenFatorRel extends PFatorRel
 {
-    private PParteDeclaracao _parteDeclaracao_;
+    private PParen _paren_;
 
-    public ADeclaracao()
+    public AParenFatorRel()
     {
         // Constructor
     }
 
-    public ADeclaracao(
-        @SuppressWarnings("hiding") PParteDeclaracao _parteDeclaracao_)
+    public AParenFatorRel(
+        @SuppressWarnings("hiding") PParen _paren_)
     {
         // Constructor
-        setParteDeclaracao(_parteDeclaracao_);
+        setParen(_paren_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ADeclaracao(
-            cloneNode(this._parteDeclaracao_));
+        return new AParenFatorRel(
+            cloneNode(this._paren_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseADeclaracao(this);
+        ((Analysis) sw).caseAParenFatorRel(this);
     }
 
-    public PParteDeclaracao getParteDeclaracao()
+    public PParen getParen()
     {
-        return this._parteDeclaracao_;
+        return this._paren_;
     }
 
-    public void setParteDeclaracao(PParteDeclaracao node)
+    public void setParen(PParen node)
     {
-        if(this._parteDeclaracao_ != null)
+        if(this._paren_ != null)
         {
-            this._parteDeclaracao_.parent(null);
+            this._paren_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ADeclaracao extends PDeclaracao
             node.parent(this);
         }
 
-        this._parteDeclaracao_ = node;
+        this._paren_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._parteDeclaracao_);
+            + toString(this._paren_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._parteDeclaracao_ == child)
+        if(this._paren_ == child)
         {
-            this._parteDeclaracao_ = null;
+            this._paren_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ADeclaracao extends PDeclaracao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._parteDeclaracao_ == oldChild)
+        if(this._paren_ == oldChild)
         {
-            setParteDeclaracao((PParteDeclaracao) newChild);
+            setParen((PParen) newChild);
             return;
         }
 

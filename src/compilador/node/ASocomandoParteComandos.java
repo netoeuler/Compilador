@@ -5,46 +5,46 @@ package compilador.node;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ADeclaracao extends PDeclaracao
+public final class ASocomandoParteComandos extends PParteComandos
 {
-    private PParteDeclaracao _parteDeclaracao_;
+    private PComandos _comandos_;
 
-    public ADeclaracao()
+    public ASocomandoParteComandos()
     {
         // Constructor
     }
 
-    public ADeclaracao(
-        @SuppressWarnings("hiding") PParteDeclaracao _parteDeclaracao_)
+    public ASocomandoParteComandos(
+        @SuppressWarnings("hiding") PComandos _comandos_)
     {
         // Constructor
-        setParteDeclaracao(_parteDeclaracao_);
+        setComandos(_comandos_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ADeclaracao(
-            cloneNode(this._parteDeclaracao_));
+        return new ASocomandoParteComandos(
+            cloneNode(this._comandos_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseADeclaracao(this);
+        ((Analysis) sw).caseASocomandoParteComandos(this);
     }
 
-    public PParteDeclaracao getParteDeclaracao()
+    public PComandos getComandos()
     {
-        return this._parteDeclaracao_;
+        return this._comandos_;
     }
 
-    public void setParteDeclaracao(PParteDeclaracao node)
+    public void setComandos(PComandos node)
     {
-        if(this._parteDeclaracao_ != null)
+        if(this._comandos_ != null)
         {
-            this._parteDeclaracao_.parent(null);
+            this._comandos_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ADeclaracao extends PDeclaracao
             node.parent(this);
         }
 
-        this._parteDeclaracao_ = node;
+        this._comandos_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._parteDeclaracao_);
+            + toString(this._comandos_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._parteDeclaracao_ == child)
+        if(this._comandos_ == child)
         {
-            this._parteDeclaracao_ = null;
+            this._comandos_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ADeclaracao extends PDeclaracao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._parteDeclaracao_ == oldChild)
+        if(this._comandos_ == oldChild)
         {
-            setParteDeclaracao((PParteDeclaracao) newChild);
+            setComandos((PComandos) newChild);
             return;
         }
 

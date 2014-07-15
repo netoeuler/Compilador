@@ -5,46 +5,50 @@ package compilador.node;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AParaRepeticao extends PRepeticao
+public final class ACondicional extends PCondicional
 {
-    private TPara _para_;
-    private TIdentificador _identificador_;
-    private TDe _de_;
-    private TNumeroInteiro _numeroInteiro_;
-    private PParaSub _paraSub_;
+    private TSe _se_;
+    private TAbreParen _abreParen_;
+    private PExpressaoLogica _expressaoLogica_;
+    private TFechaParen _fechaParen_;
+    private TEntao _entao_;
     private PParteComandos _parteComandos_;
-    private TFimPara _fimPara_;
+    private PCondSenao _condSenao_;
+    private TFimSe _fimSe_;
     private TPontoEVirgula _pontoEVirgula_;
 
-    public AParaRepeticao()
+    public ACondicional()
     {
         // Constructor
     }
 
-    public AParaRepeticao(
-        @SuppressWarnings("hiding") TPara _para_,
-        @SuppressWarnings("hiding") TIdentificador _identificador_,
-        @SuppressWarnings("hiding") TDe _de_,
-        @SuppressWarnings("hiding") TNumeroInteiro _numeroInteiro_,
-        @SuppressWarnings("hiding") PParaSub _paraSub_,
+    public ACondicional(
+        @SuppressWarnings("hiding") TSe _se_,
+        @SuppressWarnings("hiding") TAbreParen _abreParen_,
+        @SuppressWarnings("hiding") PExpressaoLogica _expressaoLogica_,
+        @SuppressWarnings("hiding") TFechaParen _fechaParen_,
+        @SuppressWarnings("hiding") TEntao _entao_,
         @SuppressWarnings("hiding") PParteComandos _parteComandos_,
-        @SuppressWarnings("hiding") TFimPara _fimPara_,
+        @SuppressWarnings("hiding") PCondSenao _condSenao_,
+        @SuppressWarnings("hiding") TFimSe _fimSe_,
         @SuppressWarnings("hiding") TPontoEVirgula _pontoEVirgula_)
     {
         // Constructor
-        setPara(_para_);
+        setSe(_se_);
 
-        setIdentificador(_identificador_);
+        setAbreParen(_abreParen_);
 
-        setDe(_de_);
+        setExpressaoLogica(_expressaoLogica_);
 
-        setNumeroInteiro(_numeroInteiro_);
+        setFechaParen(_fechaParen_);
 
-        setParaSub(_paraSub_);
+        setEntao(_entao_);
 
         setParteComandos(_parteComandos_);
 
-        setFimPara(_fimPara_);
+        setCondSenao(_condSenao_);
+
+        setFimSe(_fimSe_);
 
         setPontoEVirgula(_pontoEVirgula_);
 
@@ -53,33 +57,34 @@ public final class AParaRepeticao extends PRepeticao
     @Override
     public Object clone()
     {
-        return new AParaRepeticao(
-            cloneNode(this._para_),
-            cloneNode(this._identificador_),
-            cloneNode(this._de_),
-            cloneNode(this._numeroInteiro_),
-            cloneNode(this._paraSub_),
+        return new ACondicional(
+            cloneNode(this._se_),
+            cloneNode(this._abreParen_),
+            cloneNode(this._expressaoLogica_),
+            cloneNode(this._fechaParen_),
+            cloneNode(this._entao_),
             cloneNode(this._parteComandos_),
-            cloneNode(this._fimPara_),
+            cloneNode(this._condSenao_),
+            cloneNode(this._fimSe_),
             cloneNode(this._pontoEVirgula_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAParaRepeticao(this);
+        ((Analysis) sw).caseACondicional(this);
     }
 
-    public TPara getPara()
+    public TSe getSe()
     {
-        return this._para_;
+        return this._se_;
     }
 
-    public void setPara(TPara node)
+    public void setSe(TSe node)
     {
-        if(this._para_ != null)
+        if(this._se_ != null)
         {
-            this._para_.parent(null);
+            this._se_.parent(null);
         }
 
         if(node != null)
@@ -92,19 +97,19 @@ public final class AParaRepeticao extends PRepeticao
             node.parent(this);
         }
 
-        this._para_ = node;
+        this._se_ = node;
     }
 
-    public TIdentificador getIdentificador()
+    public TAbreParen getAbreParen()
     {
-        return this._identificador_;
+        return this._abreParen_;
     }
 
-    public void setIdentificador(TIdentificador node)
+    public void setAbreParen(TAbreParen node)
     {
-        if(this._identificador_ != null)
+        if(this._abreParen_ != null)
         {
-            this._identificador_.parent(null);
+            this._abreParen_.parent(null);
         }
 
         if(node != null)
@@ -117,19 +122,19 @@ public final class AParaRepeticao extends PRepeticao
             node.parent(this);
         }
 
-        this._identificador_ = node;
+        this._abreParen_ = node;
     }
 
-    public TDe getDe()
+    public PExpressaoLogica getExpressaoLogica()
     {
-        return this._de_;
+        return this._expressaoLogica_;
     }
 
-    public void setDe(TDe node)
+    public void setExpressaoLogica(PExpressaoLogica node)
     {
-        if(this._de_ != null)
+        if(this._expressaoLogica_ != null)
         {
-            this._de_.parent(null);
+            this._expressaoLogica_.parent(null);
         }
 
         if(node != null)
@@ -142,19 +147,19 @@ public final class AParaRepeticao extends PRepeticao
             node.parent(this);
         }
 
-        this._de_ = node;
+        this._expressaoLogica_ = node;
     }
 
-    public TNumeroInteiro getNumeroInteiro()
+    public TFechaParen getFechaParen()
     {
-        return this._numeroInteiro_;
+        return this._fechaParen_;
     }
 
-    public void setNumeroInteiro(TNumeroInteiro node)
+    public void setFechaParen(TFechaParen node)
     {
-        if(this._numeroInteiro_ != null)
+        if(this._fechaParen_ != null)
         {
-            this._numeroInteiro_.parent(null);
+            this._fechaParen_.parent(null);
         }
 
         if(node != null)
@@ -167,19 +172,19 @@ public final class AParaRepeticao extends PRepeticao
             node.parent(this);
         }
 
-        this._numeroInteiro_ = node;
+        this._fechaParen_ = node;
     }
 
-    public PParaSub getParaSub()
+    public TEntao getEntao()
     {
-        return this._paraSub_;
+        return this._entao_;
     }
 
-    public void setParaSub(PParaSub node)
+    public void setEntao(TEntao node)
     {
-        if(this._paraSub_ != null)
+        if(this._entao_ != null)
         {
-            this._paraSub_.parent(null);
+            this._entao_.parent(null);
         }
 
         if(node != null)
@@ -192,7 +197,7 @@ public final class AParaRepeticao extends PRepeticao
             node.parent(this);
         }
 
-        this._paraSub_ = node;
+        this._entao_ = node;
     }
 
     public PParteComandos getParteComandos()
@@ -220,16 +225,16 @@ public final class AParaRepeticao extends PRepeticao
         this._parteComandos_ = node;
     }
 
-    public TFimPara getFimPara()
+    public PCondSenao getCondSenao()
     {
-        return this._fimPara_;
+        return this._condSenao_;
     }
 
-    public void setFimPara(TFimPara node)
+    public void setCondSenao(PCondSenao node)
     {
-        if(this._fimPara_ != null)
+        if(this._condSenao_ != null)
         {
-            this._fimPara_.parent(null);
+            this._condSenao_.parent(null);
         }
 
         if(node != null)
@@ -242,7 +247,32 @@ public final class AParaRepeticao extends PRepeticao
             node.parent(this);
         }
 
-        this._fimPara_ = node;
+        this._condSenao_ = node;
+    }
+
+    public TFimSe getFimSe()
+    {
+        return this._fimSe_;
+    }
+
+    public void setFimSe(TFimSe node)
+    {
+        if(this._fimSe_ != null)
+        {
+            this._fimSe_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._fimSe_ = node;
     }
 
     public TPontoEVirgula getPontoEVirgula()
@@ -274,13 +304,14 @@ public final class AParaRepeticao extends PRepeticao
     public String toString()
     {
         return ""
-            + toString(this._para_)
-            + toString(this._identificador_)
-            + toString(this._de_)
-            + toString(this._numeroInteiro_)
-            + toString(this._paraSub_)
+            + toString(this._se_)
+            + toString(this._abreParen_)
+            + toString(this._expressaoLogica_)
+            + toString(this._fechaParen_)
+            + toString(this._entao_)
             + toString(this._parteComandos_)
-            + toString(this._fimPara_)
+            + toString(this._condSenao_)
+            + toString(this._fimSe_)
             + toString(this._pontoEVirgula_);
     }
 
@@ -288,33 +319,33 @@ public final class AParaRepeticao extends PRepeticao
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._para_ == child)
+        if(this._se_ == child)
         {
-            this._para_ = null;
+            this._se_ = null;
             return;
         }
 
-        if(this._identificador_ == child)
+        if(this._abreParen_ == child)
         {
-            this._identificador_ = null;
+            this._abreParen_ = null;
             return;
         }
 
-        if(this._de_ == child)
+        if(this._expressaoLogica_ == child)
         {
-            this._de_ = null;
+            this._expressaoLogica_ = null;
             return;
         }
 
-        if(this._numeroInteiro_ == child)
+        if(this._fechaParen_ == child)
         {
-            this._numeroInteiro_ = null;
+            this._fechaParen_ = null;
             return;
         }
 
-        if(this._paraSub_ == child)
+        if(this._entao_ == child)
         {
-            this._paraSub_ = null;
+            this._entao_ = null;
             return;
         }
 
@@ -324,9 +355,15 @@ public final class AParaRepeticao extends PRepeticao
             return;
         }
 
-        if(this._fimPara_ == child)
+        if(this._condSenao_ == child)
         {
-            this._fimPara_ = null;
+            this._condSenao_ = null;
+            return;
+        }
+
+        if(this._fimSe_ == child)
+        {
+            this._fimSe_ = null;
             return;
         }
 
@@ -343,33 +380,33 @@ public final class AParaRepeticao extends PRepeticao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._para_ == oldChild)
+        if(this._se_ == oldChild)
         {
-            setPara((TPara) newChild);
+            setSe((TSe) newChild);
             return;
         }
 
-        if(this._identificador_ == oldChild)
+        if(this._abreParen_ == oldChild)
         {
-            setIdentificador((TIdentificador) newChild);
+            setAbreParen((TAbreParen) newChild);
             return;
         }
 
-        if(this._de_ == oldChild)
+        if(this._expressaoLogica_ == oldChild)
         {
-            setDe((TDe) newChild);
+            setExpressaoLogica((PExpressaoLogica) newChild);
             return;
         }
 
-        if(this._numeroInteiro_ == oldChild)
+        if(this._fechaParen_ == oldChild)
         {
-            setNumeroInteiro((TNumeroInteiro) newChild);
+            setFechaParen((TFechaParen) newChild);
             return;
         }
 
-        if(this._paraSub_ == oldChild)
+        if(this._entao_ == oldChild)
         {
-            setParaSub((PParaSub) newChild);
+            setEntao((TEntao) newChild);
             return;
         }
 
@@ -379,9 +416,15 @@ public final class AParaRepeticao extends PRepeticao
             return;
         }
 
-        if(this._fimPara_ == oldChild)
+        if(this._condSenao_ == oldChild)
         {
-            setFimPara((TFimPara) newChild);
+            setCondSenao((PCondSenao) newChild);
+            return;
+        }
+
+        if(this._fimSe_ == oldChild)
+        {
+            setFimSe((TFimSe) newChild);
             return;
         }
 

@@ -5,46 +5,46 @@ package compilador.node;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ADeclaracao extends PDeclaracao
+public final class AStart extends PStart
 {
-    private PParteDeclaracao _parteDeclaracao_;
+    private PEsqueletoPrograma _esqueletoPrograma_;
 
-    public ADeclaracao()
+    public AStart()
     {
         // Constructor
     }
 
-    public ADeclaracao(
-        @SuppressWarnings("hiding") PParteDeclaracao _parteDeclaracao_)
+    public AStart(
+        @SuppressWarnings("hiding") PEsqueletoPrograma _esqueletoPrograma_)
     {
         // Constructor
-        setParteDeclaracao(_parteDeclaracao_);
+        setEsqueletoPrograma(_esqueletoPrograma_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ADeclaracao(
-            cloneNode(this._parteDeclaracao_));
+        return new AStart(
+            cloneNode(this._esqueletoPrograma_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseADeclaracao(this);
+        ((Analysis) sw).caseAStart(this);
     }
 
-    public PParteDeclaracao getParteDeclaracao()
+    public PEsqueletoPrograma getEsqueletoPrograma()
     {
-        return this._parteDeclaracao_;
+        return this._esqueletoPrograma_;
     }
 
-    public void setParteDeclaracao(PParteDeclaracao node)
+    public void setEsqueletoPrograma(PEsqueletoPrograma node)
     {
-        if(this._parteDeclaracao_ != null)
+        if(this._esqueletoPrograma_ != null)
         {
-            this._parteDeclaracao_.parent(null);
+            this._esqueletoPrograma_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ADeclaracao extends PDeclaracao
             node.parent(this);
         }
 
-        this._parteDeclaracao_ = node;
+        this._esqueletoPrograma_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._parteDeclaracao_);
+            + toString(this._esqueletoPrograma_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._parteDeclaracao_ == child)
+        if(this._esqueletoPrograma_ == child)
         {
-            this._parteDeclaracao_ = null;
+            this._esqueletoPrograma_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ADeclaracao extends PDeclaracao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._parteDeclaracao_ == oldChild)
+        if(this._esqueletoPrograma_ == oldChild)
         {
-            setParteDeclaracao((PParteDeclaracao) newChild);
+            setEsqueletoPrograma((PEsqueletoPrograma) newChild);
             return;
         }
 

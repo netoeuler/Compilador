@@ -5,40 +5,36 @@ package compilador.node;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ARepitaRepeticao extends PRepeticao
+public final class ALeiaComandos extends PComandos
 {
-    private TRepita _repita_;
-    private PParteComandos _parteComandos_;
-    private TAte _ate_;
+    private TLeia _leia_;
     private TAbreParen _abreParen_;
-    private PExpressaoLogica _expressaoLogica_;
+    private PIdVirgula _idVirgula_;
+    private TIdentificador _identificador_;
     private TFechaParen _fechaParen_;
     private TPontoEVirgula _pontoEVirgula_;
 
-    public ARepitaRepeticao()
+    public ALeiaComandos()
     {
         // Constructor
     }
 
-    public ARepitaRepeticao(
-        @SuppressWarnings("hiding") TRepita _repita_,
-        @SuppressWarnings("hiding") PParteComandos _parteComandos_,
-        @SuppressWarnings("hiding") TAte _ate_,
+    public ALeiaComandos(
+        @SuppressWarnings("hiding") TLeia _leia_,
         @SuppressWarnings("hiding") TAbreParen _abreParen_,
-        @SuppressWarnings("hiding") PExpressaoLogica _expressaoLogica_,
+        @SuppressWarnings("hiding") PIdVirgula _idVirgula_,
+        @SuppressWarnings("hiding") TIdentificador _identificador_,
         @SuppressWarnings("hiding") TFechaParen _fechaParen_,
         @SuppressWarnings("hiding") TPontoEVirgula _pontoEVirgula_)
     {
         // Constructor
-        setRepita(_repita_);
-
-        setParteComandos(_parteComandos_);
-
-        setAte(_ate_);
+        setLeia(_leia_);
 
         setAbreParen(_abreParen_);
 
-        setExpressaoLogica(_expressaoLogica_);
+        setIdVirgula(_idVirgula_);
+
+        setIdentificador(_identificador_);
 
         setFechaParen(_fechaParen_);
 
@@ -49,12 +45,11 @@ public final class ARepitaRepeticao extends PRepeticao
     @Override
     public Object clone()
     {
-        return new ARepitaRepeticao(
-            cloneNode(this._repita_),
-            cloneNode(this._parteComandos_),
-            cloneNode(this._ate_),
+        return new ALeiaComandos(
+            cloneNode(this._leia_),
             cloneNode(this._abreParen_),
-            cloneNode(this._expressaoLogica_),
+            cloneNode(this._idVirgula_),
+            cloneNode(this._identificador_),
             cloneNode(this._fechaParen_),
             cloneNode(this._pontoEVirgula_));
     }
@@ -62,19 +57,19 @@ public final class ARepitaRepeticao extends PRepeticao
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseARepitaRepeticao(this);
+        ((Analysis) sw).caseALeiaComandos(this);
     }
 
-    public TRepita getRepita()
+    public TLeia getLeia()
     {
-        return this._repita_;
+        return this._leia_;
     }
 
-    public void setRepita(TRepita node)
+    public void setLeia(TLeia node)
     {
-        if(this._repita_ != null)
+        if(this._leia_ != null)
         {
-            this._repita_.parent(null);
+            this._leia_.parent(null);
         }
 
         if(node != null)
@@ -87,57 +82,7 @@ public final class ARepitaRepeticao extends PRepeticao
             node.parent(this);
         }
 
-        this._repita_ = node;
-    }
-
-    public PParteComandos getParteComandos()
-    {
-        return this._parteComandos_;
-    }
-
-    public void setParteComandos(PParteComandos node)
-    {
-        if(this._parteComandos_ != null)
-        {
-            this._parteComandos_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._parteComandos_ = node;
-    }
-
-    public TAte getAte()
-    {
-        return this._ate_;
-    }
-
-    public void setAte(TAte node)
-    {
-        if(this._ate_ != null)
-        {
-            this._ate_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._ate_ = node;
+        this._leia_ = node;
     }
 
     public TAbreParen getAbreParen()
@@ -165,16 +110,16 @@ public final class ARepitaRepeticao extends PRepeticao
         this._abreParen_ = node;
     }
 
-    public PExpressaoLogica getExpressaoLogica()
+    public PIdVirgula getIdVirgula()
     {
-        return this._expressaoLogica_;
+        return this._idVirgula_;
     }
 
-    public void setExpressaoLogica(PExpressaoLogica node)
+    public void setIdVirgula(PIdVirgula node)
     {
-        if(this._expressaoLogica_ != null)
+        if(this._idVirgula_ != null)
         {
-            this._expressaoLogica_.parent(null);
+            this._idVirgula_.parent(null);
         }
 
         if(node != null)
@@ -187,7 +132,32 @@ public final class ARepitaRepeticao extends PRepeticao
             node.parent(this);
         }
 
-        this._expressaoLogica_ = node;
+        this._idVirgula_ = node;
+    }
+
+    public TIdentificador getIdentificador()
+    {
+        return this._identificador_;
+    }
+
+    public void setIdentificador(TIdentificador node)
+    {
+        if(this._identificador_ != null)
+        {
+            this._identificador_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._identificador_ = node;
     }
 
     public TFechaParen getFechaParen()
@@ -244,11 +214,10 @@ public final class ARepitaRepeticao extends PRepeticao
     public String toString()
     {
         return ""
-            + toString(this._repita_)
-            + toString(this._parteComandos_)
-            + toString(this._ate_)
+            + toString(this._leia_)
             + toString(this._abreParen_)
-            + toString(this._expressaoLogica_)
+            + toString(this._idVirgula_)
+            + toString(this._identificador_)
             + toString(this._fechaParen_)
             + toString(this._pontoEVirgula_);
     }
@@ -257,21 +226,9 @@ public final class ARepitaRepeticao extends PRepeticao
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._repita_ == child)
+        if(this._leia_ == child)
         {
-            this._repita_ = null;
-            return;
-        }
-
-        if(this._parteComandos_ == child)
-        {
-            this._parteComandos_ = null;
-            return;
-        }
-
-        if(this._ate_ == child)
-        {
-            this._ate_ = null;
+            this._leia_ = null;
             return;
         }
 
@@ -281,9 +238,15 @@ public final class ARepitaRepeticao extends PRepeticao
             return;
         }
 
-        if(this._expressaoLogica_ == child)
+        if(this._idVirgula_ == child)
         {
-            this._expressaoLogica_ = null;
+            this._idVirgula_ = null;
+            return;
+        }
+
+        if(this._identificador_ == child)
+        {
+            this._identificador_ = null;
             return;
         }
 
@@ -306,21 +269,9 @@ public final class ARepitaRepeticao extends PRepeticao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._repita_ == oldChild)
+        if(this._leia_ == oldChild)
         {
-            setRepita((TRepita) newChild);
-            return;
-        }
-
-        if(this._parteComandos_ == oldChild)
-        {
-            setParteComandos((PParteComandos) newChild);
-            return;
-        }
-
-        if(this._ate_ == oldChild)
-        {
-            setAte((TAte) newChild);
+            setLeia((TLeia) newChild);
             return;
         }
 
@@ -330,9 +281,15 @@ public final class ARepitaRepeticao extends PRepeticao
             return;
         }
 
-        if(this._expressaoLogica_ == oldChild)
+        if(this._idVirgula_ == oldChild)
         {
-            setExpressaoLogica((PExpressaoLogica) newChild);
+            setIdVirgula((PIdVirgula) newChild);
+            return;
+        }
+
+        if(this._identificador_ == oldChild)
+        {
+            setIdentificador((TIdentificador) newChild);
             return;
         }
 

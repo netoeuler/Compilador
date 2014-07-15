@@ -5,46 +5,46 @@ package compilador.node;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ADeclaracao extends PDeclaracao
+public final class ACaractereTipo extends PTipo
 {
-    private PParteDeclaracao _parteDeclaracao_;
+    private TCaractere _caractere_;
 
-    public ADeclaracao()
+    public ACaractereTipo()
     {
         // Constructor
     }
 
-    public ADeclaracao(
-        @SuppressWarnings("hiding") PParteDeclaracao _parteDeclaracao_)
+    public ACaractereTipo(
+        @SuppressWarnings("hiding") TCaractere _caractere_)
     {
         // Constructor
-        setParteDeclaracao(_parteDeclaracao_);
+        setCaractere(_caractere_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ADeclaracao(
-            cloneNode(this._parteDeclaracao_));
+        return new ACaractereTipo(
+            cloneNode(this._caractere_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseADeclaracao(this);
+        ((Analysis) sw).caseACaractereTipo(this);
     }
 
-    public PParteDeclaracao getParteDeclaracao()
+    public TCaractere getCaractere()
     {
-        return this._parteDeclaracao_;
+        return this._caractere_;
     }
 
-    public void setParteDeclaracao(PParteDeclaracao node)
+    public void setCaractere(TCaractere node)
     {
-        if(this._parteDeclaracao_ != null)
+        if(this._caractere_ != null)
         {
-            this._parteDeclaracao_.parent(null);
+            this._caractere_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ADeclaracao extends PDeclaracao
             node.parent(this);
         }
 
-        this._parteDeclaracao_ = node;
+        this._caractere_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._parteDeclaracao_);
+            + toString(this._caractere_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._parteDeclaracao_ == child)
+        if(this._caractere_ == child)
         {
-            this._parteDeclaracao_ = null;
+            this._caractere_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ADeclaracao extends PDeclaracao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._parteDeclaracao_ == oldChild)
+        if(this._caractere_ == oldChild)
         {
-            setParteDeclaracao((PParteDeclaracao) newChild);
+            setCaractere((TCaractere) newChild);
             return;
         }
 

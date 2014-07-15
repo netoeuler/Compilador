@@ -5,46 +5,46 @@ package compilador.node;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ADeclaracao extends PDeclaracao
+public final class ATermoLogExpressaoLogica extends PExpressaoLogica
 {
-    private PParteDeclaracao _parteDeclaracao_;
+    private PTermoLog _termoLog_;
 
-    public ADeclaracao()
+    public ATermoLogExpressaoLogica()
     {
         // Constructor
     }
 
-    public ADeclaracao(
-        @SuppressWarnings("hiding") PParteDeclaracao _parteDeclaracao_)
+    public ATermoLogExpressaoLogica(
+        @SuppressWarnings("hiding") PTermoLog _termoLog_)
     {
         // Constructor
-        setParteDeclaracao(_parteDeclaracao_);
+        setTermoLog(_termoLog_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ADeclaracao(
-            cloneNode(this._parteDeclaracao_));
+        return new ATermoLogExpressaoLogica(
+            cloneNode(this._termoLog_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseADeclaracao(this);
+        ((Analysis) sw).caseATermoLogExpressaoLogica(this);
     }
 
-    public PParteDeclaracao getParteDeclaracao()
+    public PTermoLog getTermoLog()
     {
-        return this._parteDeclaracao_;
+        return this._termoLog_;
     }
 
-    public void setParteDeclaracao(PParteDeclaracao node)
+    public void setTermoLog(PTermoLog node)
     {
-        if(this._parteDeclaracao_ != null)
+        if(this._termoLog_ != null)
         {
-            this._parteDeclaracao_.parent(null);
+            this._termoLog_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ADeclaracao extends PDeclaracao
             node.parent(this);
         }
 
-        this._parteDeclaracao_ = node;
+        this._termoLog_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._parteDeclaracao_);
+            + toString(this._termoLog_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._parteDeclaracao_ == child)
+        if(this._termoLog_ == child)
         {
-            this._parteDeclaracao_ = null;
+            this._termoLog_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ADeclaracao extends PDeclaracao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._parteDeclaracao_ == oldChild)
+        if(this._termoLog_ == oldChild)
         {
-            setParteDeclaracao((PParteDeclaracao) newChild);
+            setTermoLog((PTermoLog) newChild);
             return;
         }
 

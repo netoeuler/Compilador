@@ -5,46 +5,46 @@ package compilador.node;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ADeclaracao extends PDeclaracao
+public final class ARepeticaoComandos extends PComandos
 {
-    private PParteDeclaracao _parteDeclaracao_;
+    private PRepeticao _repeticao_;
 
-    public ADeclaracao()
+    public ARepeticaoComandos()
     {
         // Constructor
     }
 
-    public ADeclaracao(
-        @SuppressWarnings("hiding") PParteDeclaracao _parteDeclaracao_)
+    public ARepeticaoComandos(
+        @SuppressWarnings("hiding") PRepeticao _repeticao_)
     {
         // Constructor
-        setParteDeclaracao(_parteDeclaracao_);
+        setRepeticao(_repeticao_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ADeclaracao(
-            cloneNode(this._parteDeclaracao_));
+        return new ARepeticaoComandos(
+            cloneNode(this._repeticao_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseADeclaracao(this);
+        ((Analysis) sw).caseARepeticaoComandos(this);
     }
 
-    public PParteDeclaracao getParteDeclaracao()
+    public PRepeticao getRepeticao()
     {
-        return this._parteDeclaracao_;
+        return this._repeticao_;
     }
 
-    public void setParteDeclaracao(PParteDeclaracao node)
+    public void setRepeticao(PRepeticao node)
     {
-        if(this._parteDeclaracao_ != null)
+        if(this._repeticao_ != null)
         {
-            this._parteDeclaracao_.parent(null);
+            this._repeticao_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ADeclaracao extends PDeclaracao
             node.parent(this);
         }
 
-        this._parteDeclaracao_ = node;
+        this._repeticao_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._parteDeclaracao_);
+            + toString(this._repeticao_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._parteDeclaracao_ == child)
+        if(this._repeticao_ == child)
         {
-            this._parteDeclaracao_ = null;
+            this._repeticao_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ADeclaracao extends PDeclaracao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._parteDeclaracao_ == oldChild)
+        if(this._repeticao_ == oldChild)
         {
-            setParteDeclaracao((PParteDeclaracao) newChild);
+            setRepeticao((PRepeticao) newChild);
             return;
         }
 

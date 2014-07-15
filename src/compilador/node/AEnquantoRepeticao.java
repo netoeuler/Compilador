@@ -2,7 +2,6 @@
 
 package compilador.node;
 
-import java.util.*;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
@@ -13,7 +12,7 @@ public final class AEnquantoRepeticao extends PRepeticao
     private PExpressaoLogica _expressaoLogica_;
     private TFechaParen _fechaParen_;
     private TFaca _faca_;
-    private final LinkedList<PParteComandos> _parteComandos_ = new LinkedList<PParteComandos>();
+    private PParteComandos _parteComandos_;
     private TFimEnquanto _fimEnquanto_;
 
     public AEnquantoRepeticao()
@@ -27,7 +26,7 @@ public final class AEnquantoRepeticao extends PRepeticao
         @SuppressWarnings("hiding") PExpressaoLogica _expressaoLogica_,
         @SuppressWarnings("hiding") TFechaParen _fechaParen_,
         @SuppressWarnings("hiding") TFaca _faca_,
-        @SuppressWarnings("hiding") List<?> _parteComandos_,
+        @SuppressWarnings("hiding") PParteComandos _parteComandos_,
         @SuppressWarnings("hiding") TFimEnquanto _fimEnquanto_)
     {
         // Constructor
@@ -56,7 +55,7 @@ public final class AEnquantoRepeticao extends PRepeticao
             cloneNode(this._expressaoLogica_),
             cloneNode(this._fechaParen_),
             cloneNode(this._faca_),
-            cloneList(this._parteComandos_),
+            cloneNode(this._parteComandos_),
             cloneNode(this._fimEnquanto_));
     }
 
@@ -191,30 +190,29 @@ public final class AEnquantoRepeticao extends PRepeticao
         this._faca_ = node;
     }
 
-    public LinkedList<PParteComandos> getParteComandos()
+    public PParteComandos getParteComandos()
     {
         return this._parteComandos_;
     }
 
-    public void setParteComandos(List<?> list)
+    public void setParteComandos(PParteComandos node)
     {
-        for(PParteComandos e : this._parteComandos_)
+        if(this._parteComandos_ != null)
         {
-            e.parent(null);
+            this._parteComandos_.parent(null);
         }
-        this._parteComandos_.clear();
 
-        for(Object obj_e : list)
+        if(node != null)
         {
-            PParteComandos e = (PParteComandos) obj_e;
-            if(e.parent() != null)
+            if(node.parent() != null)
             {
-                e.parent().removeChild(e);
+                node.parent().removeChild(node);
             }
 
-            e.parent(this);
-            this._parteComandos_.add(e);
+            node.parent(this);
         }
+
+        this._parteComandos_ = node;
     }
 
     public TFimEnquanto getFimEnquanto()
@@ -289,8 +287,9 @@ public final class AEnquantoRepeticao extends PRepeticao
             return;
         }
 
-        if(this._parteComandos_.remove(child))
+        if(this._parteComandos_ == child)
         {
+            this._parteComandos_ = null;
             return;
         }
 
@@ -337,22 +336,10 @@ public final class AEnquantoRepeticao extends PRepeticao
             return;
         }
 
-        for(ListIterator<PParteComandos> i = this._parteComandos_.listIterator(); i.hasNext();)
+        if(this._parteComandos_ == oldChild)
         {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
-                    i.set((PParteComandos) newChild);
-                    newChild.parent(this);
-                    oldChild.parent(null);
-                    return;
-                }
-
-                i.remove();
-                oldChild.parent(null);
-                return;
-            }
+            setParteComandos((PParteComandos) newChild);
+            return;
         }
 
         if(this._fimEnquanto_ == oldChild)

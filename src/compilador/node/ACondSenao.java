@@ -2,14 +2,12 @@
 
 package compilador.node;
 
-import java.util.*;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
 public final class ACondSenao extends PCondSenao
 {
-    private TSenao _senao_;
-    private final LinkedList<PParteComandos> _parteComandos_ = new LinkedList<PParteComandos>();
+    private PCondSenaoSub _condSenaoSub_;
 
     public ACondSenao()
     {
@@ -17,13 +15,10 @@ public final class ACondSenao extends PCondSenao
     }
 
     public ACondSenao(
-        @SuppressWarnings("hiding") TSenao _senao_,
-        @SuppressWarnings("hiding") List<?> _parteComandos_)
+        @SuppressWarnings("hiding") PCondSenaoSub _condSenaoSub_)
     {
         // Constructor
-        setSenao(_senao_);
-
-        setParteComandos(_parteComandos_);
+        setCondSenaoSub(_condSenaoSub_);
 
     }
 
@@ -31,8 +26,7 @@ public final class ACondSenao extends PCondSenao
     public Object clone()
     {
         return new ACondSenao(
-            cloneNode(this._senao_),
-            cloneList(this._parteComandos_));
+            cloneNode(this._condSenaoSub_));
     }
 
     @Override
@@ -41,16 +35,16 @@ public final class ACondSenao extends PCondSenao
         ((Analysis) sw).caseACondSenao(this);
     }
 
-    public TSenao getSenao()
+    public PCondSenaoSub getCondSenaoSub()
     {
-        return this._senao_;
+        return this._condSenaoSub_;
     }
 
-    public void setSenao(TSenao node)
+    public void setCondSenaoSub(PCondSenaoSub node)
     {
-        if(this._senao_ != null)
+        if(this._condSenaoSub_ != null)
         {
-            this._senao_.parent(null);
+            this._condSenaoSub_.parent(null);
         }
 
         if(node != null)
@@ -63,55 +57,23 @@ public final class ACondSenao extends PCondSenao
             node.parent(this);
         }
 
-        this._senao_ = node;
-    }
-
-    public LinkedList<PParteComandos> getParteComandos()
-    {
-        return this._parteComandos_;
-    }
-
-    public void setParteComandos(List<?> list)
-    {
-        for(PParteComandos e : this._parteComandos_)
-        {
-            e.parent(null);
-        }
-        this._parteComandos_.clear();
-
-        for(Object obj_e : list)
-        {
-            PParteComandos e = (PParteComandos) obj_e;
-            if(e.parent() != null)
-            {
-                e.parent().removeChild(e);
-            }
-
-            e.parent(this);
-            this._parteComandos_.add(e);
-        }
+        this._condSenaoSub_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._senao_)
-            + toString(this._parteComandos_);
+            + toString(this._condSenaoSub_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._senao_ == child)
+        if(this._condSenaoSub_ == child)
         {
-            this._senao_ = null;
-            return;
-        }
-
-        if(this._parteComandos_.remove(child))
-        {
+            this._condSenaoSub_ = null;
             return;
         }
 
@@ -122,28 +84,10 @@ public final class ACondSenao extends PCondSenao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._senao_ == oldChild)
+        if(this._condSenaoSub_ == oldChild)
         {
-            setSenao((TSenao) newChild);
+            setCondSenaoSub((PCondSenaoSub) newChild);
             return;
-        }
-
-        for(ListIterator<PParteComandos> i = this._parteComandos_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
-                    i.set((PParteComandos) newChild);
-                    newChild.parent(this);
-                    oldChild.parent(null);
-                    return;
-                }
-
-                i.remove();
-                oldChild.parent(null);
-                return;
-            }
         }
 
         throw new RuntimeException("Not a child.");

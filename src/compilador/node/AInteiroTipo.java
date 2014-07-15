@@ -5,46 +5,46 @@ package compilador.node;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ADeclaracao extends PDeclaracao
+public final class AInteiroTipo extends PTipo
 {
-    private PParteDeclaracao _parteDeclaracao_;
+    private TInteiro _inteiro_;
 
-    public ADeclaracao()
+    public AInteiroTipo()
     {
         // Constructor
     }
 
-    public ADeclaracao(
-        @SuppressWarnings("hiding") PParteDeclaracao _parteDeclaracao_)
+    public AInteiroTipo(
+        @SuppressWarnings("hiding") TInteiro _inteiro_)
     {
         // Constructor
-        setParteDeclaracao(_parteDeclaracao_);
+        setInteiro(_inteiro_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ADeclaracao(
-            cloneNode(this._parteDeclaracao_));
+        return new AInteiroTipo(
+            cloneNode(this._inteiro_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseADeclaracao(this);
+        ((Analysis) sw).caseAInteiroTipo(this);
     }
 
-    public PParteDeclaracao getParteDeclaracao()
+    public TInteiro getInteiro()
     {
-        return this._parteDeclaracao_;
+        return this._inteiro_;
     }
 
-    public void setParteDeclaracao(PParteDeclaracao node)
+    public void setInteiro(TInteiro node)
     {
-        if(this._parteDeclaracao_ != null)
+        if(this._inteiro_ != null)
         {
-            this._parteDeclaracao_.parent(null);
+            this._inteiro_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ADeclaracao extends PDeclaracao
             node.parent(this);
         }
 
-        this._parteDeclaracao_ = node;
+        this._inteiro_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._parteDeclaracao_);
+            + toString(this._inteiro_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._parteDeclaracao_ == child)
+        if(this._inteiro_ == child)
         {
-            this._parteDeclaracao_ = null;
+            this._inteiro_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ADeclaracao extends PDeclaracao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._parteDeclaracao_ == oldChild)
+        if(this._inteiro_ == oldChild)
         {
-            setParteDeclaracao((PParteDeclaracao) newChild);
+            setInteiro((TInteiro) newChild);
             return;
         }
 
