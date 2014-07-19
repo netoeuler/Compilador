@@ -71,204 +71,72 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAEsqueletoPrograma(AEsqueletoPrograma node)
     {
         inAEsqueletoPrograma(node);
-        if(node.getPrograma() != null)
-        {
-            node.getPrograma().apply(this);
-        }
         if(node.getIdentificador() != null)
         {
             node.getIdentificador().apply(this);
         }
-        if(node.getPontoEVirgula() != null)
         {
-            node.getPontoEVirgula().apply(this);
-        }
-        if(node.getDeclaracao() != null)
-        {
-            node.getDeclaracao().apply(this);
-        }
-        if(node.getInicio() != null)
-        {
-            node.getInicio().apply(this);
+            List<PParteDeclaracao> copy = new ArrayList<PParteDeclaracao>(node.getParteDeclaracao());
+            for(PParteDeclaracao e : copy)
+            {
+                e.apply(this);
+            }
         }
         if(node.getParteComandos() != null)
         {
             node.getParteComandos().apply(this);
         }
-        if(node.getFimPonto() != null)
-        {
-            node.getFimPonto().apply(this);
-        }
         outAEsqueletoPrograma(node);
     }
 
-    public void inADeclaracao(ADeclaracao node)
+    public void inADeclaracaoVariavelParteDeclaracao(ADeclaracaoVariavelParteDeclaracao node)
     {
         defaultIn(node);
     }
 
-    public void outADeclaracao(ADeclaracao node)
+    public void outADeclaracaoVariavelParteDeclaracao(ADeclaracaoVariavelParteDeclaracao node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseADeclaracao(ADeclaracao node)
+    public void caseADeclaracaoVariavelParteDeclaracao(ADeclaracaoVariavelParteDeclaracao node)
     {
-        inADeclaracao(node);
-        if(node.getParteDeclaracao() != null)
-        {
-            node.getParteDeclaracao().apply(this);
-        }
-        outADeclaracao(node);
-    }
-
-    public void inADeclaracaoParteDeclaracao(ADeclaracaoParteDeclaracao node)
-    {
-        defaultIn(node);
-    }
-
-    public void outADeclaracaoParteDeclaracao(ADeclaracaoParteDeclaracao node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseADeclaracaoParteDeclaracao(ADeclaracaoParteDeclaracao node)
-    {
-        inADeclaracaoParteDeclaracao(node);
-        if(node.getVar() != null)
-        {
-            node.getVar().apply(this);
-        }
+        inADeclaracaoVariavelParteDeclaracao(node);
         if(node.getTipo() != null)
         {
             node.getTipo().apply(this);
-        }
-        if(node.getDoisPontos() != null)
-        {
-            node.getDoisPontos().apply(this);
         }
         if(node.getIdVirgula() != null)
         {
             node.getIdVirgula().apply(this);
         }
-        if(node.getIdentificador() != null)
-        {
-            node.getIdentificador().apply(this);
-        }
-        if(node.getPontoEVirgula() != null)
-        {
-            node.getPontoEVirgula().apply(this);
-        }
-        outADeclaracaoParteDeclaracao(node);
+        outADeclaracaoVariavelParteDeclaracao(node);
     }
 
-    public void inAConstParteDeclaracao(AConstParteDeclaracao node)
+    public void inADeclaracaoConstanteParteDeclaracao(ADeclaracaoConstanteParteDeclaracao node)
     {
         defaultIn(node);
     }
 
-    public void outAConstParteDeclaracao(AConstParteDeclaracao node)
+    public void outADeclaracaoConstanteParteDeclaracao(ADeclaracaoConstanteParteDeclaracao node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAConstParteDeclaracao(AConstParteDeclaracao node)
+    public void caseADeclaracaoConstanteParteDeclaracao(ADeclaracaoConstanteParteDeclaracao node)
     {
-        inAConstParteDeclaracao(node);
-        if(node.getConst() != null)
-        {
-            node.getConst().apply(this);
-        }
+        inADeclaracaoConstanteParteDeclaracao(node);
         if(node.getIdentificador() != null)
         {
             node.getIdentificador().apply(this);
-        }
-        if(node.getPontoEVirgula() != null)
-        {
-            node.getPontoEVirgula().apply(this);
-        }
-        outAConstParteDeclaracao(node);
-    }
-
-    public void inADeclaracaoRecurParteDeclaracao(ADeclaracaoRecurParteDeclaracao node)
-    {
-        defaultIn(node);
-    }
-
-    public void outADeclaracaoRecurParteDeclaracao(ADeclaracaoRecurParteDeclaracao node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseADeclaracaoRecurParteDeclaracao(ADeclaracaoRecurParteDeclaracao node)
-    {
-        inADeclaracaoRecurParteDeclaracao(node);
-        if(node.getParteDeclaracao() != null)
-        {
-            node.getParteDeclaracao().apply(this);
-        }
-        if(node.getVar() != null)
-        {
-            node.getVar().apply(this);
         }
         if(node.getTipo() != null)
         {
             node.getTipo().apply(this);
         }
-        if(node.getDoisPontos() != null)
-        {
-            node.getDoisPontos().apply(this);
-        }
-        if(node.getIdVirgula() != null)
-        {
-            node.getIdVirgula().apply(this);
-        }
-        if(node.getIdentificador() != null)
-        {
-            node.getIdentificador().apply(this);
-        }
-        if(node.getPontoEVirgula() != null)
-        {
-            node.getPontoEVirgula().apply(this);
-        }
-        outADeclaracaoRecurParteDeclaracao(node);
-    }
-
-    public void inAConstRecurParteDeclaracao(AConstRecurParteDeclaracao node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAConstRecurParteDeclaracao(AConstRecurParteDeclaracao node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAConstRecurParteDeclaracao(AConstRecurParteDeclaracao node)
-    {
-        inAConstRecurParteDeclaracao(node);
-        if(node.getParteDeclaracao() != null)
-        {
-            node.getParteDeclaracao().apply(this);
-        }
-        if(node.getConst() != null)
-        {
-            node.getConst().apply(this);
-        }
-        if(node.getIdentificador() != null)
-        {
-            node.getIdentificador().apply(this);
-        }
-        if(node.getPontoEVirgula() != null)
-        {
-            node.getPontoEVirgula().apply(this);
-        }
-        outAConstRecurParteDeclaracao(node);
+        outADeclaracaoConstanteParteDeclaracao(node);
     }
 
     public void inARealTipo(ARealTipo node)
@@ -427,29 +295,9 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseALeiaComandos(ALeiaComandos node)
     {
         inALeiaComandos(node);
-        if(node.getLeia() != null)
-        {
-            node.getLeia().apply(this);
-        }
-        if(node.getAbreParen() != null)
-        {
-            node.getAbreParen().apply(this);
-        }
         if(node.getIdVirgula() != null)
         {
             node.getIdVirgula().apply(this);
-        }
-        if(node.getIdentificador() != null)
-        {
-            node.getIdentificador().apply(this);
-        }
-        if(node.getFechaParen() != null)
-        {
-            node.getFechaParen().apply(this);
-        }
-        if(node.getPontoEVirgula() != null)
-        {
-            node.getPontoEVirgula().apply(this);
         }
         outALeiaComandos(node);
     }
@@ -537,29 +385,50 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outARepeticaoComandos(node);
     }
 
-    public void inAIdVirgula(AIdVirgula node)
+    public void inAIdIdVirgula(AIdIdVirgula node)
     {
         defaultIn(node);
     }
 
-    public void outAIdVirgula(AIdVirgula node)
+    public void outAIdIdVirgula(AIdIdVirgula node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAIdVirgula(AIdVirgula node)
+    public void caseAIdIdVirgula(AIdIdVirgula node)
     {
-        inAIdVirgula(node);
+        inAIdIdVirgula(node);
         if(node.getIdentificador() != null)
         {
             node.getIdentificador().apply(this);
         }
-        if(node.getVirgula() != null)
+        outAIdIdVirgula(node);
+    }
+
+    public void inAIdvirgulaIdVirgula(AIdvirgulaIdVirgula node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAIdvirgulaIdVirgula(AIdvirgulaIdVirgula node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAIdvirgulaIdVirgula(AIdvirgulaIdVirgula node)
+    {
+        inAIdvirgulaIdVirgula(node);
+        if(node.getIdentificador() != null)
         {
-            node.getVirgula().apply(this);
+            node.getIdentificador().apply(this);
         }
-        outAIdVirgula(node);
+        if(node.getIdVirgula() != null)
+        {
+            node.getIdVirgula().apply(this);
+        }
+        outAIdvirgulaIdVirgula(node);
     }
 
     public void inAIdentificadorAtrib1(AIdentificadorAtrib1 node)

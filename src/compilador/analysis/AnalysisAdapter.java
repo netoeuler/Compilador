@@ -87,31 +87,13 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseADeclaracao(ADeclaracao node)
+    public void caseADeclaracaoVariavelParteDeclaracao(ADeclaracaoVariavelParteDeclaracao node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseADeclaracaoParteDeclaracao(ADeclaracaoParteDeclaracao node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAConstParteDeclaracao(AConstParteDeclaracao node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseADeclaracaoRecurParteDeclaracao(ADeclaracaoRecurParteDeclaracao node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAConstRecurParteDeclaracao(AConstRecurParteDeclaracao node)
+    public void caseADeclaracaoConstanteParteDeclaracao(ADeclaracaoConstanteParteDeclaracao node)
     {
         defaultCase(node);
     }
@@ -177,7 +159,13 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAIdVirgula(AIdVirgula node)
+    public void caseAIdIdVirgula(AIdIdVirgula node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAIdvirgulaIdVirgula(AIdvirgulaIdVirgula node)
     {
         defaultCase(node);
     }

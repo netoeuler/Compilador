@@ -1,5 +1,8 @@
 programa ola;
-var inteiro : teste;
+const alguma inteiro;
+var inteiro : teste,teste4;
+var inteiro : teste2;
+var inteiro : teste3;
 inicio
 	teste <- 2;
 fim.

@@ -14,11 +14,8 @@ public interface Analysis extends Switch
     void caseStart(Start node);
     void caseAStart(AStart node);
     void caseAEsqueletoPrograma(AEsqueletoPrograma node);
-    void caseADeclaracao(ADeclaracao node);
-    void caseADeclaracaoParteDeclaracao(ADeclaracaoParteDeclaracao node);
-    void caseAConstParteDeclaracao(AConstParteDeclaracao node);
-    void caseADeclaracaoRecurParteDeclaracao(ADeclaracaoRecurParteDeclaracao node);
-    void caseAConstRecurParteDeclaracao(AConstRecurParteDeclaracao node);
+    void caseADeclaracaoVariavelParteDeclaracao(ADeclaracaoVariavelParteDeclaracao node);
+    void caseADeclaracaoConstanteParteDeclaracao(ADeclaracaoConstanteParteDeclaracao node);
     void caseARealTipo(ARealTipo node);
     void caseAInteiroTipo(AInteiroTipo node);
     void caseACaractereTipo(ACaractereTipo node);
@@ -29,7 +26,8 @@ public interface Analysis extends Switch
     void caseAEscrevaComandos(AEscrevaComandos node);
     void caseACondicionalComandos(ACondicionalComandos node);
     void caseARepeticaoComandos(ARepeticaoComandos node);
-    void caseAIdVirgula(AIdVirgula node);
+    void caseAIdIdVirgula(AIdIdVirgula node);
+    void caseAIdvirgulaIdVirgula(AIdvirgulaIdVirgula node);
     void caseAIdentificadorAtrib1(AIdentificadorAtrib1 node);
     void caseANumeroInteiroAtrib1(ANumeroInteiroAtrib1 node);
     void caseANumeroRealAtrib1(ANumeroRealAtrib1 node);

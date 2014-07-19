@@ -2,18 +2,15 @@
 
 package compilador.node;
 
+import java.util.*;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
 public final class AEsqueletoPrograma extends PEsqueletoPrograma
 {
-    private TPrograma _programa_;
     private TIdentificador _identificador_;
-    private TPontoEVirgula _pontoEVirgula_;
-    private PDeclaracao _declaracao_;
-    private TInicio _inicio_;
+    private final LinkedList<PParteDeclaracao> _parteDeclaracao_ = new LinkedList<PParteDeclaracao>();
     private PParteComandos _parteComandos_;
-    private TFimPonto _fimPonto_;
 
     public AEsqueletoPrograma()
     {
@@ -21,28 +18,16 @@ public final class AEsqueletoPrograma extends PEsqueletoPrograma
     }
 
     public AEsqueletoPrograma(
-        @SuppressWarnings("hiding") TPrograma _programa_,
         @SuppressWarnings("hiding") TIdentificador _identificador_,
-        @SuppressWarnings("hiding") TPontoEVirgula _pontoEVirgula_,
-        @SuppressWarnings("hiding") PDeclaracao _declaracao_,
-        @SuppressWarnings("hiding") TInicio _inicio_,
-        @SuppressWarnings("hiding") PParteComandos _parteComandos_,
-        @SuppressWarnings("hiding") TFimPonto _fimPonto_)
+        @SuppressWarnings("hiding") List<?> _parteDeclaracao_,
+        @SuppressWarnings("hiding") PParteComandos _parteComandos_)
     {
         // Constructor
-        setPrograma(_programa_);
-
         setIdentificador(_identificador_);
 
-        setPontoEVirgula(_pontoEVirgula_);
-
-        setDeclaracao(_declaracao_);
-
-        setInicio(_inicio_);
+        setParteDeclaracao(_parteDeclaracao_);
 
         setParteComandos(_parteComandos_);
-
-        setFimPonto(_fimPonto_);
 
     }
 
@@ -50,44 +35,15 @@ public final class AEsqueletoPrograma extends PEsqueletoPrograma
     public Object clone()
     {
         return new AEsqueletoPrograma(
-            cloneNode(this._programa_),
             cloneNode(this._identificador_),
-            cloneNode(this._pontoEVirgula_),
-            cloneNode(this._declaracao_),
-            cloneNode(this._inicio_),
-            cloneNode(this._parteComandos_),
-            cloneNode(this._fimPonto_));
+            cloneList(this._parteDeclaracao_),
+            cloneNode(this._parteComandos_));
     }
 
     @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAEsqueletoPrograma(this);
-    }
-
-    public TPrograma getPrograma()
-    {
-        return this._programa_;
-    }
-
-    public void setPrograma(TPrograma node)
-    {
-        if(this._programa_ != null)
-        {
-            this._programa_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._programa_ = node;
     }
 
     public TIdentificador getIdentificador()
@@ -115,79 +71,30 @@ public final class AEsqueletoPrograma extends PEsqueletoPrograma
         this._identificador_ = node;
     }
 
-    public TPontoEVirgula getPontoEVirgula()
+    public LinkedList<PParteDeclaracao> getParteDeclaracao()
     {
-        return this._pontoEVirgula_;
+        return this._parteDeclaracao_;
     }
 
-    public void setPontoEVirgula(TPontoEVirgula node)
+    public void setParteDeclaracao(List<?> list)
     {
-        if(this._pontoEVirgula_ != null)
+        for(PParteDeclaracao e : this._parteDeclaracao_)
         {
-            this._pontoEVirgula_.parent(null);
+            e.parent(null);
         }
+        this._parteDeclaracao_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PParteDeclaracao e = (PParteDeclaracao) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._parteDeclaracao_.add(e);
         }
-
-        this._pontoEVirgula_ = node;
-    }
-
-    public PDeclaracao getDeclaracao()
-    {
-        return this._declaracao_;
-    }
-
-    public void setDeclaracao(PDeclaracao node)
-    {
-        if(this._declaracao_ != null)
-        {
-            this._declaracao_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._declaracao_ = node;
-    }
-
-    public TInicio getInicio()
-    {
-        return this._inicio_;
-    }
-
-    public void setInicio(TInicio node)
-    {
-        if(this._inicio_ != null)
-        {
-            this._inicio_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._inicio_ = node;
     }
 
     public PParteComandos getParteComandos()
@@ -215,87 +122,33 @@ public final class AEsqueletoPrograma extends PEsqueletoPrograma
         this._parteComandos_ = node;
     }
 
-    public TFimPonto getFimPonto()
-    {
-        return this._fimPonto_;
-    }
-
-    public void setFimPonto(TFimPonto node)
-    {
-        if(this._fimPonto_ != null)
-        {
-            this._fimPonto_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._fimPonto_ = node;
-    }
-
     @Override
     public String toString()
     {
         return ""
-            + toString(this._programa_)
             + toString(this._identificador_)
-            + toString(this._pontoEVirgula_)
-            + toString(this._declaracao_)
-            + toString(this._inicio_)
-            + toString(this._parteComandos_)
-            + toString(this._fimPonto_);
+            + toString(this._parteDeclaracao_)
+            + toString(this._parteComandos_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._programa_ == child)
-        {
-            this._programa_ = null;
-            return;
-        }
-
         if(this._identificador_ == child)
         {
             this._identificador_ = null;
             return;
         }
 
-        if(this._pontoEVirgula_ == child)
+        if(this._parteDeclaracao_.remove(child))
         {
-            this._pontoEVirgula_ = null;
-            return;
-        }
-
-        if(this._declaracao_ == child)
-        {
-            this._declaracao_ = null;
-            return;
-        }
-
-        if(this._inicio_ == child)
-        {
-            this._inicio_ = null;
             return;
         }
 
         if(this._parteComandos_ == child)
         {
             this._parteComandos_ = null;
-            return;
-        }
-
-        if(this._fimPonto_ == child)
-        {
-            this._fimPonto_ = null;
             return;
         }
 
@@ -306,45 +159,33 @@ public final class AEsqueletoPrograma extends PEsqueletoPrograma
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._programa_ == oldChild)
-        {
-            setPrograma((TPrograma) newChild);
-            return;
-        }
-
         if(this._identificador_ == oldChild)
         {
             setIdentificador((TIdentificador) newChild);
             return;
         }
 
-        if(this._pontoEVirgula_ == oldChild)
+        for(ListIterator<PParteDeclaracao> i = this._parteDeclaracao_.listIterator(); i.hasNext();)
         {
-            setPontoEVirgula((TPontoEVirgula) newChild);
-            return;
-        }
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PParteDeclaracao) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
 
-        if(this._declaracao_ == oldChild)
-        {
-            setDeclaracao((PDeclaracao) newChild);
-            return;
-        }
-
-        if(this._inicio_ == oldChild)
-        {
-            setInicio((TInicio) newChild);
-            return;
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         if(this._parteComandos_ == oldChild)
         {
             setParteComandos((PParteComandos) newChild);
-            return;
-        }
-
-        if(this._fimPonto_ == oldChild)
-        {
-            setFimPonto((TFimPonto) newChild);
             return;
         }
 

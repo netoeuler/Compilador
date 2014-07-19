@@ -78,6 +78,7 @@ class Main {
 		try {
 			Start tree;
 			tree = p.parse();
+			tree.apply(new AnalisadorSemantico());
 		} catch (ParserException e) {			
 			//e.printStackTrace();
 			System.out.println(e.getMessage());
