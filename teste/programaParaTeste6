@@ -1,0 +1,7 @@
+programa ola;
+var inteiro : teste;
+var caractere : teste2;
+inicio
+	//teste <- 2+2-2-2;
+	teste2 <- 'ab';
+fim.
