@@ -7,8 +7,8 @@ import compilador.analysis.*;
 @SuppressWarnings("nls")
 public final class AAtribuicaoComandos extends PComandos
 {
-    private TIdentificador _identificador_;
-    private PAtrib1 _atrib1_;
+    private PVariavel _variavel_;
+    private PExpressao _expressao_;
 
     public AAtribuicaoComandos()
     {
@@ -16,13 +16,13 @@ public final class AAtribuicaoComandos extends PComandos
     }
 
     public AAtribuicaoComandos(
-        @SuppressWarnings("hiding") TIdentificador _identificador_,
-        @SuppressWarnings("hiding") PAtrib1 _atrib1_)
+        @SuppressWarnings("hiding") PVariavel _variavel_,
+        @SuppressWarnings("hiding") PExpressao _expressao_)
     {
         // Constructor
-        setIdentificador(_identificador_);
+        setVariavel(_variavel_);
 
-        setAtrib1(_atrib1_);
+        setExpressao(_expressao_);
 
     }
 
@@ -30,8 +30,8 @@ public final class AAtribuicaoComandos extends PComandos
     public Object clone()
     {
         return new AAtribuicaoComandos(
-            cloneNode(this._identificador_),
-            cloneNode(this._atrib1_));
+            cloneNode(this._variavel_),
+            cloneNode(this._expressao_));
     }
 
     @Override
@@ -40,16 +40,16 @@ public final class AAtribuicaoComandos extends PComandos
         ((Analysis) sw).caseAAtribuicaoComandos(this);
     }
 
-    public TIdentificador getIdentificador()
+    public PVariavel getVariavel()
     {
-        return this._identificador_;
+        return this._variavel_;
     }
 
-    public void setIdentificador(TIdentificador node)
+    public void setVariavel(PVariavel node)
     {
-        if(this._identificador_ != null)
+        if(this._variavel_ != null)
         {
-            this._identificador_.parent(null);
+            this._variavel_.parent(null);
         }
 
         if(node != null)
@@ -62,19 +62,19 @@ public final class AAtribuicaoComandos extends PComandos
             node.parent(this);
         }
 
-        this._identificador_ = node;
+        this._variavel_ = node;
     }
 
-    public PAtrib1 getAtrib1()
+    public PExpressao getExpressao()
     {
-        return this._atrib1_;
+        return this._expressao_;
     }
 
-    public void setAtrib1(PAtrib1 node)
+    public void setExpressao(PExpressao node)
     {
-        if(this._atrib1_ != null)
+        if(this._expressao_ != null)
         {
-            this._atrib1_.parent(null);
+            this._expressao_.parent(null);
         }
 
         if(node != null)
@@ -87,30 +87,30 @@ public final class AAtribuicaoComandos extends PComandos
             node.parent(this);
         }
 
-        this._atrib1_ = node;
+        this._expressao_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._identificador_)
-            + toString(this._atrib1_);
+            + toString(this._variavel_)
+            + toString(this._expressao_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._identificador_ == child)
+        if(this._variavel_ == child)
         {
-            this._identificador_ = null;
+            this._variavel_ = null;
             return;
         }
 
-        if(this._atrib1_ == child)
+        if(this._expressao_ == child)
         {
-            this._atrib1_ = null;
+            this._expressao_ = null;
             return;
         }
 
@@ -121,15 +121,15 @@ public final class AAtribuicaoComandos extends PComandos
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._identificador_ == oldChild)
+        if(this._variavel_ == oldChild)
         {
-            setIdentificador((TIdentificador) newChild);
+            setVariavel((PVariavel) newChild);
             return;
         }
 
-        if(this._atrib1_ == oldChild)
+        if(this._expressao_ == oldChild)
         {
-            setAtrib1((PAtrib1) newChild);
+            setExpressao((PExpressao) newChild);
             return;
         }
 

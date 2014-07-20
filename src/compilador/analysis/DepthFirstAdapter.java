@@ -219,13 +219,13 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAAtribuicaoComandos(AAtribuicaoComandos node)
     {
         inAAtribuicaoComandos(node);
-        if(node.getIdentificador() != null)
+        if(node.getVariavel() != null)
         {
-            node.getIdentificador().apply(this);
+            node.getVariavel().apply(this);
         }
-        if(node.getAtrib1() != null)
+        if(node.getExpressao() != null)
         {
-            node.getAtrib1().apply(this);
+            node.getExpressao().apply(this);
         }
         outAAtribuicaoComandos(node);
     }

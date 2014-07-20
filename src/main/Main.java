@@ -19,7 +19,7 @@ class Main {
 	public static void main(String args[]) {
 		String arquivo = "";
 		if (args.length == 0)
-			arquivo = System.getProperty("user.dir") + "/teste/programaParaTeste5";
+			arquivo = System.getProperty("user.dir") + "/teste/programaParaTeste6";
 		else
 			arquivo = args[0];
 		

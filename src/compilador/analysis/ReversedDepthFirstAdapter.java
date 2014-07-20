@@ -221,13 +221,13 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAAtribuicaoComandos(AAtribuicaoComandos node)
     {
         inAAtribuicaoComandos(node);
-        if(node.getAtrib1() != null)
+        if(node.getExpressao() != null)
         {
-            node.getAtrib1().apply(this);
+            node.getExpressao().apply(this);
         }
-        if(node.getIdentificador() != null)
+        if(node.getVariavel() != null)
         {
-            node.getIdentificador().apply(this);
+            node.getVariavel().apply(this);
         }
         outAAtribuicaoComandos(node);
     }

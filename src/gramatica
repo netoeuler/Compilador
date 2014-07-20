@@ -112,7 +112,7 @@ Productions
     	{-> New parte_declaracao.declaracao_constante(identificador,valor)};
 	    
     parte_comandos {-> comandos*} = comandos+ {-> [comandos]};
-    comandos {-> comandos} = {atribuicao} identificador seta atrib1 ponto_e_virgula {-> New comandos.atribuicao(identificador,atrib1)}
+    comandos {-> comandos} = {atribuicao} variavel seta expressao ponto_e_virgula {-> New comandos.atribuicao(variavel,expressao)}
                     | {leia} leia abre_paren id_virgula fecha_paren ponto_e_virgula {-> New comandos.leia(id_virgula)}
                     | {escreva} escreva abre_paren exp_virgula? expressao fecha_paren ponto_e_virgula {-> New comandos.escreva(escreva,abre_paren,exp_virgula,expressao,fecha_paren,ponto_e_virgula)}
                     | {condicional} condicional {-> New comandos.condicional(condicional)}
@@ -205,7 +205,7 @@ Abstract Syntax Tree
    	
    	tipo = {real} real | {inteiro} inteiro | {caractere} caractere;
 	
-	comandos = {atribuicao} identificador atrib1
+	comandos = {atribuicao} variavel expressao
                     | {leia} id_virgula
                     | {escreva} escreva abre_paren exp_virgula? expressao fecha_paren ponto_e_virgula
                     | {condicional} condicional
