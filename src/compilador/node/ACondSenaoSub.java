@@ -2,13 +2,14 @@
 
 package compilador.node;
 
+import java.util.*;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
 public final class ACondSenaoSub extends PCondSenaoSub
 {
     private TSenao _senao_;
-    private PParteComandos _parteComandos_;
+    private final LinkedList<PComandos> _comandos_ = new LinkedList<PComandos>();
 
     public ACondSenaoSub()
     {
@@ -17,12 +18,12 @@ public final class ACondSenaoSub extends PCondSenaoSub
 
     public ACondSenaoSub(
         @SuppressWarnings("hiding") TSenao _senao_,
-        @SuppressWarnings("hiding") PParteComandos _parteComandos_)
+        @SuppressWarnings("hiding") List<?> _comandos_)
     {
         // Constructor
         setSenao(_senao_);
 
-        setParteComandos(_parteComandos_);
+        setComandos(_comandos_);
 
     }
 
@@ -31,7 +32,7 @@ public final class ACondSenaoSub extends PCondSenaoSub
     {
         return new ACondSenaoSub(
             cloneNode(this._senao_),
-            cloneNode(this._parteComandos_));
+            cloneList(this._comandos_));
     }
 
     @Override
@@ -65,29 +66,30 @@ public final class ACondSenaoSub extends PCondSenaoSub
         this._senao_ = node;
     }
 
-    public PParteComandos getParteComandos()
+    public LinkedList<PComandos> getComandos()
     {
-        return this._parteComandos_;
+        return this._comandos_;
     }
 
-    public void setParteComandos(PParteComandos node)
+    public void setComandos(List<?> list)
     {
-        if(this._parteComandos_ != null)
+        for(PComandos e : this._comandos_)
         {
-            this._parteComandos_.parent(null);
+            e.parent(null);
         }
+        this._comandos_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PComandos e = (PComandos) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._comandos_.add(e);
         }
-
-        this._parteComandos_ = node;
     }
 
     @Override
@@ -95,7 +97,7 @@ public final class ACondSenaoSub extends PCondSenaoSub
     {
         return ""
             + toString(this._senao_)
-            + toString(this._parteComandos_);
+            + toString(this._comandos_);
     }
 
     @Override
@@ -108,9 +110,8 @@ public final class ACondSenaoSub extends PCondSenaoSub
             return;
         }
 
-        if(this._parteComandos_ == child)
+        if(this._comandos_.remove(child))
         {
-            this._parteComandos_ = null;
             return;
         }
 
@@ -127,10 +128,22 @@ public final class ACondSenaoSub extends PCondSenaoSub
             return;
         }
 
-        if(this._parteComandos_ == oldChild)
+        for(ListIterator<PComandos> i = this._comandos_.listIterator(); i.hasNext();)
         {
-            setParteComandos((PParteComandos) newChild);
-            return;
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PComandos) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         throw new RuntimeException("Not a child.");

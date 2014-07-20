@@ -80,7 +80,6 @@ class Main {
 			tree = p.parse();
 			tree.apply(new AnalisadorSemantico());
 		} catch (ParserException e) {			
-			//e.printStackTrace();
 			System.out.println(e.getMessage());
 		} catch (LexerException e) {			
 			e.printStackTrace();

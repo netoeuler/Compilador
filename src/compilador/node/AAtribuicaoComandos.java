@@ -8,9 +8,7 @@ import compilador.analysis.*;
 public final class AAtribuicaoComandos extends PComandos
 {
     private TIdentificador _identificador_;
-    private TSeta _seta_;
     private PAtrib1 _atrib1_;
-    private TPontoEVirgula _pontoEVirgula_;
 
     public AAtribuicaoComandos()
     {
@@ -19,18 +17,12 @@ public final class AAtribuicaoComandos extends PComandos
 
     public AAtribuicaoComandos(
         @SuppressWarnings("hiding") TIdentificador _identificador_,
-        @SuppressWarnings("hiding") TSeta _seta_,
-        @SuppressWarnings("hiding") PAtrib1 _atrib1_,
-        @SuppressWarnings("hiding") TPontoEVirgula _pontoEVirgula_)
+        @SuppressWarnings("hiding") PAtrib1 _atrib1_)
     {
         // Constructor
         setIdentificador(_identificador_);
 
-        setSeta(_seta_);
-
         setAtrib1(_atrib1_);
-
-        setPontoEVirgula(_pontoEVirgula_);
 
     }
 
@@ -39,9 +31,7 @@ public final class AAtribuicaoComandos extends PComandos
     {
         return new AAtribuicaoComandos(
             cloneNode(this._identificador_),
-            cloneNode(this._seta_),
-            cloneNode(this._atrib1_),
-            cloneNode(this._pontoEVirgula_));
+            cloneNode(this._atrib1_));
     }
 
     @Override
@@ -75,31 +65,6 @@ public final class AAtribuicaoComandos extends PComandos
         this._identificador_ = node;
     }
 
-    public TSeta getSeta()
-    {
-        return this._seta_;
-    }
-
-    public void setSeta(TSeta node)
-    {
-        if(this._seta_ != null)
-        {
-            this._seta_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._seta_ = node;
-    }
-
     public PAtrib1 getAtrib1()
     {
         return this._atrib1_;
@@ -125,39 +90,12 @@ public final class AAtribuicaoComandos extends PComandos
         this._atrib1_ = node;
     }
 
-    public TPontoEVirgula getPontoEVirgula()
-    {
-        return this._pontoEVirgula_;
-    }
-
-    public void setPontoEVirgula(TPontoEVirgula node)
-    {
-        if(this._pontoEVirgula_ != null)
-        {
-            this._pontoEVirgula_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._pontoEVirgula_ = node;
-    }
-
     @Override
     public String toString()
     {
         return ""
             + toString(this._identificador_)
-            + toString(this._seta_)
-            + toString(this._atrib1_)
-            + toString(this._pontoEVirgula_);
+            + toString(this._atrib1_);
     }
 
     @Override
@@ -170,21 +108,9 @@ public final class AAtribuicaoComandos extends PComandos
             return;
         }
 
-        if(this._seta_ == child)
-        {
-            this._seta_ = null;
-            return;
-        }
-
         if(this._atrib1_ == child)
         {
             this._atrib1_ = null;
-            return;
-        }
-
-        if(this._pontoEVirgula_ == child)
-        {
-            this._pontoEVirgula_ = null;
             return;
         }
 
@@ -201,21 +127,9 @@ public final class AAtribuicaoComandos extends PComandos
             return;
         }
 
-        if(this._seta_ == oldChild)
-        {
-            setSeta((TSeta) newChild);
-            return;
-        }
-
         if(this._atrib1_ == oldChild)
         {
             setAtrib1((PAtrib1) newChild);
-            return;
-        }
-
-        if(this._pontoEVirgula_ == oldChild)
-        {
-            setPontoEVirgula((TPontoEVirgula) newChild);
             return;
         }
 

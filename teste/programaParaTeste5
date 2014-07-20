@@ -1,8 +1,9 @@
 programa ola;
-const alguma inteiro;
+const alguma 2;
 var inteiro : teste,teste4;
 var inteiro : teste2;
-var inteiro : teste3;
+var caractere : teste3[2];
 inicio
-	teste <- 2;
+	teste2 <- 'ab';
+	teste3 <- 5;
 fim.

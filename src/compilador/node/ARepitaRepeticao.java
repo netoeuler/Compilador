@@ -2,18 +2,14 @@
 
 package compilador.node;
 
+import java.util.*;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
 public final class ARepitaRepeticao extends PRepeticao
 {
-    private TRepita _repita_;
-    private PParteComandos _parteComandos_;
-    private TAte _ate_;
-    private TAbreParen _abreParen_;
+    private final LinkedList<PComandos> _comandos_ = new LinkedList<PComandos>();
     private PExpressaoLogica _expressaoLogica_;
-    private TFechaParen _fechaParen_;
-    private TPontoEVirgula _pontoEVirgula_;
 
     public ARepitaRepeticao()
     {
@@ -21,28 +17,13 @@ public final class ARepitaRepeticao extends PRepeticao
     }
 
     public ARepitaRepeticao(
-        @SuppressWarnings("hiding") TRepita _repita_,
-        @SuppressWarnings("hiding") PParteComandos _parteComandos_,
-        @SuppressWarnings("hiding") TAte _ate_,
-        @SuppressWarnings("hiding") TAbreParen _abreParen_,
-        @SuppressWarnings("hiding") PExpressaoLogica _expressaoLogica_,
-        @SuppressWarnings("hiding") TFechaParen _fechaParen_,
-        @SuppressWarnings("hiding") TPontoEVirgula _pontoEVirgula_)
+        @SuppressWarnings("hiding") List<?> _comandos_,
+        @SuppressWarnings("hiding") PExpressaoLogica _expressaoLogica_)
     {
         // Constructor
-        setRepita(_repita_);
-
-        setParteComandos(_parteComandos_);
-
-        setAte(_ate_);
-
-        setAbreParen(_abreParen_);
+        setComandos(_comandos_);
 
         setExpressaoLogica(_expressaoLogica_);
-
-        setFechaParen(_fechaParen_);
-
-        setPontoEVirgula(_pontoEVirgula_);
 
     }
 
@@ -50,13 +31,8 @@ public final class ARepitaRepeticao extends PRepeticao
     public Object clone()
     {
         return new ARepitaRepeticao(
-            cloneNode(this._repita_),
-            cloneNode(this._parteComandos_),
-            cloneNode(this._ate_),
-            cloneNode(this._abreParen_),
-            cloneNode(this._expressaoLogica_),
-            cloneNode(this._fechaParen_),
-            cloneNode(this._pontoEVirgula_));
+            cloneList(this._comandos_),
+            cloneNode(this._expressaoLogica_));
     }
 
     @Override
@@ -65,104 +41,30 @@ public final class ARepitaRepeticao extends PRepeticao
         ((Analysis) sw).caseARepitaRepeticao(this);
     }
 
-    public TRepita getRepita()
+    public LinkedList<PComandos> getComandos()
     {
-        return this._repita_;
+        return this._comandos_;
     }
 
-    public void setRepita(TRepita node)
+    public void setComandos(List<?> list)
     {
-        if(this._repita_ != null)
+        for(PComandos e : this._comandos_)
         {
-            this._repita_.parent(null);
+            e.parent(null);
         }
+        this._comandos_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PComandos e = (PComandos) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._comandos_.add(e);
         }
-
-        this._repita_ = node;
-    }
-
-    public PParteComandos getParteComandos()
-    {
-        return this._parteComandos_;
-    }
-
-    public void setParteComandos(PParteComandos node)
-    {
-        if(this._parteComandos_ != null)
-        {
-            this._parteComandos_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._parteComandos_ = node;
-    }
-
-    public TAte getAte()
-    {
-        return this._ate_;
-    }
-
-    public void setAte(TAte node)
-    {
-        if(this._ate_ != null)
-        {
-            this._ate_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._ate_ = node;
-    }
-
-    public TAbreParen getAbreParen()
-    {
-        return this._abreParen_;
-    }
-
-    public void setAbreParen(TAbreParen node)
-    {
-        if(this._abreParen_ != null)
-        {
-            this._abreParen_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._abreParen_ = node;
     }
 
     public PExpressaoLogica getExpressaoLogica()
@@ -190,112 +92,26 @@ public final class ARepitaRepeticao extends PRepeticao
         this._expressaoLogica_ = node;
     }
 
-    public TFechaParen getFechaParen()
-    {
-        return this._fechaParen_;
-    }
-
-    public void setFechaParen(TFechaParen node)
-    {
-        if(this._fechaParen_ != null)
-        {
-            this._fechaParen_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._fechaParen_ = node;
-    }
-
-    public TPontoEVirgula getPontoEVirgula()
-    {
-        return this._pontoEVirgula_;
-    }
-
-    public void setPontoEVirgula(TPontoEVirgula node)
-    {
-        if(this._pontoEVirgula_ != null)
-        {
-            this._pontoEVirgula_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._pontoEVirgula_ = node;
-    }
-
     @Override
     public String toString()
     {
         return ""
-            + toString(this._repita_)
-            + toString(this._parteComandos_)
-            + toString(this._ate_)
-            + toString(this._abreParen_)
-            + toString(this._expressaoLogica_)
-            + toString(this._fechaParen_)
-            + toString(this._pontoEVirgula_);
+            + toString(this._comandos_)
+            + toString(this._expressaoLogica_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._repita_ == child)
+        if(this._comandos_.remove(child))
         {
-            this._repita_ = null;
-            return;
-        }
-
-        if(this._parteComandos_ == child)
-        {
-            this._parteComandos_ = null;
-            return;
-        }
-
-        if(this._ate_ == child)
-        {
-            this._ate_ = null;
-            return;
-        }
-
-        if(this._abreParen_ == child)
-        {
-            this._abreParen_ = null;
             return;
         }
 
         if(this._expressaoLogica_ == child)
         {
             this._expressaoLogica_ = null;
-            return;
-        }
-
-        if(this._fechaParen_ == child)
-        {
-            this._fechaParen_ = null;
-            return;
-        }
-
-        if(this._pontoEVirgula_ == child)
-        {
-            this._pontoEVirgula_ = null;
             return;
         }
 
@@ -306,45 +122,27 @@ public final class ARepitaRepeticao extends PRepeticao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._repita_ == oldChild)
+        for(ListIterator<PComandos> i = this._comandos_.listIterator(); i.hasNext();)
         {
-            setRepita((TRepita) newChild);
-            return;
-        }
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PComandos) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
 
-        if(this._parteComandos_ == oldChild)
-        {
-            setParteComandos((PParteComandos) newChild);
-            return;
-        }
-
-        if(this._ate_ == oldChild)
-        {
-            setAte((TAte) newChild);
-            return;
-        }
-
-        if(this._abreParen_ == oldChild)
-        {
-            setAbreParen((TAbreParen) newChild);
-            return;
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         if(this._expressaoLogica_ == oldChild)
         {
             setExpressaoLogica((PExpressaoLogica) newChild);
-            return;
-        }
-
-        if(this._fechaParen_ == oldChild)
-        {
-            setFechaParen((TFechaParen) newChild);
-            return;
-        }
-
-        if(this._pontoEVirgula_ == oldChild)
-        {
-            setPontoEVirgula((TPontoEVirgula) newChild);
             return;
         }
 

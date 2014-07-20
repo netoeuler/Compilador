@@ -2,20 +2,14 @@
 
 package compilador.node;
 
+import java.util.*;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
 public final class ACondicional extends PCondicional
 {
-    private TSe _se_;
-    private TAbreParen _abreParen_;
     private PExpressaoLogica _expressaoLogica_;
-    private TFechaParen _fechaParen_;
-    private TEntao _entao_;
-    private PParteComandos _parteComandos_;
-    private PCondSenao _condSenao_;
-    private TFimSe _fimSe_;
-    private TPontoEVirgula _pontoEVirgula_;
+    private final LinkedList<PComandos> _comandos_ = new LinkedList<PComandos>();
 
     public ACondicional()
     {
@@ -23,34 +17,13 @@ public final class ACondicional extends PCondicional
     }
 
     public ACondicional(
-        @SuppressWarnings("hiding") TSe _se_,
-        @SuppressWarnings("hiding") TAbreParen _abreParen_,
         @SuppressWarnings("hiding") PExpressaoLogica _expressaoLogica_,
-        @SuppressWarnings("hiding") TFechaParen _fechaParen_,
-        @SuppressWarnings("hiding") TEntao _entao_,
-        @SuppressWarnings("hiding") PParteComandos _parteComandos_,
-        @SuppressWarnings("hiding") PCondSenao _condSenao_,
-        @SuppressWarnings("hiding") TFimSe _fimSe_,
-        @SuppressWarnings("hiding") TPontoEVirgula _pontoEVirgula_)
+        @SuppressWarnings("hiding") List<?> _comandos_)
     {
         // Constructor
-        setSe(_se_);
-
-        setAbreParen(_abreParen_);
-
         setExpressaoLogica(_expressaoLogica_);
 
-        setFechaParen(_fechaParen_);
-
-        setEntao(_entao_);
-
-        setParteComandos(_parteComandos_);
-
-        setCondSenao(_condSenao_);
-
-        setFimSe(_fimSe_);
-
-        setPontoEVirgula(_pontoEVirgula_);
+        setComandos(_comandos_);
 
     }
 
@@ -58,71 +31,14 @@ public final class ACondicional extends PCondicional
     public Object clone()
     {
         return new ACondicional(
-            cloneNode(this._se_),
-            cloneNode(this._abreParen_),
             cloneNode(this._expressaoLogica_),
-            cloneNode(this._fechaParen_),
-            cloneNode(this._entao_),
-            cloneNode(this._parteComandos_),
-            cloneNode(this._condSenao_),
-            cloneNode(this._fimSe_),
-            cloneNode(this._pontoEVirgula_));
+            cloneList(this._comandos_));
     }
 
     @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseACondicional(this);
-    }
-
-    public TSe getSe()
-    {
-        return this._se_;
-    }
-
-    public void setSe(TSe node)
-    {
-        if(this._se_ != null)
-        {
-            this._se_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._se_ = node;
-    }
-
-    public TAbreParen getAbreParen()
-    {
-        return this._abreParen_;
-    }
-
-    public void setAbreParen(TAbreParen node)
-    {
-        if(this._abreParen_ != null)
-        {
-            this._abreParen_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._abreParen_ = node;
     }
 
     public PExpressaoLogica getExpressaoLogica()
@@ -150,226 +66,52 @@ public final class ACondicional extends PCondicional
         this._expressaoLogica_ = node;
     }
 
-    public TFechaParen getFechaParen()
+    public LinkedList<PComandos> getComandos()
     {
-        return this._fechaParen_;
+        return this._comandos_;
     }
 
-    public void setFechaParen(TFechaParen node)
+    public void setComandos(List<?> list)
     {
-        if(this._fechaParen_ != null)
+        for(PComandos e : this._comandos_)
         {
-            this._fechaParen_.parent(null);
+            e.parent(null);
         }
+        this._comandos_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PComandos e = (PComandos) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._comandos_.add(e);
         }
-
-        this._fechaParen_ = node;
-    }
-
-    public TEntao getEntao()
-    {
-        return this._entao_;
-    }
-
-    public void setEntao(TEntao node)
-    {
-        if(this._entao_ != null)
-        {
-            this._entao_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._entao_ = node;
-    }
-
-    public PParteComandos getParteComandos()
-    {
-        return this._parteComandos_;
-    }
-
-    public void setParteComandos(PParteComandos node)
-    {
-        if(this._parteComandos_ != null)
-        {
-            this._parteComandos_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._parteComandos_ = node;
-    }
-
-    public PCondSenao getCondSenao()
-    {
-        return this._condSenao_;
-    }
-
-    public void setCondSenao(PCondSenao node)
-    {
-        if(this._condSenao_ != null)
-        {
-            this._condSenao_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._condSenao_ = node;
-    }
-
-    public TFimSe getFimSe()
-    {
-        return this._fimSe_;
-    }
-
-    public void setFimSe(TFimSe node)
-    {
-        if(this._fimSe_ != null)
-        {
-            this._fimSe_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._fimSe_ = node;
-    }
-
-    public TPontoEVirgula getPontoEVirgula()
-    {
-        return this._pontoEVirgula_;
-    }
-
-    public void setPontoEVirgula(TPontoEVirgula node)
-    {
-        if(this._pontoEVirgula_ != null)
-        {
-            this._pontoEVirgula_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._pontoEVirgula_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._se_)
-            + toString(this._abreParen_)
             + toString(this._expressaoLogica_)
-            + toString(this._fechaParen_)
-            + toString(this._entao_)
-            + toString(this._parteComandos_)
-            + toString(this._condSenao_)
-            + toString(this._fimSe_)
-            + toString(this._pontoEVirgula_);
+            + toString(this._comandos_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._se_ == child)
-        {
-            this._se_ = null;
-            return;
-        }
-
-        if(this._abreParen_ == child)
-        {
-            this._abreParen_ = null;
-            return;
-        }
-
         if(this._expressaoLogica_ == child)
         {
             this._expressaoLogica_ = null;
             return;
         }
 
-        if(this._fechaParen_ == child)
+        if(this._comandos_.remove(child))
         {
-            this._fechaParen_ = null;
-            return;
-        }
-
-        if(this._entao_ == child)
-        {
-            this._entao_ = null;
-            return;
-        }
-
-        if(this._parteComandos_ == child)
-        {
-            this._parteComandos_ = null;
-            return;
-        }
-
-        if(this._condSenao_ == child)
-        {
-            this._condSenao_ = null;
-            return;
-        }
-
-        if(this._fimSe_ == child)
-        {
-            this._fimSe_ = null;
-            return;
-        }
-
-        if(this._pontoEVirgula_ == child)
-        {
-            this._pontoEVirgula_ = null;
             return;
         }
 
@@ -380,58 +122,28 @@ public final class ACondicional extends PCondicional
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._se_ == oldChild)
-        {
-            setSe((TSe) newChild);
-            return;
-        }
-
-        if(this._abreParen_ == oldChild)
-        {
-            setAbreParen((TAbreParen) newChild);
-            return;
-        }
-
         if(this._expressaoLogica_ == oldChild)
         {
             setExpressaoLogica((PExpressaoLogica) newChild);
             return;
         }
 
-        if(this._fechaParen_ == oldChild)
+        for(ListIterator<PComandos> i = this._comandos_.listIterator(); i.hasNext();)
         {
-            setFechaParen((TFechaParen) newChild);
-            return;
-        }
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PComandos) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
 
-        if(this._entao_ == oldChild)
-        {
-            setEntao((TEntao) newChild);
-            return;
-        }
-
-        if(this._parteComandos_ == oldChild)
-        {
-            setParteComandos((PParteComandos) newChild);
-            return;
-        }
-
-        if(this._condSenao_ == oldChild)
-        {
-            setCondSenao((PCondSenao) newChild);
-            return;
-        }
-
-        if(this._fimSe_ == oldChild)
-        {
-            setFimSe((TFimSe) newChild);
-            return;
-        }
-
-        if(this._pontoEVirgula_ == oldChild)
-        {
-            setPontoEVirgula((TPontoEVirgula) newChild);
-            return;
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         throw new RuntimeException("Not a child.");

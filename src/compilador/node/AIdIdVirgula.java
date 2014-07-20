@@ -7,7 +7,7 @@ import compilador.analysis.*;
 @SuppressWarnings("nls")
 public final class AIdIdVirgula extends PIdVirgula
 {
-    private TIdentificador _identificador_;
+    private PVariavel _variavel_;
 
     public AIdIdVirgula()
     {
@@ -15,10 +15,10 @@ public final class AIdIdVirgula extends PIdVirgula
     }
 
     public AIdIdVirgula(
-        @SuppressWarnings("hiding") TIdentificador _identificador_)
+        @SuppressWarnings("hiding") PVariavel _variavel_)
     {
         // Constructor
-        setIdentificador(_identificador_);
+        setVariavel(_variavel_);
 
     }
 
@@ -26,7 +26,7 @@ public final class AIdIdVirgula extends PIdVirgula
     public Object clone()
     {
         return new AIdIdVirgula(
-            cloneNode(this._identificador_));
+            cloneNode(this._variavel_));
     }
 
     @Override
@@ -35,16 +35,16 @@ public final class AIdIdVirgula extends PIdVirgula
         ((Analysis) sw).caseAIdIdVirgula(this);
     }
 
-    public TIdentificador getIdentificador()
+    public PVariavel getVariavel()
     {
-        return this._identificador_;
+        return this._variavel_;
     }
 
-    public void setIdentificador(TIdentificador node)
+    public void setVariavel(PVariavel node)
     {
-        if(this._identificador_ != null)
+        if(this._variavel_ != null)
         {
-            this._identificador_.parent(null);
+            this._variavel_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class AIdIdVirgula extends PIdVirgula
             node.parent(this);
         }
 
-        this._identificador_ = node;
+        this._variavel_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._identificador_);
+            + toString(this._variavel_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._identificador_ == child)
+        if(this._variavel_ == child)
         {
-            this._identificador_ = null;
+            this._variavel_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class AIdIdVirgula extends PIdVirgula
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._identificador_ == oldChild)
+        if(this._variavel_ == oldChild)
         {
-            setIdentificador((TIdentificador) newChild);
+            setVariavel((PVariavel) newChild);
             return;
         }
 

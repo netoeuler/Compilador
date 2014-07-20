@@ -117,18 +117,6 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseASocomandoParteComandos(ASocomandoParteComandos node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAOutrocomandoParteComandos(AOutrocomandoParteComandos node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
     public void caseAAtribuicaoComandos(AAtribuicaoComandos node)
     {
         defaultCase(node);

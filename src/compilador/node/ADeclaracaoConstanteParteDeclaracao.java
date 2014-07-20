@@ -8,7 +8,7 @@ import compilador.analysis.*;
 public final class ADeclaracaoConstanteParteDeclaracao extends PParteDeclaracao
 {
     private TIdentificador _identificador_;
-    private PTipo _tipo_;
+    private PValor _valor_;
 
     public ADeclaracaoConstanteParteDeclaracao()
     {
@@ -17,12 +17,12 @@ public final class ADeclaracaoConstanteParteDeclaracao extends PParteDeclaracao
 
     public ADeclaracaoConstanteParteDeclaracao(
         @SuppressWarnings("hiding") TIdentificador _identificador_,
-        @SuppressWarnings("hiding") PTipo _tipo_)
+        @SuppressWarnings("hiding") PValor _valor_)
     {
         // Constructor
         setIdentificador(_identificador_);
 
-        setTipo(_tipo_);
+        setValor(_valor_);
 
     }
 
@@ -31,7 +31,7 @@ public final class ADeclaracaoConstanteParteDeclaracao extends PParteDeclaracao
     {
         return new ADeclaracaoConstanteParteDeclaracao(
             cloneNode(this._identificador_),
-            cloneNode(this._tipo_));
+            cloneNode(this._valor_));
     }
 
     @Override
@@ -65,16 +65,16 @@ public final class ADeclaracaoConstanteParteDeclaracao extends PParteDeclaracao
         this._identificador_ = node;
     }
 
-    public PTipo getTipo()
+    public PValor getValor()
     {
-        return this._tipo_;
+        return this._valor_;
     }
 
-    public void setTipo(PTipo node)
+    public void setValor(PValor node)
     {
-        if(this._tipo_ != null)
+        if(this._valor_ != null)
         {
-            this._tipo_.parent(null);
+            this._valor_.parent(null);
         }
 
         if(node != null)
@@ -87,7 +87,7 @@ public final class ADeclaracaoConstanteParteDeclaracao extends PParteDeclaracao
             node.parent(this);
         }
 
-        this._tipo_ = node;
+        this._valor_ = node;
     }
 
     @Override
@@ -95,7 +95,7 @@ public final class ADeclaracaoConstanteParteDeclaracao extends PParteDeclaracao
     {
         return ""
             + toString(this._identificador_)
-            + toString(this._tipo_);
+            + toString(this._valor_);
     }
 
     @Override
@@ -108,9 +108,9 @@ public final class ADeclaracaoConstanteParteDeclaracao extends PParteDeclaracao
             return;
         }
 
-        if(this._tipo_ == child)
+        if(this._valor_ == child)
         {
-            this._tipo_ = null;
+            this._valor_ = null;
             return;
         }
 
@@ -127,9 +127,9 @@ public final class ADeclaracaoConstanteParteDeclaracao extends PParteDeclaracao
             return;
         }
 
-        if(this._tipo_ == oldChild)
+        if(this._valor_ == oldChild)
         {
-            setTipo((PTipo) newChild);
+            setValor((PValor) newChild);
             return;
         }
 

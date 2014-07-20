@@ -10,7 +10,7 @@ public final class AEsqueletoPrograma extends PEsqueletoPrograma
 {
     private TIdentificador _identificador_;
     private final LinkedList<PParteDeclaracao> _parteDeclaracao_ = new LinkedList<PParteDeclaracao>();
-    private PParteComandos _parteComandos_;
+    private final LinkedList<PComandos> _comandos_ = new LinkedList<PComandos>();
 
     public AEsqueletoPrograma()
     {
@@ -20,14 +20,14 @@ public final class AEsqueletoPrograma extends PEsqueletoPrograma
     public AEsqueletoPrograma(
         @SuppressWarnings("hiding") TIdentificador _identificador_,
         @SuppressWarnings("hiding") List<?> _parteDeclaracao_,
-        @SuppressWarnings("hiding") PParteComandos _parteComandos_)
+        @SuppressWarnings("hiding") List<?> _comandos_)
     {
         // Constructor
         setIdentificador(_identificador_);
 
         setParteDeclaracao(_parteDeclaracao_);
 
-        setParteComandos(_parteComandos_);
+        setComandos(_comandos_);
 
     }
 
@@ -37,7 +37,7 @@ public final class AEsqueletoPrograma extends PEsqueletoPrograma
         return new AEsqueletoPrograma(
             cloneNode(this._identificador_),
             cloneList(this._parteDeclaracao_),
-            cloneNode(this._parteComandos_));
+            cloneList(this._comandos_));
     }
 
     @Override
@@ -97,29 +97,30 @@ public final class AEsqueletoPrograma extends PEsqueletoPrograma
         }
     }
 
-    public PParteComandos getParteComandos()
+    public LinkedList<PComandos> getComandos()
     {
-        return this._parteComandos_;
+        return this._comandos_;
     }
 
-    public void setParteComandos(PParteComandos node)
+    public void setComandos(List<?> list)
     {
-        if(this._parteComandos_ != null)
+        for(PComandos e : this._comandos_)
         {
-            this._parteComandos_.parent(null);
+            e.parent(null);
         }
+        this._comandos_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PComandos e = (PComandos) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._comandos_.add(e);
         }
-
-        this._parteComandos_ = node;
     }
 
     @Override
@@ -128,7 +129,7 @@ public final class AEsqueletoPrograma extends PEsqueletoPrograma
         return ""
             + toString(this._identificador_)
             + toString(this._parteDeclaracao_)
-            + toString(this._parteComandos_);
+            + toString(this._comandos_);
     }
 
     @Override
@@ -146,9 +147,8 @@ public final class AEsqueletoPrograma extends PEsqueletoPrograma
             return;
         }
 
-        if(this._parteComandos_ == child)
+        if(this._comandos_.remove(child))
         {
-            this._parteComandos_ = null;
             return;
         }
 
@@ -183,10 +183,22 @@ public final class AEsqueletoPrograma extends PEsqueletoPrograma
             }
         }
 
-        if(this._parteComandos_ == oldChild)
+        for(ListIterator<PComandos> i = this._comandos_.listIterator(); i.hasNext();)
         {
-            setParteComandos((PParteComandos) newChild);
-            return;
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PComandos) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         throw new RuntimeException("Not a child.");

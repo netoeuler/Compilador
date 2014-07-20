@@ -19,8 +19,6 @@ public interface Analysis extends Switch
     void caseARealTipo(ARealTipo node);
     void caseAInteiroTipo(AInteiroTipo node);
     void caseACaractereTipo(ACaractereTipo node);
-    void caseASocomandoParteComandos(ASocomandoParteComandos node);
-    void caseAOutrocomandoParteComandos(AOutrocomandoParteComandos node);
     void caseAAtribuicaoComandos(AAtribuicaoComandos node);
     void caseALeiaComandos(ALeiaComandos node);
     void caseAEscrevaComandos(AEscrevaComandos node);
