@@ -8,7 +8,6 @@ import compilador.analysis.*;
 public final class AMultTermo extends PTermo
 {
     private PTermo _termo_;
-    private TMult _mult_;
     private PFator _fator_;
 
     public AMultTermo()
@@ -18,13 +17,10 @@ public final class AMultTermo extends PTermo
 
     public AMultTermo(
         @SuppressWarnings("hiding") PTermo _termo_,
-        @SuppressWarnings("hiding") TMult _mult_,
         @SuppressWarnings("hiding") PFator _fator_)
     {
         // Constructor
         setTermo(_termo_);
-
-        setMult(_mult_);
 
         setFator(_fator_);
 
@@ -35,7 +31,6 @@ public final class AMultTermo extends PTermo
     {
         return new AMultTermo(
             cloneNode(this._termo_),
-            cloneNode(this._mult_),
             cloneNode(this._fator_));
     }
 
@@ -70,31 +65,6 @@ public final class AMultTermo extends PTermo
         this._termo_ = node;
     }
 
-    public TMult getMult()
-    {
-        return this._mult_;
-    }
-
-    public void setMult(TMult node)
-    {
-        if(this._mult_ != null)
-        {
-            this._mult_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._mult_ = node;
-    }
-
     public PFator getFator()
     {
         return this._fator_;
@@ -125,7 +95,6 @@ public final class AMultTermo extends PTermo
     {
         return ""
             + toString(this._termo_)
-            + toString(this._mult_)
             + toString(this._fator_);
     }
 
@@ -136,12 +105,6 @@ public final class AMultTermo extends PTermo
         if(this._termo_ == child)
         {
             this._termo_ = null;
-            return;
-        }
-
-        if(this._mult_ == child)
-        {
-            this._mult_ = null;
             return;
         }
 
@@ -161,12 +124,6 @@ public final class AMultTermo extends PTermo
         if(this._termo_ == oldChild)
         {
             setTermo((PTermo) newChild);
-            return;
-        }
-
-        if(this._mult_ == oldChild)
-        {
-            setMult((TMult) newChild);
             return;
         }
 

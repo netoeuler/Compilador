@@ -8,7 +8,6 @@ import compilador.analysis.*;
 public final class AMenosExpressao extends PExpressao
 {
     private PExpressao _expressao_;
-    private TMenos _menos_;
     private PTermo _termo_;
 
     public AMenosExpressao()
@@ -18,13 +17,10 @@ public final class AMenosExpressao extends PExpressao
 
     public AMenosExpressao(
         @SuppressWarnings("hiding") PExpressao _expressao_,
-        @SuppressWarnings("hiding") TMenos _menos_,
         @SuppressWarnings("hiding") PTermo _termo_)
     {
         // Constructor
         setExpressao(_expressao_);
-
-        setMenos(_menos_);
 
         setTermo(_termo_);
 
@@ -35,7 +31,6 @@ public final class AMenosExpressao extends PExpressao
     {
         return new AMenosExpressao(
             cloneNode(this._expressao_),
-            cloneNode(this._menos_),
             cloneNode(this._termo_));
     }
 
@@ -70,31 +65,6 @@ public final class AMenosExpressao extends PExpressao
         this._expressao_ = node;
     }
 
-    public TMenos getMenos()
-    {
-        return this._menos_;
-    }
-
-    public void setMenos(TMenos node)
-    {
-        if(this._menos_ != null)
-        {
-            this._menos_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._menos_ = node;
-    }
-
     public PTermo getTermo()
     {
         return this._termo_;
@@ -125,7 +95,6 @@ public final class AMenosExpressao extends PExpressao
     {
         return ""
             + toString(this._expressao_)
-            + toString(this._menos_)
             + toString(this._termo_);
     }
 
@@ -136,12 +105,6 @@ public final class AMenosExpressao extends PExpressao
         if(this._expressao_ == child)
         {
             this._expressao_ = null;
-            return;
-        }
-
-        if(this._menos_ == child)
-        {
-            this._menos_ = null;
             return;
         }
 
@@ -161,12 +124,6 @@ public final class AMenosExpressao extends PExpressao
         if(this._expressao_ == oldChild)
         {
             setExpressao((PExpressao) newChild);
-            return;
-        }
-
-        if(this._menos_ == oldChild)
-        {
-            setMenos((TMenos) newChild);
             return;
         }
 

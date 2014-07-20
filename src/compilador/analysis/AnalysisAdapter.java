@@ -141,6 +141,12 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseAAvalieComandos(AAvalieComandos node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseARepeticaoComandos(ARepeticaoComandos node)
     {
         defaultCase(node);
@@ -244,6 +250,18 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseAParaSubAte(AParaSubAte node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAAvalieCasoSub(AAvalieCasoSub node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAAvalieSenao(AAvalieSenao node)
     {
         defaultCase(node);
     }
@@ -741,6 +759,18 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseTAvalie(TAvalie node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTCaso(TCaso node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseTInicio(TInicio node)
     {
         defaultCase(node);
@@ -766,6 +796,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTFimPara(TFimPara node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTFimAvalie(TFimAvalie node)
     {
         defaultCase(node);
     }

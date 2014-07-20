@@ -315,6 +315,27 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outACondicionalComandos(node);
     }
 
+    public void inAAvalieComandos(AAvalieComandos node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAAvalieComandos(AAvalieComandos node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAAvalieComandos(AAvalieComandos node)
+    {
+        inAAvalieComandos(node);
+        if(node.getExpressao() != null)
+        {
+            node.getExpressao().apply(this);
+        }
+        outAAvalieComandos(node);
+    }
+
     public void inARepeticaoComandos(ARepeticaoComandos node)
     {
         defaultIn(node);
@@ -761,6 +782,56 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAParaSubAte(node);
     }
 
+    public void inAAvalieCasoSub(AAvalieCasoSub node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAAvalieCasoSub(AAvalieCasoSub node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAAvalieCasoSub(AAvalieCasoSub node)
+    {
+        inAAvalieCasoSub(node);
+        {
+            List<PComandos> copy = new ArrayList<PComandos>(node.getComandos());
+            Collections.reverse(copy);
+            for(PComandos e : copy)
+            {
+                e.apply(this);
+            }
+        }
+        outAAvalieCasoSub(node);
+    }
+
+    public void inAAvalieSenao(AAvalieSenao node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAAvalieSenao(AAvalieSenao node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAAvalieSenao(AAvalieSenao node)
+    {
+        inAAvalieSenao(node);
+        {
+            List<PComandos> copy = new ArrayList<PComandos>(node.getComandos());
+            Collections.reverse(copy);
+            for(PComandos e : copy)
+            {
+                e.apply(this);
+            }
+        }
+        outAAvalieSenao(node);
+    }
+
     public void inAStringValor(AStringValor node)
     {
         defaultIn(node);
@@ -1064,10 +1135,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         {
             node.getTermo().apply(this);
         }
-        if(node.getMais() != null)
-        {
-            node.getMais().apply(this);
-        }
         if(node.getExpressao() != null)
         {
             node.getExpressao().apply(this);
@@ -1092,10 +1159,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         if(node.getTermo() != null)
         {
             node.getTermo().apply(this);
-        }
-        if(node.getMenos() != null)
-        {
-            node.getMenos().apply(this);
         }
         if(node.getExpressao() != null)
         {
@@ -1143,10 +1206,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         {
             node.getFator().apply(this);
         }
-        if(node.getMult() != null)
-        {
-            node.getMult().apply(this);
-        }
         if(node.getTermo() != null)
         {
             node.getTermo().apply(this);
@@ -1171,10 +1230,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         if(node.getFator() != null)
         {
             node.getFator().apply(this);
-        }
-        if(node.getDivisao() != null)
-        {
-            node.getDivisao().apply(this);
         }
         if(node.getTermo() != null)
         {

@@ -5,39 +5,34 @@ package compilador.node;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AMaisExpressao extends PExpressao
+public final class AAvalieComandos extends PComandos
 {
     private PExpressao _expressao_;
-    private PTermo _termo_;
 
-    public AMaisExpressao()
+    public AAvalieComandos()
     {
         // Constructor
     }
 
-    public AMaisExpressao(
-        @SuppressWarnings("hiding") PExpressao _expressao_,
-        @SuppressWarnings("hiding") PTermo _termo_)
+    public AAvalieComandos(
+        @SuppressWarnings("hiding") PExpressao _expressao_)
     {
         // Constructor
         setExpressao(_expressao_);
-
-        setTermo(_termo_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AMaisExpressao(
-            cloneNode(this._expressao_),
-            cloneNode(this._termo_));
+        return new AAvalieComandos(
+            cloneNode(this._expressao_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAMaisExpressao(this);
+        ((Analysis) sw).caseAAvalieComandos(this);
     }
 
     public PExpressao getExpressao()
@@ -65,37 +60,11 @@ public final class AMaisExpressao extends PExpressao
         this._expressao_ = node;
     }
 
-    public PTermo getTermo()
-    {
-        return this._termo_;
-    }
-
-    public void setTermo(PTermo node)
-    {
-        if(this._termo_ != null)
-        {
-            this._termo_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._termo_ = node;
-    }
-
     @Override
     public String toString()
     {
         return ""
-            + toString(this._expressao_)
-            + toString(this._termo_);
+            + toString(this._expressao_);
     }
 
     @Override
@@ -105,12 +74,6 @@ public final class AMaisExpressao extends PExpressao
         if(this._expressao_ == child)
         {
             this._expressao_ = null;
-            return;
-        }
-
-        if(this._termo_ == child)
-        {
-            this._termo_ = null;
             return;
         }
 
@@ -124,12 +87,6 @@ public final class AMaisExpressao extends PExpressao
         if(this._expressao_ == oldChild)
         {
             setExpressao((PExpressao) newChild);
-            return;
-        }
-
-        if(this._termo_ == oldChild)
-        {
-            setTermo((PTermo) newChild);
             return;
         }
 

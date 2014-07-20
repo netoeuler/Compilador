@@ -19,16 +19,16 @@ import compilador.node.TNumeroReal;
 public class AnalisadorSemantico extends DepthFirstAdapter{
 	
 	private final String VARIAVEL = "var";
-	private final String CONSTANTE = "const";
+	private final String CONSTANTE = "const";	
 	
-	//private final String INTEIRO
+	private final int QTD_DADOS = 3;
 	
 	/**
+	 * Object[] dadosSimbolo:
 	 * 0 - tipo (inteiro,real,string)
 	 * 1 - variável/constante 
 	 * 2 - valor atribuído à variável
 	 */
-	private final int QTD_DADOS = 3;
 	
 	HashMap<String, Object[]> tabelaDeSimbolos;
 	

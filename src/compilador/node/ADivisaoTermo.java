@@ -8,7 +8,6 @@ import compilador.analysis.*;
 public final class ADivisaoTermo extends PTermo
 {
     private PTermo _termo_;
-    private TDivisao _divisao_;
     private PFator _fator_;
 
     public ADivisaoTermo()
@@ -18,13 +17,10 @@ public final class ADivisaoTermo extends PTermo
 
     public ADivisaoTermo(
         @SuppressWarnings("hiding") PTermo _termo_,
-        @SuppressWarnings("hiding") TDivisao _divisao_,
         @SuppressWarnings("hiding") PFator _fator_)
     {
         // Constructor
         setTermo(_termo_);
-
-        setDivisao(_divisao_);
 
         setFator(_fator_);
 
@@ -35,7 +31,6 @@ public final class ADivisaoTermo extends PTermo
     {
         return new ADivisaoTermo(
             cloneNode(this._termo_),
-            cloneNode(this._divisao_),
             cloneNode(this._fator_));
     }
 
@@ -70,31 +65,6 @@ public final class ADivisaoTermo extends PTermo
         this._termo_ = node;
     }
 
-    public TDivisao getDivisao()
-    {
-        return this._divisao_;
-    }
-
-    public void setDivisao(TDivisao node)
-    {
-        if(this._divisao_ != null)
-        {
-            this._divisao_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._divisao_ = node;
-    }
-
     public PFator getFator()
     {
         return this._fator_;
@@ -125,7 +95,6 @@ public final class ADivisaoTermo extends PTermo
     {
         return ""
             + toString(this._termo_)
-            + toString(this._divisao_)
             + toString(this._fator_);
     }
 
@@ -136,12 +105,6 @@ public final class ADivisaoTermo extends PTermo
         if(this._termo_ == child)
         {
             this._termo_ = null;
-            return;
-        }
-
-        if(this._divisao_ == child)
-        {
-            this._divisao_ = null;
             return;
         }
 
@@ -161,12 +124,6 @@ public final class ADivisaoTermo extends PTermo
         if(this._termo_ == oldChild)
         {
             setTermo((PTermo) newChild);
-            return;
-        }
-
-        if(this._divisao_ == oldChild)
-        {
-            setDivisao((TDivisao) newChild);
             return;
         }
 

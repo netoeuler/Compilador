@@ -23,6 +23,7 @@ public interface Analysis extends Switch
     void caseALeiaComandos(ALeiaComandos node);
     void caseAEscrevaComandos(AEscrevaComandos node);
     void caseACondicionalComandos(ACondicionalComandos node);
+    void caseAAvalieComandos(AAvalieComandos node);
     void caseARepeticaoComandos(ARepeticaoComandos node);
     void caseAIdIdVirgula(AIdIdVirgula node);
     void caseAIdvirgulaIdVirgula(AIdvirgulaIdVirgula node);
@@ -41,6 +42,8 @@ public interface Analysis extends Switch
     void caseAPassoateParaSubPasso(APassoateParaSubPasso node);
     void caseAAteParaSubPasso(AAteParaSubPasso node);
     void caseAParaSubAte(AParaSubAte node);
+    void caseAAvalieCasoSub(AAvalieCasoSub node);
+    void caseAAvalieSenao(AAvalieSenao node);
     void caseAStringValor(AStringValor node);
     void caseANumeroInteiroValor(ANumeroInteiroValor node);
     void caseANumeroRealValor(ANumeroRealValor node);
@@ -124,11 +127,14 @@ public interface Analysis extends Switch
     void caseTPara(TPara node);
     void caseTDe(TDe node);
     void caseTPasso(TPasso node);
+    void caseTAvalie(TAvalie node);
+    void caseTCaso(TCaso node);
     void caseTInicio(TInicio node);
     void caseTFimPonto(TFimPonto node);
     void caseTFimSe(TFimSe node);
     void caseTFimEnquanto(TFimEnquanto node);
     void caseTFimPara(TFimPara node);
+    void caseTFimAvalie(TFimAvalie node);
     void caseTFim(TFim node);
     void caseTReal(TReal node);
     void caseTInteiro(TInteiro node);

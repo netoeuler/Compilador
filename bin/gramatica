@@ -75,11 +75,14 @@ Tokens
     para = 'para';
     de = 'de';
     passo = 'passo';
+    avalie = 'avalie';
+    caso = 'caso';
     inicio = 'inicio';
     fim_ponto = 'fim.';
     fim_se = 'fim' hchar_ignored+ 'se';    
     fim_enquanto = 'fim' hchar_ignored+ 'enquanto';
     fim_para = 'fim para';
+    fim_avalie = 'fim avalie';
     fim = 'fim';
     
     real = 'real';
@@ -113,6 +116,7 @@ Productions
                     | {leia} leia abre_paren id_virgula fecha_paren ponto_e_virgula {-> New comandos.leia(id_virgula)}
                     | {escreva} escreva abre_paren exp_virgula? expressao fecha_paren ponto_e_virgula {-> New comandos.escreva(escreva,abre_paren,exp_virgula,expressao,fecha_paren,ponto_e_virgula)}
                     | {condicional} condicional {-> New comandos.condicional(condicional)}
+                    | {avalie} avalie abre_paren expressao fecha_paren avalie_caso? avalie_senao? fim_avalie {-> New comandos.avalie(expressao)}
                     | {repeticao} repeticao {-> New comandos.repeticao(repeticao)};
     
     condicional {-> condicional} = se abre_paren expressao_logica fecha_paren entao parte_comandos cond_senao fim_se ponto_e_virgula
@@ -129,8 +133,7 @@ Productions
             {-> New repeticao.para(numero_inteiro,[comandos])};
     
     id_virgula {-> id_virgula}= {id} variavel {-> New id_virgula.id(variavel)}    		
-    		| {idv} variavel virgula id_virgula {-> New id_virgula.idvirgula(variavel,id_virgula)};
-    
+    		| {idv} variavel virgula id_virgula {-> New id_virgula.idvirgula(variavel,id_virgula)};    
     exp_virgula {-> exp_virgula} = {exp_virgula} expressao virgula {-> New exp_virgula(expressao,virgula)};
     fim_para_ponto_virgula = {fp_pv} fim_para ponto_e_virgula;
     atrib1 {-> atrib1} = {atrib_id} identificador {-> New atrib1.identificador(identificador)}
@@ -141,6 +144,9 @@ Productions
     para_sub_passo {-> para_sub_passo} = {p_sub_passo1} passo numero_inteiro para_sub_ate {-> New para_sub_passo.passoate(passo,numero_inteiro,para_sub_ate)} 
     				| {p_sub_passo2} para_sub_ate {-> New para_sub_passo.ate(para_sub_ate)};
     para_sub_ate {-> para_sub_ate} = {p_sub_ate} ate numero_inteiro {-> New para_sub_ate(ate,numero_inteiro)};
+    avalie_caso {-> avalie_caso_sub*} = avalie_caso_sub+ {-> [avalie_caso_sub]};
+    avalie_caso_sub = caso valor dois_pontos parte_comandos {-> New avalie_caso_sub([parte_comandos.comandos])};
+    avalie_senao {-> avalie_senao}= senao dois_pontos parte_comandos {-> New avalie_senao([parte_comandos.comandos])};
     
     valor {-> valor}= {v1} string {-> New valor.string(string)} 
     				| {v2} numero_inteiro {-> New valor.numero_inteiro(numero_inteiro)} 
@@ -166,11 +172,11 @@ Productions
     
     expressao_geral = {e1} expressao | {e2} expressao_logica;
     
-    expressao {-> expressao} = {exp1} expressao mais termo {-> New expressao.mais(expressao,mais,termo)} 
-    			| {exp2} expressao menos termo {-> New expressao.menos(expressao,menos,termo)}
+    expressao {-> expressao} = {exp1} expressao mais termo {-> New expressao.mais(expressao,termo)} 
+    			| {exp2} expressao menos termo {-> New expressao.menos(expressao,termo)}
     			| {termo} termo {-> New expressao.termo(termo)};
-    termo {-> termo} = {term1} termo mult fator {-> New termo.mult(termo,mult,fator)}
-    		| {term2} termo divisao fator {-> New termo.divisao(termo,divisao,fator)}
+    termo {-> termo} = {term1} termo mult fator {-> New termo.mult(termo,fator)}
+    		| {term2} termo divisao fator {-> New termo.divisao(termo,fator)}
     		| {fator} fator {-> New termo.fator(fator)};
     fator {-> fator} = {fator1} abre_paren expressao fecha_paren {-> New fator.paren(abre_paren,expressao,fecha_paren)}
     		| {valor} valor {-> New fator.valor(valor)} 
@@ -203,6 +209,7 @@ Abstract Syntax Tree
                     | {leia} id_virgula
                     | {escreva} escreva abre_paren exp_virgula? expressao fecha_paren ponto_e_virgula
                     | {condicional} condicional
+                    | {avalie} expressao
                     | {repeticao} repeticao;
 	
 	id_virgula = {id} variavel | {idvirgula} variavel id_virgula;
@@ -218,6 +225,8 @@ Abstract Syntax Tree
 	para_sub = ate numero_inteiro para_sub_passo;
     para_sub_passo = {passoate} passo numero_inteiro para_sub_ate | {ate} para_sub_ate;
     para_sub_ate = ate numero_inteiro;
+	avalie_caso_sub = comandos*;
+    avalie_senao = comandos*;
 	
 	valor = {string} string | {numero_inteiro} numero_inteiro | {numero_real} numero_real;
 	variavel = {identificador} identificador | {vetor} identificador abre_colchete numero_inteiro fecha_colchete;	
@@ -226,8 +235,8 @@ Abstract Syntax Tree
     op_logico_ou = {ou} ou | {xor} xor;    
 	op_relacional_comp = {menor} menor | {menor_igual} menor_igual | {maior} maior | {maior_igual} maior_igual;
     
-    expressao = {mais} expressao mais termo | {menos} expressao menos termo | {termo} termo;
-    termo = {mult} termo mult fator | {divisao} termo divisao fator | {fator} fator;
+    expressao = {mais} expressao termo | {menos} expressao termo | {termo} termo;
+    termo = {mult} termo fator | {divisao} termo fator | {fator} fator;
     fator = {paren} abre_paren expressao fecha_paren | {valor} valor | {variavel} variavel;
     
     expressao_logica = {op_logico} expressao_logica op_logico_ou termo_log | {termo_log} termo_log;

@@ -4,6 +4,12 @@ var inteiro : teste,teste4;
 var inteiro : teste2;
 var caractere : teste3[2];
 inicio
-	teste2 <- 'ab';
-	teste3 <- 5;
+	//teste2 <- 'ab';
+	//teste3 <- 5;
+	
+	avalie (teste2)
+		caso 1: escreva('a');
+		caso 2: escreva('a2');
+		senao: escreva('b');
+	fim avalie
 fim.
