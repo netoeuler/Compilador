@@ -18,11 +18,11 @@ Helpers
     nao_cr_lf = [qualquer_char - [13 + 10]];
     nao_estrela = [qualquer_char - '*'];
     nao_estrela_barra = [nao_estrela - '/'];
-    hstring = ''' [nao_cr_lf - ''']+ ''';
+    hstring = ''' [nao_cr_lf - ''']+ ''';    
  
 Tokens
-    comment_line = '//' [qualquer_char - 10]* hchar_ignored*;
-    coment_bloco = '/*' nao_estrela* '*'+ (nao_estrela_barra nao_estrela* '*'+)* '/';
+    comentario_linha = '//' [qualquer_char - 10]* hchar_ignored*;
+    comentario_bloco = '/*' nao_estrela* '*'+ (nao_estrela_barra nao_estrela* '*'+)* '/';
     
     underscore = hunderscore;
     numero_real = digito? ',' digito+;
@@ -96,7 +96,7 @@ Tokens
     char_ignored = hchar_ignored;
     
 Ignored Tokens
-    char_ignored, comment_line;
+    char_ignored, comentario_linha, comentario_bloco;
     
 Productions
     start {-> start}= {start} esqueleto_programa {-> New start(esqueleto_programa)};

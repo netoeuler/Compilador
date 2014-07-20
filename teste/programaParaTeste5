@@ -7,6 +7,8 @@ inicio
 	//teste2 <- 'ab';
 	//teste3 <- 5;
 	
+	teste3 <- 'abcd';
+	
 	avalie (teste2)
 		caso 1: escreva('a');
 		caso 2: escreva('a2');

@@ -80,8 +80,8 @@ public interface Analysis extends Switch
     void caseAVariavelFatorRel(AVariavelFatorRel node);
     void caseAParen(AParen node);
 
-    void caseTCommentLine(TCommentLine node);
-    void caseTComentBloco(TComentBloco node);
+    void caseTComentarioLinha(TComentarioLinha node);
+    void caseTComentarioBloco(TComentarioBloco node);
     void caseTUnderscore(TUnderscore node);
     void caseTNumeroReal(TNumeroReal node);
     void caseTNumeroInteiro(TNumeroInteiro node);
