@@ -114,7 +114,7 @@ Productions
     parte_comandos {-> comandos*} = comandos+ {-> [comandos]};
     comandos {-> comandos} = {atribuicao} variavel seta expressao ponto_e_virgula {-> New comandos.atribuicao(variavel,expressao)}
                     | {leia} leia abre_paren id_virgula fecha_paren ponto_e_virgula {-> New comandos.leia(id_virgula)}
-                    | {escreva} escreva abre_paren exp_virgula? expressao fecha_paren ponto_e_virgula {-> New comandos.escreva(escreva,abre_paren,exp_virgula,expressao,fecha_paren,ponto_e_virgula)}
+                    | {escreva} escreva abre_paren exp_virgula_lista? expressao fecha_paren ponto_e_virgula {-> New comandos.escreva([exp_virgula_lista.exp_virgula],expressao)}
                     | {condicional} condicional {-> New comandos.condicional(condicional)}
                     | {avalie} avalie abre_paren expressao fecha_paren avalie_caso? avalie_senao? fim_avalie {-> New comandos.avalie(expressao)}
                     | {repeticao} repeticao {-> New comandos.repeticao(repeticao)};
@@ -134,7 +134,8 @@ Productions
     
     id_virgula {-> id_virgula}= {id} variavel {-> New id_virgula.id(variavel)}    		
     		| {idv} variavel virgula id_virgula {-> New id_virgula.idvirgula(variavel,id_virgula)};    
-    exp_virgula {-> exp_virgula} = {exp_virgula} expressao virgula {-> New exp_virgula(expressao,virgula)};
+    exp_virgula_lista {-> exp_virgula*} = exp_virgula+ {-> [exp_virgula]};
+    exp_virgula {-> exp_virgula} = expressao virgula {-> New exp_virgula(expressao)};    
     fim_para_ponto_virgula = {fp_pv} fim_para ponto_e_virgula;
     atrib1 {-> atrib1} = {atrib_id} identificador {-> New atrib1.identificador(identificador)}
     				| {atrib_numi} numero_inteiro {-> New atrib1.numero_inteiro(numero_inteiro)} 
@@ -153,7 +154,7 @@ Productions
     				| {v3} numero_real {-> New valor.numero_real(numero_real)};
     variavel {-> variavel}= {v1} identificador {-> New variavel.identificador(identificador)} 
     				| {v2} identificador abre_colchete numero_inteiro fecha_colchete
-    				{-> New variavel.vetor(identificador,abre_colchete,numero_inteiro,fecha_colchete)};
+    				{-> New variavel.vetor(identificador,numero_inteiro)};
      
     tipo {-> tipo} = {real} real {-> New tipo.real(real)}
     				| {int} inteiro {-> New tipo.inteiro(inteiro)}
@@ -207,14 +208,14 @@ Abstract Syntax Tree
 	
 	comandos = {atribuicao} variavel expressao
                     | {leia} id_virgula
-                    | {escreva} escreva abre_paren exp_virgula? expressao fecha_paren ponto_e_virgula
+                    | {escreva} exp_virgula* expressao
                     | {condicional} condicional
                     | {avalie} expressao
                     | {repeticao} repeticao;
 	
 	id_virgula = {id} variavel | {idvirgula} variavel id_virgula;
 	atrib1 = {identificador} identificador | {numero_inteiro} numero_inteiro | {numero_real} numero_real | {string} string;
-	exp_virgula = expressao virgula;
+	exp_virgula = expressao;
 	condicional = expressao_logica comandos*;
 	cond_senao = cond_senao_sub?;
 	cond_senao_sub = senao comandos*; 
@@ -229,7 +230,7 @@ Abstract Syntax Tree
     avalie_senao = comandos*;
 	
 	valor = {string} string | {numero_inteiro} numero_inteiro | {numero_real} numero_real;
-	variavel = {identificador} identificador | {vetor} identificador abre_colchete numero_inteiro fecha_colchete;	
+	variavel = {identificador} identificador | {vetor} identificador numero_inteiro;	
 
     op_relacional_igual = {igual} igual | {diferente} diferente;
     op_logico_ou = {ou} ou | {xor} xor;    

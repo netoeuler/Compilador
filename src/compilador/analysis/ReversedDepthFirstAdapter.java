@@ -267,29 +267,17 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAEscrevaComandos(AEscrevaComandos node)
     {
         inAEscrevaComandos(node);
-        if(node.getPontoEVirgula() != null)
-        {
-            node.getPontoEVirgula().apply(this);
-        }
-        if(node.getFechaParen() != null)
-        {
-            node.getFechaParen().apply(this);
-        }
         if(node.getExpressao() != null)
         {
             node.getExpressao().apply(this);
         }
-        if(node.getExpVirgula() != null)
         {
-            node.getExpVirgula().apply(this);
-        }
-        if(node.getAbreParen() != null)
-        {
-            node.getAbreParen().apply(this);
-        }
-        if(node.getEscreva() != null)
-        {
-            node.getEscreva().apply(this);
+            List<PExpVirgula> copy = new ArrayList<PExpVirgula>(node.getExpVirgula());
+            Collections.reverse(copy);
+            for(PExpVirgula e : copy)
+            {
+                e.apply(this);
+            }
         }
         outAEscrevaComandos(node);
     }
@@ -501,10 +489,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAExpVirgula(AExpVirgula node)
     {
         inAExpVirgula(node);
-        if(node.getVirgula() != null)
-        {
-            node.getVirgula().apply(this);
-        }
         if(node.getExpressao() != null)
         {
             node.getExpressao().apply(this);
@@ -930,17 +914,9 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAVetorVariavel(AVetorVariavel node)
     {
         inAVetorVariavel(node);
-        if(node.getFechaColchete() != null)
-        {
-            node.getFechaColchete().apply(this);
-        }
         if(node.getNumeroInteiro() != null)
         {
             node.getNumeroInteiro().apply(this);
-        }
-        if(node.getAbreColchete() != null)
-        {
-            node.getAbreColchete().apply(this);
         }
         if(node.getIdentificador() != null)
         {

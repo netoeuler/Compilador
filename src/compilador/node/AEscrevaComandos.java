@@ -2,17 +2,14 @@
 
 package compilador.node;
 
+import java.util.*;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
 public final class AEscrevaComandos extends PComandos
 {
-    private TEscreva _escreva_;
-    private TAbreParen _abreParen_;
-    private PExpVirgula _expVirgula_;
+    private final LinkedList<PExpVirgula> _expVirgula_ = new LinkedList<PExpVirgula>();
     private PExpressao _expressao_;
-    private TFechaParen _fechaParen_;
-    private TPontoEVirgula _pontoEVirgula_;
 
     public AEscrevaComandos()
     {
@@ -20,25 +17,13 @@ public final class AEscrevaComandos extends PComandos
     }
 
     public AEscrevaComandos(
-        @SuppressWarnings("hiding") TEscreva _escreva_,
-        @SuppressWarnings("hiding") TAbreParen _abreParen_,
-        @SuppressWarnings("hiding") PExpVirgula _expVirgula_,
-        @SuppressWarnings("hiding") PExpressao _expressao_,
-        @SuppressWarnings("hiding") TFechaParen _fechaParen_,
-        @SuppressWarnings("hiding") TPontoEVirgula _pontoEVirgula_)
+        @SuppressWarnings("hiding") List<?> _expVirgula_,
+        @SuppressWarnings("hiding") PExpressao _expressao_)
     {
         // Constructor
-        setEscreva(_escreva_);
-
-        setAbreParen(_abreParen_);
-
         setExpVirgula(_expVirgula_);
 
         setExpressao(_expressao_);
-
-        setFechaParen(_fechaParen_);
-
-        setPontoEVirgula(_pontoEVirgula_);
 
     }
 
@@ -46,12 +31,8 @@ public final class AEscrevaComandos extends PComandos
     public Object clone()
     {
         return new AEscrevaComandos(
-            cloneNode(this._escreva_),
-            cloneNode(this._abreParen_),
-            cloneNode(this._expVirgula_),
-            cloneNode(this._expressao_),
-            cloneNode(this._fechaParen_),
-            cloneNode(this._pontoEVirgula_));
+            cloneList(this._expVirgula_),
+            cloneNode(this._expressao_));
     }
 
     @Override
@@ -60,79 +41,30 @@ public final class AEscrevaComandos extends PComandos
         ((Analysis) sw).caseAEscrevaComandos(this);
     }
 
-    public TEscreva getEscreva()
-    {
-        return this._escreva_;
-    }
-
-    public void setEscreva(TEscreva node)
-    {
-        if(this._escreva_ != null)
-        {
-            this._escreva_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._escreva_ = node;
-    }
-
-    public TAbreParen getAbreParen()
-    {
-        return this._abreParen_;
-    }
-
-    public void setAbreParen(TAbreParen node)
-    {
-        if(this._abreParen_ != null)
-        {
-            this._abreParen_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._abreParen_ = node;
-    }
-
-    public PExpVirgula getExpVirgula()
+    public LinkedList<PExpVirgula> getExpVirgula()
     {
         return this._expVirgula_;
     }
 
-    public void setExpVirgula(PExpVirgula node)
+    public void setExpVirgula(List<?> list)
     {
-        if(this._expVirgula_ != null)
+        for(PExpVirgula e : this._expVirgula_)
         {
-            this._expVirgula_.parent(null);
+            e.parent(null);
         }
+        this._expVirgula_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PExpVirgula e = (PExpVirgula) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._expVirgula_.add(e);
         }
-
-        this._expVirgula_ = node;
     }
 
     public PExpressao getExpressao()
@@ -160,105 +92,26 @@ public final class AEscrevaComandos extends PComandos
         this._expressao_ = node;
     }
 
-    public TFechaParen getFechaParen()
-    {
-        return this._fechaParen_;
-    }
-
-    public void setFechaParen(TFechaParen node)
-    {
-        if(this._fechaParen_ != null)
-        {
-            this._fechaParen_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._fechaParen_ = node;
-    }
-
-    public TPontoEVirgula getPontoEVirgula()
-    {
-        return this._pontoEVirgula_;
-    }
-
-    public void setPontoEVirgula(TPontoEVirgula node)
-    {
-        if(this._pontoEVirgula_ != null)
-        {
-            this._pontoEVirgula_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._pontoEVirgula_ = node;
-    }
-
     @Override
     public String toString()
     {
         return ""
-            + toString(this._escreva_)
-            + toString(this._abreParen_)
             + toString(this._expVirgula_)
-            + toString(this._expressao_)
-            + toString(this._fechaParen_)
-            + toString(this._pontoEVirgula_);
+            + toString(this._expressao_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._escreva_ == child)
+        if(this._expVirgula_.remove(child))
         {
-            this._escreva_ = null;
-            return;
-        }
-
-        if(this._abreParen_ == child)
-        {
-            this._abreParen_ = null;
-            return;
-        }
-
-        if(this._expVirgula_ == child)
-        {
-            this._expVirgula_ = null;
             return;
         }
 
         if(this._expressao_ == child)
         {
             this._expressao_ = null;
-            return;
-        }
-
-        if(this._fechaParen_ == child)
-        {
-            this._fechaParen_ = null;
-            return;
-        }
-
-        if(this._pontoEVirgula_ == child)
-        {
-            this._pontoEVirgula_ = null;
             return;
         }
 
@@ -269,39 +122,27 @@ public final class AEscrevaComandos extends PComandos
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._escreva_ == oldChild)
+        for(ListIterator<PExpVirgula> i = this._expVirgula_.listIterator(); i.hasNext();)
         {
-            setEscreva((TEscreva) newChild);
-            return;
-        }
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PExpVirgula) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
 
-        if(this._abreParen_ == oldChild)
-        {
-            setAbreParen((TAbreParen) newChild);
-            return;
-        }
-
-        if(this._expVirgula_ == oldChild)
-        {
-            setExpVirgula((PExpVirgula) newChild);
-            return;
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         if(this._expressao_ == oldChild)
         {
             setExpressao((PExpressao) newChild);
-            return;
-        }
-
-        if(this._fechaParen_ == oldChild)
-        {
-            setFechaParen((TFechaParen) newChild);
-            return;
-        }
-
-        if(this._pontoEVirgula_ == oldChild)
-        {
-            setPontoEVirgula((TPontoEVirgula) newChild);
             return;
         }
 

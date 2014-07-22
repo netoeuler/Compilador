@@ -1,7 +1,13 @@
 programa ola;
-var inteiro : teste;
-var caractere : teste2;
+var real : teste[2];
+var caractere : teste2[2];
 inicio
-	//teste <- 2+2-2-2;
-	teste2 <- 'ab';
+	//teste <- 2,0;
+	teste[0] <- 'a';
+	//teste2 <- 'abcdasd';
+	
+	//escreva(teste3,teste2,teste);
+	//escreva(teste2[3]);
+	//escreva('ab');
+		
 fim.

@@ -265,29 +265,16 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAEscrevaComandos(AEscrevaComandos node)
     {
         inAEscrevaComandos(node);
-        if(node.getEscreva() != null)
         {
-            node.getEscreva().apply(this);
-        }
-        if(node.getAbreParen() != null)
-        {
-            node.getAbreParen().apply(this);
-        }
-        if(node.getExpVirgula() != null)
-        {
-            node.getExpVirgula().apply(this);
+            List<PExpVirgula> copy = new ArrayList<PExpVirgula>(node.getExpVirgula());
+            for(PExpVirgula e : copy)
+            {
+                e.apply(this);
+            }
         }
         if(node.getExpressao() != null)
         {
             node.getExpressao().apply(this);
-        }
-        if(node.getFechaParen() != null)
-        {
-            node.getFechaParen().apply(this);
-        }
-        if(node.getPontoEVirgula() != null)
-        {
-            node.getPontoEVirgula().apply(this);
         }
         outAEscrevaComandos(node);
     }
@@ -502,10 +489,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         if(node.getExpressao() != null)
         {
             node.getExpressao().apply(this);
-        }
-        if(node.getVirgula() != null)
-        {
-            node.getVirgula().apply(this);
         }
         outAExpVirgula(node);
     }
@@ -925,17 +908,9 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getIdentificador().apply(this);
         }
-        if(node.getAbreColchete() != null)
-        {
-            node.getAbreColchete().apply(this);
-        }
         if(node.getNumeroInteiro() != null)
         {
             node.getNumeroInteiro().apply(this);
-        }
-        if(node.getFechaColchete() != null)
-        {
-            node.getFechaColchete().apply(this);
         }
         outAVetorVariavel(node);
     }

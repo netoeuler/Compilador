@@ -8,7 +8,6 @@ import compilador.analysis.*;
 public final class AExpVirgula extends PExpVirgula
 {
     private PExpressao _expressao_;
-    private TVirgula _virgula_;
 
     public AExpVirgula()
     {
@@ -16,13 +15,10 @@ public final class AExpVirgula extends PExpVirgula
     }
 
     public AExpVirgula(
-        @SuppressWarnings("hiding") PExpressao _expressao_,
-        @SuppressWarnings("hiding") TVirgula _virgula_)
+        @SuppressWarnings("hiding") PExpressao _expressao_)
     {
         // Constructor
         setExpressao(_expressao_);
-
-        setVirgula(_virgula_);
 
     }
 
@@ -30,8 +26,7 @@ public final class AExpVirgula extends PExpVirgula
     public Object clone()
     {
         return new AExpVirgula(
-            cloneNode(this._expressao_),
-            cloneNode(this._virgula_));
+            cloneNode(this._expressao_));
     }
 
     @Override
@@ -65,37 +60,11 @@ public final class AExpVirgula extends PExpVirgula
         this._expressao_ = node;
     }
 
-    public TVirgula getVirgula()
-    {
-        return this._virgula_;
-    }
-
-    public void setVirgula(TVirgula node)
-    {
-        if(this._virgula_ != null)
-        {
-            this._virgula_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._virgula_ = node;
-    }
-
     @Override
     public String toString()
     {
         return ""
-            + toString(this._expressao_)
-            + toString(this._virgula_);
+            + toString(this._expressao_);
     }
 
     @Override
@@ -105,12 +74,6 @@ public final class AExpVirgula extends PExpVirgula
         if(this._expressao_ == child)
         {
             this._expressao_ = null;
-            return;
-        }
-
-        if(this._virgula_ == child)
-        {
-            this._virgula_ = null;
             return;
         }
 
@@ -124,12 +87,6 @@ public final class AExpVirgula extends PExpVirgula
         if(this._expressao_ == oldChild)
         {
             setExpressao((PExpressao) newChild);
-            return;
-        }
-
-        if(this._virgula_ == oldChild)
-        {
-            setVirgula((TVirgula) newChild);
             return;
         }
 
