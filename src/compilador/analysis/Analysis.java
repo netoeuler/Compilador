@@ -60,6 +60,7 @@ public interface Analysis extends Switch
     void caseAMaisExpressao(AMaisExpressao node);
     void caseAMenosExpressao(AMenosExpressao node);
     void caseATermoExpressao(ATermoExpressao node);
+    void caseARelCompExpressao(ARelCompExpressao node);
     void caseAMultTermo(AMultTermo node);
     void caseADivisaoTermo(ADivisaoTermo node);
     void caseAFatorTermo(AFatorTermo node);

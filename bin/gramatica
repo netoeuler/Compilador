@@ -175,6 +175,7 @@ Productions
     
     expressao {-> expressao} = {exp1} expressao mais termo {-> New expressao.mais(expressao,termo)} 
     			| {exp2} expressao menos termo {-> New expressao.menos(expressao,termo)}
+    			| {exp3} expressao op_relacional_comp termo {-> New expressao.rel_comp(expressao,op_relacional_comp,termo)}
     			| {termo} termo {-> New expressao.termo(termo)};
     termo {-> termo} = {term1} termo mult fator {-> New termo.mult(termo,fator)}
     		| {term2} termo divisao fator {-> New termo.divisao(termo,fator)}
@@ -236,7 +237,7 @@ Abstract Syntax Tree
     op_logico_ou = {ou} ou | {xor} xor;    
 	op_relacional_comp = {menor} menor | {menor_igual} menor_igual | {maior} maior | {maior_igual} maior_igual;
     
-    expressao = {mais} expressao termo | {menos} expressao termo | {termo} termo;
+    expressao = {mais} expressao termo | {menos} expressao termo | {termo} termo | {rel_comp} expressao op_relacional_comp termo;
     termo = {mult} termo fator | {divisao} termo fator | {fator} fator;
     fator = {paren} abre_paren expressao fecha_paren | {valor} valor | {variavel} variavel;
     

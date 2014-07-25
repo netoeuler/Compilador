@@ -61,11 +61,6 @@ public class AnalisadorSemantico extends DepthFirstAdapter{
 	}
 	
 	@Override
-	public void outAEsqueletoPrograma(AEsqueletoPrograma node) {
-		//super.outAEsqueletoPrograma(node);
-	}
-	
-	@Override
 	public void outADeclaracaoVariavelParteDeclaracao(ADeclaracaoVariavelParteDeclaracao node) {
 		Object[] dadosSimbolo = new Object[QTD_DADOS];
 		String[] variaveis = node.getIdVirgula().toString().split(" ");
@@ -269,40 +264,6 @@ public class AnalisadorSemantico extends DepthFirstAdapter{
 			System.out.print("["+node.getIdentificador().getLine()+","+node.getIdentificador().getPos()+"] ");
 			System.out.println(node.getIdentificador().getText() + ": Limite do vetor superado.");
 		}
-	}
-	
-	@Override
-	public void outAEscrevaComandos(AEscrevaComandos node) {
-		LinkedList<PExpVirgula> expVirgula = node.getExpVirgula();
-		/*for (PExpVirgula exp : expVirgula){
-			if (exp instanceof AExpVirgula){
-				ATermoExpressao termo = (ATermoExpressao) ((AExpVirgula)exp).getExpressao();
-				AFatorTermo fator = (AFatorTermo) termo.getTermo();
-				if (fator.getFator() instanceof AVariavelFator){
-					AVariavelFator var = (AVariavelFator) fator.getFator();
-					AIdentificadorVariavel idvar = (AIdentificadorVariavel) var.getVariavel();
-					
-					if (!tabelaDeSimbolos.containsKey(idvar.getIdentificador().getText())){
-						System.out.print("["+idvar.getIdentificador().getLine()+","+idvar.getIdentificador().getPos()+"] ");
-						System.out.println(idvar.getIdentificador().getText() + ": variável não declarada.");
-					}
-				}
-			}
-		}
-		
-		if (node.getExpressao() instanceof ATermoExpressao){
-			ATermoExpressao termo = (ATermoExpressao) node.getExpressao();
-			AFatorTermo fator = (AFatorTermo) termo.getTermo();
-			if (fator.getFator() instanceof AVariavelFator){
-				AVariavelFator var = (AVariavelFator) fator.getFator();
-				AIdentificadorVariavel idvar = (AIdentificadorVariavel) var.getVariavel();
-				
-				if (!tabelaDeSimbolos.containsKey(idvar.getIdentificador().getText())){
-					System.out.print("["+idvar.getIdentificador().getLine()+","+idvar.getIdentificador().getPos()+"] ");
-					System.out.println(idvar.getIdentificador().getText() + ": variável não declarada.");
-				}
-			}			
-		}*/		
 	}
 	
 	@Override

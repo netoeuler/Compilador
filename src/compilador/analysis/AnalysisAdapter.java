@@ -363,6 +363,12 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseARelCompExpressao(ARelCompExpressao node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseAMultTermo(AMultTermo node)
     {
         defaultCase(node);
