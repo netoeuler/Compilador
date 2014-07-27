@@ -1,0 +1,18 @@
+programa ola;
+const alguma 2;
+var inteiro : teste,teste4;
+var inteiro : teste2;
+var inteiro : teste3[2];
+inicio
+	//teste2 <- 'ab';
+	//teste3 <- 5;	
+	
+	teste <- 0;
+	teste3[1] <- 1;
+	
+	avalie (teste2)
+		caso 1: escreva('a');
+		caso 2: escreva('a2');
+		senao: escreva('b');
+	fim avalie
+fim.

@@ -174,13 +174,12 @@ Productions
     
     expressao {-> expressao} = {exp1} expressao mais termo {-> New expressao.mais(expressao,termo.expressao)} 
     			| {exp2} expressao menos termo {-> New expressao.menos(expressao,termo.expressao)}
-    			/*| {exp3} expressao igual termo {-> New expressao.igual(expressao,termo.expressao)}
+    			| {exp3} expressao igual termo {-> New expressao.igual(expressao,termo.expressao)}
     			| {exp4} expressao diferente termo {-> New expressao.diferente(expressao,termo.expressao)}
     			| {exp5} expressao menor_igual termo {-> New expressao.menor_igual(expressao,termo.expressao)}
     			| {exp6} expressao maior_igual termo {-> New expressao.maior_igual(expressao,termo.expressao)}
     			| {exp7} expressao menor termo {-> New expressao.menor(expressao,termo.expressao)}
-    			| {exp8} expressao maior termo {-> New expressao.maior(expressao,termo.expressao)}*/
-    			//| {exp9} expressao_comp {-> expressao_comp.expressao}
+    			| {exp8} expressao maior termo {-> New expressao.maior(expressao,termo.expressao)}
     			| {termo} termo {-> termo.expressao};
     termo {-> expressao} = {term1} termo mult fator {-> New expressao.mult(termo.expressao,fator.expressao)}
     		| {term2} termo divisao fator {-> New expressao.divisao(termo.expressao,fator.expressao)}
@@ -192,31 +191,20 @@ Productions
     expressao_logica {-> expressao_logica} = {expl1} expressao_logica ou termo_log {-> New expressao_logica.ou(expressao_logica,termo_log.expressao_logica)}
     		| {expl2} expressao_logica xor termo_log {-> New expressao_logica.xor(expressao_logica,termo_log.expressao_logica)}	
     		| {expl3} termo_log {-> termo_log.expressao_logica};
-    termo_log {-> expressao_logica} = {termol1} termo_log e fator_rel {-> New expressao_logica.e(termo_log.expressao_logica,fator_rel.expressao_logica)} 
-    		//| {termol2} exp_rel {-> exp_rel.expressao_logica};
-    		| {termol2} fator_rel {-> fator_rel.expressao_logica}
-    		| {termol3} expressao_comp {-> expressao_comp.expressao_logica};
-    		
-    /*exp_rel {-> expressao_logica} = {expr1} fator_rel igual termo_rel {-> New expressao_logica.igual(fator_rel.expressao_logica,termo_rel.expressao_logica)} 
+    termo_log {-> expressao_logica} = {termol1} termo_log e exp_rel {-> New expressao_logica.e(termo_log.expressao_logica,exp_rel.expressao_logica)} 
+    		| {termol2} exp_rel {-> exp_rel.expressao_logica};
+    exp_rel {-> expressao_logica} = {expr1} fator_rel igual termo_rel {-> New expressao_logica.igual(fator_rel.expressao_logica,termo_rel.expressao_logica)} 
     		| {expr2} fator_rel diferente termo_rel {-> New exp_rel.igual(fator_rel.expressao_logica,termo_rel.expressao_logica)}
     		| {expr3} termo_rel {-> termo_rel.expressao_logica};
     termo_rel {-> expressao_logica} = {termor1} termo_rel menor fator_rel {-> New expressao_logica.menor(termo_rel.expressao_logica,fator_rel.expressao_logica)}
     		| {termor2} termo_rel menor_igual fator_rel {-> New expressao_logica.menor_igual(termo_rel.expressao_logica,fator_rel.expressao_logica)}
     		| {termor3} termo_rel maior fator_rel {-> New expressao_logica.maior(termo_rel.expressao_logica,fator_rel.expressao_logica)}
     		| {termor4} termo_rel maior_igual fator_rel {-> New expressao_logica.maior_igual(termo_rel.expressao_logica,fator_rel.expressao_logica)} 
-    		| {termor5} fator_rel {-> New termo_rel.fator_rel(fator_rel)};*/
-    		
+    		| {termor5} fator_rel {-> New termo_rel.fator_rel(fator_rel)};
     fator_rel {-> expressao_logica} = {fr1} abre_paren expressao_logica fecha_paren {-> expressao_logica} 
-    		| {fr2} nao abre_paren expressao_logica fecha_paren {-> expressao_logica};
-    		//| {fr3} valor {-> New expressao_logica.valor(valor)} 
-    		//| {fr4} variavel {-> New expressao_logica.variavel(variavel)};
-    		
-    expressao_comp {-> expressao_logica} = {exp3} expressao igual termo {-> New expressao_logica.igual(expressao,termo.expressao)}
-    		| {exp4} expressao diferente termo {-> New expressao_logica.diferente(expressao,termo.expressao)}
-    		| {exp5} expressao menor_igual termo {-> New expressao_logica.menor_igual(expressao,termo.expressao)}
-    		| {exp6} expressao maior_igual termo {-> New expressao_logica.maior_igual(expressao,termo.expressao)}
-    		| {exp7} expressao menor termo {-> New expressao_logica.menor(expressao,termo.expressao)}
-    		| {exp8} expressao maior termo {-> New expressao_logica.maior(expressao,termo.expressao)};
+    		| {fr2} nao abre_paren expressao_logica fecha_paren {-> expressao_logica}
+    		| {fr3} valor {-> New expressao_logica.valor(valor)} 
+    		| {fr4} variavel {-> New expressao_logica.variavel(variavel)};
     
 Abstract Syntax Tree
 	start = esqueleto_programa;
@@ -262,12 +250,12 @@ Abstract Syntax Tree
     		| {menos} [l]:expressao [r]:expressao
     		| {mult} [l]:expressao [r]:expressao
     		| {divisao} [l]:expressao [r]:expressao
-    		/*| {igual} [l]:expressao [r]:expressao
+    		| {igual} [l]:expressao [r]:expressao
     		| {diferente} [l]:expressao [r]:expressao
     		| {menor} [l]:expressao [r]:expressao
     		| {menor_igual} [l]:expressao [r]:expressao
     		| {maior} [l]:expressao [r]:expressao
-    		| {maior_igual} [l]:expressao [r]:expressao*/
+    		| {maior_igual} [l]:expressao [r]:expressao
     		| {variavel} variavel 
     		| {valor} valor;
     
@@ -286,14 +274,7 @@ Abstract Syntax Tree
     		| {menor} [l]:expressao [r]:expressao
     		| {menor_igual} [l]:expressao [r]:expressao
     		| {maior} [l]:expressao [r]:expressao
-    		| {maior_igual} [l]:expressao [r]:expressao;
-    		//| {variavel} variavel 
-    		//| {valor} valor;
-    		
-    /*expressao_comp = {igual} [l]:expressao [r]:expressao
-    		| {diferente} [l]:expressao [r]:expressao
-    		| {menor} [l]:expressao [r]:expressao
-    		| {menor_igual} [l]:expressao [r]:expressao
-    		| {maior} [l]:expressao [r]:expressao
-    		| {maior_igual} [l]:expressao [r]:expressao;*/
+    		| {maior_igual} [l]:expressao [r]:expressao
+    		| {variavel} variavel 
+    		| {valor} valor;
     
