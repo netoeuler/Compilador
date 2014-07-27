@@ -5,17 +5,17 @@ package compilador.node;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ARelCompExpressao extends PExpressao
+public final class ADivisaoExpressao extends PExpressao
 {
     private PExpressao _l_;
     private PExpressao _r_;
 
-    public ARelCompExpressao()
+    public ADivisaoExpressao()
     {
         // Constructor
     }
 
-    public ARelCompExpressao(
+    public ADivisaoExpressao(
         @SuppressWarnings("hiding") PExpressao _l_,
         @SuppressWarnings("hiding") PExpressao _r_)
     {
@@ -29,7 +29,7 @@ public final class ARelCompExpressao extends PExpressao
     @Override
     public Object clone()
     {
-        return new ARelCompExpressao(
+        return new ADivisaoExpressao(
             cloneNode(this._l_),
             cloneNode(this._r_));
     }
@@ -37,7 +37,7 @@ public final class ARelCompExpressao extends PExpressao
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseARelCompExpressao(this);
+        ((Analysis) sw).caseADivisaoExpressao(this);
     }
 
     public PExpressao getL()

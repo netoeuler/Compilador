@@ -34,7 +34,6 @@ public interface Analysis extends Switch
     void caseAExpVirgula(AExpVirgula node);
     void caseACondicional(ACondicional node);
     void caseACondSenao(ACondSenao node);
-    void caseACondSenaoSub(ACondSenaoSub node);
     void caseAEnquantoRepeticao(AEnquantoRepeticao node);
     void caseARepitaRepeticao(ARepitaRepeticao node);
     void caseAParaRepeticao(AParaRepeticao node);
@@ -59,14 +58,11 @@ public interface Analysis extends Switch
     void caseAMaiorIgualOpRelacionalComp(AMaiorIgualOpRelacionalComp node);
     void caseAMaisExpressao(AMaisExpressao node);
     void caseAMenosExpressao(AMenosExpressao node);
-    void caseATermoExpressao(ATermoExpressao node);
+    void caseAMultExpressao(AMultExpressao node);
+    void caseADivisaoExpressao(ADivisaoExpressao node);
     void caseARelCompExpressao(ARelCompExpressao node);
-    void caseAMultTermo(AMultTermo node);
-    void caseADivisaoTermo(ADivisaoTermo node);
-    void caseAFatorTermo(AFatorTermo node);
-    void caseAParenFator(AParenFator node);
-    void caseAValorFator(AValorFator node);
-    void caseAVariavelFator(AVariavelFator node);
+    void caseAVariavelExpressao(AVariavelExpressao node);
+    void caseAValorExpressao(AValorExpressao node);
     void caseAOpLogicoExpressaoLogica(AOpLogicoExpressaoLogica node);
     void caseATermoLogExpressaoLogica(ATermoLogExpressaoLogica node);
     void caseAETermoLog(AETermoLog node);

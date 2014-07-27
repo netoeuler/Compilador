@@ -105,7 +105,7 @@ Productions
     
     declaracao {-> parte_declaracao*} = parte_declaracao+ {-> [parte_declaracao]};
     parte_declaracao = {pd} declaracao_variavel {-> declaracao_variavel.parte_declaracao}
-    				| {pd2} declaracao_constante {-> declaracao_constante.parte_declaracao};
+			| {pd2} declaracao_constante {-> declaracao_constante.parte_declaracao};
     declaracao_variavel {-> parte_declaracao} = var tipo dois_pontos id_virgula ponto_e_virgula
     	{-> New parte_declaracao.declaracao_variavel(tipo,id_virgula)};
     declaracao_constante {-> parte_declaracao} = const identificador valor ponto_e_virgula 
@@ -113,17 +113,15 @@ Productions
 	    
     parte_comandos {-> comandos*} = comandos+ {-> [comandos]};
     comandos {-> comandos} = {atribuicao} variavel seta expressao ponto_e_virgula {-> New comandos.atribuicao(variavel,expressao)}
-                    | {leia} leia abre_paren id_virgula fecha_paren ponto_e_virgula {-> New comandos.leia(id_virgula)}
-                    | {escreva} escreva abre_paren exp_virgula_lista? expressao fecha_paren ponto_e_virgula {-> New comandos.escreva([exp_virgula_lista.exp_virgula],expressao)}
-                    | {condicional} condicional {-> New comandos.condicional(condicional)}
-                    | {avalie} avalie abre_paren expressao fecha_paren avalie_caso? avalie_senao? fim_avalie {-> New comandos.avalie(expressao)}
-                    | {repeticao} repeticao {-> New comandos.repeticao(repeticao)};
+			| {leia} leia abre_paren id_virgula fecha_paren ponto_e_virgula {-> New comandos.leia(id_virgula)}
+			| {escreva} escreva abre_paren exp_virgula_lista? expressao fecha_paren ponto_e_virgula {-> New comandos.escreva([exp_virgula_lista.exp_virgula],expressao)}
+			| {condicional} condicional {-> New comandos.condicional(condicional)}
+			| {avalie} avalie abre_paren expressao fecha_paren avalie_caso? avalie_senao? fim_avalie {-> New comandos.avalie(expressao)}
+			| {repeticao} repeticao {-> New comandos.repeticao(repeticao)};
     
     condicional {-> condicional} = se abre_paren expressao_logica fecha_paren entao parte_comandos cond_senao fim_se ponto_e_virgula
-    {-> New condicional(expressao_logica,[parte_comandos.comandos])};
-    cond_senao {-> cond_senao} = {sub} cond_senao_sub {-> New cond_senao(cond_senao_sub)}
-    			| {vazio} {-> New cond_senao(Null)};
-    cond_senao_sub {-> cond_senao_sub} = senao parte_comandos {-> New cond_senao_sub(senao,[parte_comandos.comandos])};
+    {-> New condicional(expressao_logica,[parte_comandos.comandos],cond_senao)};
+    cond_senao {-> cond_senao} = {c1} senao parte_comandos {-> New cond_senao([parte_comandos.comandos])};
     
     repeticao {-> repeticao} = {enquanto} enquanto abre_paren expressao_logica fecha_paren faca comandos+ fim_enquanto
     {-> New repeticao.enquanto(expressao_logica,[comandos])}
@@ -171,18 +169,16 @@ Productions
     op_logico = {e} e | {ou} ou | {xor} xor;
     op_logico_ou {-> op_logico_ou} = {ou} ou {-> New op_logico_ou.ou(ou)}| {xor} xor {-> New op_logico_ou.xor(xor)};
     
-    expressao_geral = {e1} expressao | {e2} expressao_logica;
-    
-    expressao {-> expressao} = {exp1} expressao mais termo {-> New expressao.mais(expressao,termo)} 
-    			| {exp2} expressao menos termo {-> New expressao.menos(expressao,termo)}
-    			| {exp3} expressao op_relacional_comp termo {-> New expressao.rel_comp(expressao,op_relacional_comp,termo)}
-    			| {termo} termo {-> New expressao.termo(termo)};
-    termo {-> termo} = {term1} termo mult fator {-> New termo.mult(termo,fator)}
-    		| {term2} termo divisao fator {-> New termo.divisao(termo,fator)}
-    		| {fator} fator {-> New termo.fator(fator)};
-    fator {-> fator} = {fator1} abre_paren expressao fecha_paren {-> New fator.paren(abre_paren,expressao,fecha_paren)}
-    		| {valor} valor {-> New fator.valor(valor)} 
-    		| {variavel} variavel {-> New fator.variavel(variavel)};
+    expressao {-> expressao} = {exp1} expressao mais termo {-> New expressao.mais(expressao,termo.expressao)} 
+    			| {exp2} expressao menos termo {-> New expressao.menos(expressao,termo.expressao)}
+    			| {exp3} expressao op_relacional_comp termo {-> New expressao.rel_comp(expressao,termo.expressao)}
+    			| {termo} termo {-> termo.expressao};
+    termo {-> expressao} = {term1} termo mult fator {-> New expressao.mult(termo.expressao,fator.expressao)}
+    		| {term2} termo divisao fator {-> New expressao.divisao(termo.expressao,fator.expressao)}
+    		| {fator} fator {-> fator.expressao};
+    fator {-> expressao} = {fator1} abre_paren expressao fecha_paren {-> expressao}
+    		| {valor} valor {-> New expressao.valor(valor)} 
+    		| {variavel} variavel {-> New expressao.variavel(variavel)};
     
     expressao_logica {-> expressao_logica} = {expl1} expressao_logica op_logico_ou termo_log {-> New expressao_logica.op_logico(expressao_logica,op_logico_ou,termo_log)}
     					| {expl2} termo_log {-> New expressao_logica.termo_log(termo_log)};
@@ -217,9 +213,8 @@ Abstract Syntax Tree
 	id_virgula = {id} variavel | {idvirgula} variavel id_virgula;
 	atrib1 = {identificador} identificador | {numero_inteiro} numero_inteiro | {numero_real} numero_real | {string} string;
 	exp_virgula = expressao;
-	condicional = expressao_logica comandos*;
-	cond_senao = cond_senao_sub?;
-	cond_senao_sub = senao comandos*; 
+	condicional = expressao_logica comandos* cond_senao;	
+	cond_senao = comandos*;
 	repeticao  = {enquanto} expressao_logica comandos+
             | {repita} comandos+ expressao_logica
             | {para} numero_inteiro comandos+;
@@ -237,9 +232,13 @@ Abstract Syntax Tree
     op_logico_ou = {ou} ou | {xor} xor;    
 	op_relacional_comp = {menor} menor | {menor_igual} menor_igual | {maior} maior | {maior_igual} maior_igual;
     
-    expressao = {mais} expressao termo | {menos} expressao termo | {termo} termo | {rel_comp} expressao op_relacional_comp termo;
-    termo = {mult} termo fator | {divisao} termo fator | {fator} fator;
-    fator = {paren} abre_paren expressao fecha_paren | {valor} valor | {variavel} variavel;
+    expressao = {mais} [l]:expressao [r]:expressao
+    		| {menos} [l]:expressao [r]:expressao
+    		| {mult} [l]:expressao [r]:expressao
+    		| {divisao} [l]:expressao [r]:expressao
+    		| {rel_comp} [l]:expressao [r]:expressao
+    		| {variavel} variavel 
+    		| {valor} valor;
     
     expressao_logica = {op_logico} expressao_logica op_logico_ou termo_log | {termo_log} termo_log;
     termo_log = {e} termo_log e exp_rel | {exp_rel} exp_rel;    

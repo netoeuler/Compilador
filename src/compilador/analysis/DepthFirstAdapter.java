@@ -518,6 +518,10 @@ public class DepthFirstAdapter extends AnalysisAdapter
                 e.apply(this);
             }
         }
+        if(node.getCondSenao() != null)
+        {
+            node.getCondSenao().apply(this);
+        }
         outACondicional(node);
     }
 
@@ -535,31 +539,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseACondSenao(ACondSenao node)
     {
         inACondSenao(node);
-        if(node.getCondSenaoSub() != null)
-        {
-            node.getCondSenaoSub().apply(this);
-        }
-        outACondSenao(node);
-    }
-
-    public void inACondSenaoSub(ACondSenaoSub node)
-    {
-        defaultIn(node);
-    }
-
-    public void outACondSenaoSub(ACondSenaoSub node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseACondSenaoSub(ACondSenaoSub node)
-    {
-        inACondSenaoSub(node);
-        if(node.getSenao() != null)
-        {
-            node.getSenao().apply(this);
-        }
         {
             List<PComandos> copy = new ArrayList<PComandos>(node.getComandos());
             for(PComandos e : copy)
@@ -567,7 +546,7 @@ public class DepthFirstAdapter extends AnalysisAdapter
                 e.apply(this);
             }
         }
-        outACondSenaoSub(node);
+        outACondSenao(node);
     }
 
     public void inAEnquantoRepeticao(AEnquantoRepeticao node)
@@ -1097,13 +1076,13 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAMaisExpressao(AMaisExpressao node)
     {
         inAMaisExpressao(node);
-        if(node.getExpressao() != null)
+        if(node.getL() != null)
         {
-            node.getExpressao().apply(this);
+            node.getL().apply(this);
         }
-        if(node.getTermo() != null)
+        if(node.getR() != null)
         {
-            node.getTermo().apply(this);
+            node.getR().apply(this);
         }
         outAMaisExpressao(node);
     }
@@ -1122,36 +1101,65 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAMenosExpressao(AMenosExpressao node)
     {
         inAMenosExpressao(node);
-        if(node.getExpressao() != null)
+        if(node.getL() != null)
         {
-            node.getExpressao().apply(this);
+            node.getL().apply(this);
         }
-        if(node.getTermo() != null)
+        if(node.getR() != null)
         {
-            node.getTermo().apply(this);
+            node.getR().apply(this);
         }
         outAMenosExpressao(node);
     }
 
-    public void inATermoExpressao(ATermoExpressao node)
+    public void inAMultExpressao(AMultExpressao node)
     {
         defaultIn(node);
     }
 
-    public void outATermoExpressao(ATermoExpressao node)
+    public void outAMultExpressao(AMultExpressao node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseATermoExpressao(ATermoExpressao node)
+    public void caseAMultExpressao(AMultExpressao node)
     {
-        inATermoExpressao(node);
-        if(node.getTermo() != null)
+        inAMultExpressao(node);
+        if(node.getL() != null)
         {
-            node.getTermo().apply(this);
+            node.getL().apply(this);
         }
-        outATermoExpressao(node);
+        if(node.getR() != null)
+        {
+            node.getR().apply(this);
+        }
+        outAMultExpressao(node);
+    }
+
+    public void inADivisaoExpressao(ADivisaoExpressao node)
+    {
+        defaultIn(node);
+    }
+
+    public void outADivisaoExpressao(ADivisaoExpressao node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseADivisaoExpressao(ADivisaoExpressao node)
+    {
+        inADivisaoExpressao(node);
+        if(node.getL() != null)
+        {
+            node.getL().apply(this);
+        }
+        if(node.getR() != null)
+        {
+            node.getR().apply(this);
+        }
+        outADivisaoExpressao(node);
     }
 
     public void inARelCompExpressao(ARelCompExpressao node)
@@ -1168,161 +1176,57 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseARelCompExpressao(ARelCompExpressao node)
     {
         inARelCompExpressao(node);
-        if(node.getExpressao() != null)
+        if(node.getL() != null)
         {
-            node.getExpressao().apply(this);
+            node.getL().apply(this);
         }
-        if(node.getOpRelacionalComp() != null)
+        if(node.getR() != null)
         {
-            node.getOpRelacionalComp().apply(this);
-        }
-        if(node.getTermo() != null)
-        {
-            node.getTermo().apply(this);
+            node.getR().apply(this);
         }
         outARelCompExpressao(node);
     }
 
-    public void inAMultTermo(AMultTermo node)
+    public void inAVariavelExpressao(AVariavelExpressao node)
     {
         defaultIn(node);
     }
 
-    public void outAMultTermo(AMultTermo node)
+    public void outAVariavelExpressao(AVariavelExpressao node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAMultTermo(AMultTermo node)
+    public void caseAVariavelExpressao(AVariavelExpressao node)
     {
-        inAMultTermo(node);
-        if(node.getTermo() != null)
-        {
-            node.getTermo().apply(this);
-        }
-        if(node.getFator() != null)
-        {
-            node.getFator().apply(this);
-        }
-        outAMultTermo(node);
-    }
-
-    public void inADivisaoTermo(ADivisaoTermo node)
-    {
-        defaultIn(node);
-    }
-
-    public void outADivisaoTermo(ADivisaoTermo node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseADivisaoTermo(ADivisaoTermo node)
-    {
-        inADivisaoTermo(node);
-        if(node.getTermo() != null)
-        {
-            node.getTermo().apply(this);
-        }
-        if(node.getFator() != null)
-        {
-            node.getFator().apply(this);
-        }
-        outADivisaoTermo(node);
-    }
-
-    public void inAFatorTermo(AFatorTermo node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAFatorTermo(AFatorTermo node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAFatorTermo(AFatorTermo node)
-    {
-        inAFatorTermo(node);
-        if(node.getFator() != null)
-        {
-            node.getFator().apply(this);
-        }
-        outAFatorTermo(node);
-    }
-
-    public void inAParenFator(AParenFator node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAParenFator(AParenFator node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAParenFator(AParenFator node)
-    {
-        inAParenFator(node);
-        if(node.getAbreParen() != null)
-        {
-            node.getAbreParen().apply(this);
-        }
-        if(node.getExpressao() != null)
-        {
-            node.getExpressao().apply(this);
-        }
-        if(node.getFechaParen() != null)
-        {
-            node.getFechaParen().apply(this);
-        }
-        outAParenFator(node);
-    }
-
-    public void inAValorFator(AValorFator node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAValorFator(AValorFator node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAValorFator(AValorFator node)
-    {
-        inAValorFator(node);
-        if(node.getValor() != null)
-        {
-            node.getValor().apply(this);
-        }
-        outAValorFator(node);
-    }
-
-    public void inAVariavelFator(AVariavelFator node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAVariavelFator(AVariavelFator node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAVariavelFator(AVariavelFator node)
-    {
-        inAVariavelFator(node);
+        inAVariavelExpressao(node);
         if(node.getVariavel() != null)
         {
             node.getVariavel().apply(this);
         }
-        outAVariavelFator(node);
+        outAVariavelExpressao(node);
+    }
+
+    public void inAValorExpressao(AValorExpressao node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAValorExpressao(AValorExpressao node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAValorExpressao(AValorExpressao node)
+    {
+        inAValorExpressao(node);
+        if(node.getValor() != null)
+        {
+            node.getValor().apply(this);
+        }
+        outAValorExpressao(node);
     }
 
     public void inAOpLogicoExpressaoLogica(AOpLogicoExpressaoLogica node)

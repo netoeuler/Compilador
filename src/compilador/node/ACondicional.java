@@ -10,6 +10,7 @@ public final class ACondicional extends PCondicional
 {
     private PExpressaoLogica _expressaoLogica_;
     private final LinkedList<PComandos> _comandos_ = new LinkedList<PComandos>();
+    private PCondSenao _condSenao_;
 
     public ACondicional()
     {
@@ -18,12 +19,15 @@ public final class ACondicional extends PCondicional
 
     public ACondicional(
         @SuppressWarnings("hiding") PExpressaoLogica _expressaoLogica_,
-        @SuppressWarnings("hiding") List<?> _comandos_)
+        @SuppressWarnings("hiding") List<?> _comandos_,
+        @SuppressWarnings("hiding") PCondSenao _condSenao_)
     {
         // Constructor
         setExpressaoLogica(_expressaoLogica_);
 
         setComandos(_comandos_);
+
+        setCondSenao(_condSenao_);
 
     }
 
@@ -32,7 +36,8 @@ public final class ACondicional extends PCondicional
     {
         return new ACondicional(
             cloneNode(this._expressaoLogica_),
-            cloneList(this._comandos_));
+            cloneList(this._comandos_),
+            cloneNode(this._condSenao_));
     }
 
     @Override
@@ -92,12 +97,38 @@ public final class ACondicional extends PCondicional
         }
     }
 
+    public PCondSenao getCondSenao()
+    {
+        return this._condSenao_;
+    }
+
+    public void setCondSenao(PCondSenao node)
+    {
+        if(this._condSenao_ != null)
+        {
+            this._condSenao_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._condSenao_ = node;
+    }
+
     @Override
     public String toString()
     {
         return ""
             + toString(this._expressaoLogica_)
-            + toString(this._comandos_);
+            + toString(this._comandos_)
+            + toString(this._condSenao_);
     }
 
     @Override
@@ -112,6 +143,12 @@ public final class ACondicional extends PCondicional
 
         if(this._comandos_.remove(child))
         {
+            return;
+        }
+
+        if(this._condSenao_ == child)
+        {
+            this._condSenao_ = null;
             return;
         }
 
@@ -144,6 +181,12 @@ public final class ACondicional extends PCondicional
                 oldChild.parent(null);
                 return;
             }
+        }
+
+        if(this._condSenao_ == oldChild)
+        {
+            setCondSenao((PCondSenao) newChild);
+            return;
         }
 
         throw new RuntimeException("Not a child.");

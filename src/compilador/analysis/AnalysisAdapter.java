@@ -207,12 +207,6 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseACondSenaoSub(ACondSenaoSub node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
     public void caseAEnquantoRepeticao(AEnquantoRepeticao node)
     {
         defaultCase(node);
@@ -357,7 +351,13 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseATermoExpressao(ATermoExpressao node)
+    public void caseAMultExpressao(AMultExpressao node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseADivisaoExpressao(ADivisaoExpressao node)
     {
         defaultCase(node);
     }
@@ -369,37 +369,13 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAMultTermo(AMultTermo node)
+    public void caseAVariavelExpressao(AVariavelExpressao node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseADivisaoTermo(ADivisaoTermo node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAFatorTermo(AFatorTermo node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAParenFator(AParenFator node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAValorFator(AValorFator node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAVariavelFator(AVariavelFator node)
+    public void caseAValorExpressao(AValorExpressao node)
     {
         defaultCase(node);
     }

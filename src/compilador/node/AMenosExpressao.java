@@ -7,8 +7,8 @@ import compilador.analysis.*;
 @SuppressWarnings("nls")
 public final class AMenosExpressao extends PExpressao
 {
-    private PExpressao _expressao_;
-    private PTermo _termo_;
+    private PExpressao _l_;
+    private PExpressao _r_;
 
     public AMenosExpressao()
     {
@@ -16,13 +16,13 @@ public final class AMenosExpressao extends PExpressao
     }
 
     public AMenosExpressao(
-        @SuppressWarnings("hiding") PExpressao _expressao_,
-        @SuppressWarnings("hiding") PTermo _termo_)
+        @SuppressWarnings("hiding") PExpressao _l_,
+        @SuppressWarnings("hiding") PExpressao _r_)
     {
         // Constructor
-        setExpressao(_expressao_);
+        setL(_l_);
 
-        setTermo(_termo_);
+        setR(_r_);
 
     }
 
@@ -30,8 +30,8 @@ public final class AMenosExpressao extends PExpressao
     public Object clone()
     {
         return new AMenosExpressao(
-            cloneNode(this._expressao_),
-            cloneNode(this._termo_));
+            cloneNode(this._l_),
+            cloneNode(this._r_));
     }
 
     @Override
@@ -40,16 +40,16 @@ public final class AMenosExpressao extends PExpressao
         ((Analysis) sw).caseAMenosExpressao(this);
     }
 
-    public PExpressao getExpressao()
+    public PExpressao getL()
     {
-        return this._expressao_;
+        return this._l_;
     }
 
-    public void setExpressao(PExpressao node)
+    public void setL(PExpressao node)
     {
-        if(this._expressao_ != null)
+        if(this._l_ != null)
         {
-            this._expressao_.parent(null);
+            this._l_.parent(null);
         }
 
         if(node != null)
@@ -62,19 +62,19 @@ public final class AMenosExpressao extends PExpressao
             node.parent(this);
         }
 
-        this._expressao_ = node;
+        this._l_ = node;
     }
 
-    public PTermo getTermo()
+    public PExpressao getR()
     {
-        return this._termo_;
+        return this._r_;
     }
 
-    public void setTermo(PTermo node)
+    public void setR(PExpressao node)
     {
-        if(this._termo_ != null)
+        if(this._r_ != null)
         {
-            this._termo_.parent(null);
+            this._r_.parent(null);
         }
 
         if(node != null)
@@ -87,30 +87,30 @@ public final class AMenosExpressao extends PExpressao
             node.parent(this);
         }
 
-        this._termo_ = node;
+        this._r_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._expressao_)
-            + toString(this._termo_);
+            + toString(this._l_)
+            + toString(this._r_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._expressao_ == child)
+        if(this._l_ == child)
         {
-            this._expressao_ = null;
+            this._l_ = null;
             return;
         }
 
-        if(this._termo_ == child)
+        if(this._r_ == child)
         {
-            this._termo_ = null;
+            this._r_ = null;
             return;
         }
 
@@ -121,15 +121,15 @@ public final class AMenosExpressao extends PExpressao
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._expressao_ == oldChild)
+        if(this._l_ == oldChild)
         {
-            setExpressao((PExpressao) newChild);
+            setL((PExpressao) newChild);
             return;
         }
 
-        if(this._termo_ == oldChild)
+        if(this._r_ == oldChild)
         {
-            setTermo((PTermo) newChild);
+            setR((PExpressao) newChild);
             return;
         }
 
