@@ -7,32 +7,23 @@ import compilador.node.AAtribuicaoComandos;
 import compilador.node.ACaractereTipo;
 import compilador.node.ADeclaracaoConstanteParteDeclaracao;
 import compilador.node.ADeclaracaoVariavelParteDeclaracao;
-import compilador.node.ADivisaoExpressao;
 import compilador.node.AIdIdVirgula;
 import compilador.node.AIdentificadorVariavel;
 import compilador.node.AInteiroTipo;
-import compilador.node.AMaisExpressao;
-import compilador.node.AMenosExpressao;
-import compilador.node.AMultExpressao;
-import compilador.node.ANumeroInteiroAtrib1;
 import compilador.node.ANumeroInteiroValor;
-import compilador.node.ANumeroRealAtrib1;
 import compilador.node.ANumeroRealValor;
 import compilador.node.ARealTipo;
 import compilador.node.AStringValor;
 import compilador.node.AValorExpressao;
 import compilador.node.AVetorVariavel;
 import compilador.node.TIdentificador;
-import compilador.node.TInteiro;
 import compilador.node.TNumeroInteiro;
-import compilador.node.TNumeroReal;
-import compilador.node.TString;
 
 public class AnalisadorSemantico extends DepthFirstAdapter{
 	
-	private final String VARIAVEL = "var";
-	private final String VETOR = "vetor";
-	private final String CONSTANTE = "const";	
+	protected final String VARIAVEL = "var";
+	protected final String VETOR = "vetor";
+	protected final String CONSTANTE = "const";	
 	
 	private final int QTD_DADOS = 4;
 	
@@ -184,53 +175,11 @@ public class AnalisadorSemantico extends DepthFirstAdapter{
 					tabelaDeSimbolos.put(identificador.getText(), dadosSimbolo);
 				}
 				else{
-				//if (!expressao.getClass().equals(dadosSimbolo[0].getClass())){
-				//if (isErroTipo(node.getVariavel(), expressao, dadosSimbolo[0])){
 					System.out.print("["+identificador.getLine()+","+identificador.getPos()+"] ");
 					System.out.println("Atribuição inválida");
 				}
 			}
 		}
-	}
-	
-	/*private boolean isErroTipo(Object variavel, Object expressao, Object dadoSimbolo){
-		if (variavel instanceof AVetorVariavel)
-			return true;
-		else if (dadoSimbolo instanceof AInteiroTipo){
-			if (expressao instanceof ANumeroInteiroAtrib1 
-					|| expressao instanceof ANumeroInteiroValor)
-				return false;
-			else
-				return true;
-		}
-		else if (dadoSimbolo instanceof ARealTipo){
-			if (expressao instanceof ANumeroRealAtrib1
-					|| expressao instanceof ANumeroRealValor)
-				return false;
-			else
-				return true;
-		}
-		else if (dadoSimbolo instanceof ACaractereTipo){
-			if (expressao instanceof AStringValor){
-				AStringValor a = (AStringValor) expressao;
-				if (a.getString().getText().length() > 1)
-					return true;
-				else
-					return false;
-			}
-			else
-				return true;
-		}
-		
-		return false;
-	}*/
-	
-	@Override
-	public void outAIdentificadorVariavel(AIdentificadorVariavel node) {		
-		/*if (!tabelaDeSimbolos.containsKey(node.getIdentificador().getText())){
-			System.out.print("["+node.getIdentificador().getLine()+","+node.getIdentificador().getPos()+"] ");
-			System.out.println(node.getIdentificador().getText() + ": variável não declarada.");
-		}*/
 	}
 	
 	@Override
@@ -248,5 +197,7 @@ public class AnalisadorSemantico extends DepthFirstAdapter{
 			System.out.println(node.getIdentificador().getText() + ": Limite do vetor superado.");
 		}
 	}
+	
+	
 	
 }

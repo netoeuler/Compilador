@@ -8,6 +8,7 @@ import java.io.PushbackReader;
 
 import semantica.AnalisadorSemantico;
 import semantica.SemanticaAritmetica;
+import semantica.SemanticaAtribuicao;
 
 import compilador.lexer.Lexer;
 import compilador.lexer.LexerException;
@@ -82,6 +83,7 @@ class Main {
 			Start tree;
 			tree = p.parse();
 			tree.apply(new AnalisadorSemantico());
+			tree.apply(new SemanticaAtribuicao());
 			tree.apply(new SemanticaAritmetica());
 		} catch (ParserException e) {			
 			System.out.println(e.getMessage());

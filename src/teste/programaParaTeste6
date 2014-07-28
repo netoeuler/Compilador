@@ -8,7 +8,12 @@ inicio
 	//teste[0] <- 2,0;
 	//teste2 <- 'abcdasd';
 	teste4 <- 5;
-	teste3 <- teste4 + 2;
+	//teste3 <- teste4 + 2;
+	teste3 <- 6;
+	
+	se ((teste4+teste3)=teste3) entao
+		escreva('x');
+	fim se;
 	
 	//escreva(teste3,teste2,teste);
 	//escreva(teste2[3]);

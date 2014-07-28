@@ -88,14 +88,15 @@ public class SemanticaAritmetica extends AnalisadorSemantico{
 				System.out.println("["+linha+","+pos+"] "+operacao+" inválida");				
 			}			
 		}
-		else{
+		//else{
 			if (left instanceof TNumeroInteiro){
 				Integer soma = Integer.parseInt( ((TNumeroInteiro) left).getText() );
 				soma += Integer.parseInt( ((TNumeroInteiro) right).getText() );
 				
-				AValorExpressao aux = (AValorExpressao) nodeL;
+				/*AValorExpressao aux = (AValorExpressao) nodeL;				
 				((ANumeroInteiroValor)aux.getValor()).getNumeroInteiro().setText(soma.toString());
-				valorExpressaoAritmetica = aux;				
+				valorExpressaoAritmetica = aux;*/
+				valorExpressaoAritmetica = definirNovoValorExpressaoAritmetica(soma.toString());
 			}
 			else if (left instanceof TNumeroReal){
 				Integer soma = Integer.parseInt( ((TNumeroReal) left).getText() );
@@ -105,7 +106,7 @@ public class SemanticaAritmetica extends AnalisadorSemantico{
 				((ANumeroRealValor)aux.getValor()).getNumeroReal().setText(soma.toString());
 				valorExpressaoAritmetica = aux;				
 			}
-		}
+		//}
 	}
 	
 	private Object getValorNo(Object node){
@@ -135,6 +136,14 @@ public class SemanticaAritmetica extends AnalisadorSemantico{
 		}
 		
 		return null;
+	}
+	
+	private Object definirNovoValorExpressaoAritmetica(String valor){
+		AValorExpressao aux = new AValorExpressao();
+		aux.setValor(new ANumeroInteiroValor());		
+		((ANumeroInteiroValor)aux.getValor()).setNumeroInteiro(new TNumeroInteiro(valor));
+		//((ANumeroInteiroValor)aux.getValor()).getNumeroInteiro().setText(valor);
+		return aux;
 	}
 
 }

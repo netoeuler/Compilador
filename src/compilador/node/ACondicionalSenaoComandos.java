@@ -6,39 +6,44 @@ import java.util.*;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AEnquantoRepeticao extends PRepeticao
+public final class ACondicionalSenaoComandos extends PComandos
 {
     private PExpressaoLogica _expressaoLogica_;
-    private final LinkedList<PComandos> _comandos_ = new LinkedList<PComandos>();
+    private final LinkedList<PComandos> _entaoCmd_ = new LinkedList<PComandos>();
+    private final LinkedList<PComandos> _senaoCmd_ = new LinkedList<PComandos>();
 
-    public AEnquantoRepeticao()
+    public ACondicionalSenaoComandos()
     {
         // Constructor
     }
 
-    public AEnquantoRepeticao(
+    public ACondicionalSenaoComandos(
         @SuppressWarnings("hiding") PExpressaoLogica _expressaoLogica_,
-        @SuppressWarnings("hiding") List<?> _comandos_)
+        @SuppressWarnings("hiding") List<?> _entaoCmd_,
+        @SuppressWarnings("hiding") List<?> _senaoCmd_)
     {
         // Constructor
         setExpressaoLogica(_expressaoLogica_);
 
-        setComandos(_comandos_);
+        setEntaoCmd(_entaoCmd_);
+
+        setSenaoCmd(_senaoCmd_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AEnquantoRepeticao(
+        return new ACondicionalSenaoComandos(
             cloneNode(this._expressaoLogica_),
-            cloneList(this._comandos_));
+            cloneList(this._entaoCmd_),
+            cloneList(this._senaoCmd_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAEnquantoRepeticao(this);
+        ((Analysis) sw).caseACondicionalSenaoComandos(this);
     }
 
     public PExpressaoLogica getExpressaoLogica()
@@ -66,18 +71,18 @@ public final class AEnquantoRepeticao extends PRepeticao
         this._expressaoLogica_ = node;
     }
 
-    public LinkedList<PComandos> getComandos()
+    public LinkedList<PComandos> getEntaoCmd()
     {
-        return this._comandos_;
+        return this._entaoCmd_;
     }
 
-    public void setComandos(List<?> list)
+    public void setEntaoCmd(List<?> list)
     {
-        for(PComandos e : this._comandos_)
+        for(PComandos e : this._entaoCmd_)
         {
             e.parent(null);
         }
-        this._comandos_.clear();
+        this._entaoCmd_.clear();
 
         for(Object obj_e : list)
         {
@@ -88,7 +93,33 @@ public final class AEnquantoRepeticao extends PRepeticao
             }
 
             e.parent(this);
-            this._comandos_.add(e);
+            this._entaoCmd_.add(e);
+        }
+    }
+
+    public LinkedList<PComandos> getSenaoCmd()
+    {
+        return this._senaoCmd_;
+    }
+
+    public void setSenaoCmd(List<?> list)
+    {
+        for(PComandos e : this._senaoCmd_)
+        {
+            e.parent(null);
+        }
+        this._senaoCmd_.clear();
+
+        for(Object obj_e : list)
+        {
+            PComandos e = (PComandos) obj_e;
+            if(e.parent() != null)
+            {
+                e.parent().removeChild(e);
+            }
+
+            e.parent(this);
+            this._senaoCmd_.add(e);
         }
     }
 
@@ -97,7 +128,8 @@ public final class AEnquantoRepeticao extends PRepeticao
     {
         return ""
             + toString(this._expressaoLogica_)
-            + toString(this._comandos_);
+            + toString(this._entaoCmd_)
+            + toString(this._senaoCmd_);
     }
 
     @Override
@@ -110,7 +142,12 @@ public final class AEnquantoRepeticao extends PRepeticao
             return;
         }
 
-        if(this._comandos_.remove(child))
+        if(this._entaoCmd_.remove(child))
+        {
+            return;
+        }
+
+        if(this._senaoCmd_.remove(child))
         {
             return;
         }
@@ -128,7 +165,25 @@ public final class AEnquantoRepeticao extends PRepeticao
             return;
         }
 
-        for(ListIterator<PComandos> i = this._comandos_.listIterator(); i.hasNext();)
+        for(ListIterator<PComandos> i = this._entaoCmd_.listIterator(); i.hasNext();)
+        {
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PComandos) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
+        }
+
+        for(ListIterator<PComandos> i = this._senaoCmd_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {

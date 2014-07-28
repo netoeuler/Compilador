@@ -6,26 +6,30 @@ import java.util.*;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AEsqueletoPrograma extends PEsqueletoPrograma
+public final class AParaPassoRepeticao extends PRepeticao
 {
-    private TIdentificador _identificador_;
-    private final LinkedList<PParteDeclaracao> _parteDeclaracao_ = new LinkedList<PParteDeclaracao>();
+    private TNumeroInteiro _deNum_;
+    private TNumeroInteiro _passoNum_;
+    private TNumeroInteiro _ateNum_;
     private final LinkedList<PComandos> _comandos_ = new LinkedList<PComandos>();
 
-    public AEsqueletoPrograma()
+    public AParaPassoRepeticao()
     {
         // Constructor
     }
 
-    public AEsqueletoPrograma(
-        @SuppressWarnings("hiding") TIdentificador _identificador_,
-        @SuppressWarnings("hiding") List<?> _parteDeclaracao_,
+    public AParaPassoRepeticao(
+        @SuppressWarnings("hiding") TNumeroInteiro _deNum_,
+        @SuppressWarnings("hiding") TNumeroInteiro _passoNum_,
+        @SuppressWarnings("hiding") TNumeroInteiro _ateNum_,
         @SuppressWarnings("hiding") List<?> _comandos_)
     {
         // Constructor
-        setIdentificador(_identificador_);
+        setDeNum(_deNum_);
 
-        setParteDeclaracao(_parteDeclaracao_);
+        setPassoNum(_passoNum_);
+
+        setAteNum(_ateNum_);
 
         setComandos(_comandos_);
 
@@ -34,28 +38,29 @@ public final class AEsqueletoPrograma extends PEsqueletoPrograma
     @Override
     public Object clone()
     {
-        return new AEsqueletoPrograma(
-            cloneNode(this._identificador_),
-            cloneList(this._parteDeclaracao_),
+        return new AParaPassoRepeticao(
+            cloneNode(this._deNum_),
+            cloneNode(this._passoNum_),
+            cloneNode(this._ateNum_),
             cloneList(this._comandos_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAEsqueletoPrograma(this);
+        ((Analysis) sw).caseAParaPassoRepeticao(this);
     }
 
-    public TIdentificador getIdentificador()
+    public TNumeroInteiro getDeNum()
     {
-        return this._identificador_;
+        return this._deNum_;
     }
 
-    public void setIdentificador(TIdentificador node)
+    public void setDeNum(TNumeroInteiro node)
     {
-        if(this._identificador_ != null)
+        if(this._deNum_ != null)
         {
-            this._identificador_.parent(null);
+            this._deNum_.parent(null);
         }
 
         if(node != null)
@@ -68,33 +73,57 @@ public final class AEsqueletoPrograma extends PEsqueletoPrograma
             node.parent(this);
         }
 
-        this._identificador_ = node;
+        this._deNum_ = node;
     }
 
-    public LinkedList<PParteDeclaracao> getParteDeclaracao()
+    public TNumeroInteiro getPassoNum()
     {
-        return this._parteDeclaracao_;
+        return this._passoNum_;
     }
 
-    public void setParteDeclaracao(List<?> list)
+    public void setPassoNum(TNumeroInteiro node)
     {
-        for(PParteDeclaracao e : this._parteDeclaracao_)
+        if(this._passoNum_ != null)
         {
-            e.parent(null);
+            this._passoNum_.parent(null);
         }
-        this._parteDeclaracao_.clear();
 
-        for(Object obj_e : list)
+        if(node != null)
         {
-            PParteDeclaracao e = (PParteDeclaracao) obj_e;
-            if(e.parent() != null)
+            if(node.parent() != null)
             {
-                e.parent().removeChild(e);
+                node.parent().removeChild(node);
             }
 
-            e.parent(this);
-            this._parteDeclaracao_.add(e);
+            node.parent(this);
         }
+
+        this._passoNum_ = node;
+    }
+
+    public TNumeroInteiro getAteNum()
+    {
+        return this._ateNum_;
+    }
+
+    public void setAteNum(TNumeroInteiro node)
+    {
+        if(this._ateNum_ != null)
+        {
+            this._ateNum_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._ateNum_ = node;
     }
 
     public LinkedList<PComandos> getComandos()
@@ -127,8 +156,9 @@ public final class AEsqueletoPrograma extends PEsqueletoPrograma
     public String toString()
     {
         return ""
-            + toString(this._identificador_)
-            + toString(this._parteDeclaracao_)
+            + toString(this._deNum_)
+            + toString(this._passoNum_)
+            + toString(this._ateNum_)
             + toString(this._comandos_);
     }
 
@@ -136,14 +166,21 @@ public final class AEsqueletoPrograma extends PEsqueletoPrograma
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._identificador_ == child)
+        if(this._deNum_ == child)
         {
-            this._identificador_ = null;
+            this._deNum_ = null;
             return;
         }
 
-        if(this._parteDeclaracao_.remove(child))
+        if(this._passoNum_ == child)
         {
+            this._passoNum_ = null;
+            return;
+        }
+
+        if(this._ateNum_ == child)
+        {
+            this._ateNum_ = null;
             return;
         }
 
@@ -159,28 +196,22 @@ public final class AEsqueletoPrograma extends PEsqueletoPrograma
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._identificador_ == oldChild)
+        if(this._deNum_ == oldChild)
         {
-            setIdentificador((TIdentificador) newChild);
+            setDeNum((TNumeroInteiro) newChild);
             return;
         }
 
-        for(ListIterator<PParteDeclaracao> i = this._parteDeclaracao_.listIterator(); i.hasNext();)
+        if(this._passoNum_ == oldChild)
         {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
-                    i.set((PParteDeclaracao) newChild);
-                    newChild.parent(this);
-                    oldChild.parent(null);
-                    return;
-                }
+            setPassoNum((TNumeroInteiro) newChild);
+            return;
+        }
 
-                i.remove();
-                oldChild.parent(null);
-                return;
-            }
+        if(this._ateNum_ == oldChild)
+        {
+            setAteNum((TNumeroInteiro) newChild);
+            return;
         }
 
         for(ListIterator<PComandos> i = this._comandos_.listIterator(); i.hasNext();)
