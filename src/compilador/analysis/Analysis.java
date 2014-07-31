@@ -25,14 +25,13 @@ public interface Analysis extends Switch
     void caseACondicionalComandos(ACondicionalComandos node);
     void caseACondicionalSenaoComandos(ACondicionalSenaoComandos node);
     void caseAAvalieComandos(AAvalieComandos node);
-    void caseARepeticaoComandos(ARepeticaoComandos node);
+    void caseAEnquantoComandos(AEnquantoComandos node);
+    void caseARepitaComandos(ARepitaComandos node);
+    void caseAParaComandos(AParaComandos node);
+    void caseAParaPassoComandos(AParaPassoComandos node);
     void caseAIdIdVirgula(AIdIdVirgula node);
     void caseAIdvirgulaIdVirgula(AIdvirgulaIdVirgula node);
     void caseAExpVirgula(AExpVirgula node);
-    void caseAEnquantoRepeticao(AEnquantoRepeticao node);
-    void caseARepitaRepeticao(ARepitaRepeticao node);
-    void caseAParaRepeticao(AParaRepeticao node);
-    void caseAParaPassoRepeticao(AParaPassoRepeticao node);
     void caseAAvalieCasoSub(AAvalieCasoSub node);
     void caseAAvalieSenao(AAvalieSenao node);
     void caseAStringValor(AStringValor node);

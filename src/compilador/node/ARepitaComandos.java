@@ -2,25 +2,26 @@
 
 package compilador.node;
 
+import java.util.*;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AExpVirgula extends PExpVirgula
+public final class ARepitaComandos extends PComandos
 {
-    private PExpressao _expressao_;
+    private final LinkedList<PComandos> _comandos_ = new LinkedList<PComandos>();
     private PExpressaoLogica _expressaoLogica_;
 
-    public AExpVirgula()
+    public ARepitaComandos()
     {
         // Constructor
     }
 
-    public AExpVirgula(
-        @SuppressWarnings("hiding") PExpressao _expressao_,
+    public ARepitaComandos(
+        @SuppressWarnings("hiding") List<?> _comandos_,
         @SuppressWarnings("hiding") PExpressaoLogica _expressaoLogica_)
     {
         // Constructor
-        setExpressao(_expressao_);
+        setComandos(_comandos_);
 
         setExpressaoLogica(_expressaoLogica_);
 
@@ -29,40 +30,41 @@ public final class AExpVirgula extends PExpVirgula
     @Override
     public Object clone()
     {
-        return new AExpVirgula(
-            cloneNode(this._expressao_),
+        return new ARepitaComandos(
+            cloneList(this._comandos_),
             cloneNode(this._expressaoLogica_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAExpVirgula(this);
+        ((Analysis) sw).caseARepitaComandos(this);
     }
 
-    public PExpressao getExpressao()
+    public LinkedList<PComandos> getComandos()
     {
-        return this._expressao_;
+        return this._comandos_;
     }
 
-    public void setExpressao(PExpressao node)
+    public void setComandos(List<?> list)
     {
-        if(this._expressao_ != null)
+        for(PComandos e : this._comandos_)
         {
-            this._expressao_.parent(null);
+            e.parent(null);
         }
+        this._comandos_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PComandos e = (PComandos) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._comandos_.add(e);
         }
-
-        this._expressao_ = node;
     }
 
     public PExpressaoLogica getExpressaoLogica()
@@ -94,7 +96,7 @@ public final class AExpVirgula extends PExpVirgula
     public String toString()
     {
         return ""
-            + toString(this._expressao_)
+            + toString(this._comandos_)
             + toString(this._expressaoLogica_);
     }
 
@@ -102,9 +104,8 @@ public final class AExpVirgula extends PExpVirgula
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._expressao_ == child)
+        if(this._comandos_.remove(child))
         {
-            this._expressao_ = null;
             return;
         }
 
@@ -121,10 +122,22 @@ public final class AExpVirgula extends PExpVirgula
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._expressao_ == oldChild)
+        for(ListIterator<PComandos> i = this._comandos_.listIterator(); i.hasNext();)
         {
-            setExpressao((PExpressao) newChild);
-            return;
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PComandos) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         if(this._expressaoLogica_ == oldChild)

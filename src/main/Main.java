@@ -23,7 +23,7 @@ class Main {
 	public static void main(String args[]) {
 		String arquivo = "";
 		if (args.length == 0)
-			arquivo = System.getProperty("user.dir") + "/src/teste/programaParaTeste6";
+			arquivo = System.getProperty("user.dir") + "/src/teste/sintatica/programaParaTeste3";
 		else
 			arquivo = args[0];
 		
@@ -37,36 +37,23 @@ class Main {
 			return;
 		}
 		
-		Lexer l = new Lexer(new PushbackReader(br));
+		MyLexer l = new MyLexer(new PushbackReader(br));
 		Token t = null;
-		String erros = "";
-		int numTokens = 0;
 		
 		while (true){
 			try{
 				t = l.next();
-				numTokens++;
 			} catch (LexerException e){
-				erros += e+"\n";
+				System.out.println(e+"\n");
 				continue;
 			} catch (IOException e) {
-				erros += e+"\n";
+				System.out.println(e+"\n");
 				continue;
 			}
 			
-			Integer lenId = t.getClass().toString().split(" ")[1].split("\\.").length-1;
-			String id = t.getClass().toString().split(" ")[1].split("\\.")[lenId];
-			/*System.out.print(id + " ");
-			
-			if (numTokens % 10 == 0)
-				System.out.println("");*/
 			if (t.getText().equals(""))
 				break;
 		}
-	
-		System.out.println("");
-		if (!erros.trim().isEmpty())
-			System.out.println(erros);		
 		
 		//Análise Sintática
 		try {						
@@ -76,15 +63,15 @@ class Main {
 			return;
 		}
 		
-		l = new Lexer(new PushbackReader(br));		
+		l = new MyLexer(new PushbackReader(br));
 		
 		Parser p = new Parser(l);
 		try {
 			Start tree;
 			tree = p.parse();
 			tree.apply(new AnalisadorSemantico());
-			tree.apply(new SemanticaAtribuicao());
-			tree.apply(new SemanticaAritmetica());
+			//tree.apply(new SemanticaAtribuicao());
+			//tree.apply(new SemanticaAritmetica());
 		} catch (ParserException e) {			
 			System.out.println(e.getMessage());
 		} catch (LexerException e) {			

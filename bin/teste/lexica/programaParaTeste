@@ -1,0 +1,25 @@
+programa OlaMundo;
+var caractere2 : texto[10];
+var caractere : texto2;
+var inteiro : 9as;
+inicio
+//#1ab6bg53a2
+see x 
+>
+ 10
+  entao
+ escreva('sim');
+fim se
+ /*
+ /* /**/ /*
+ bla
+ */
+enquanto x < 10
+ escreva('do it');
+ 
+               para
+  numero de a ate b faca
+  	escreva('teste') fim para;
+  	  	
+fim enquanto
+fim.

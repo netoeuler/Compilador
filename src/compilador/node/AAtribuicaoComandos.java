@@ -9,6 +9,7 @@ public final class AAtribuicaoComandos extends PComandos
 {
     private PVariavel _variavel_;
     private PExpressao _expressao_;
+    private PExpressaoLogica _expressaoLogica_;
 
     public AAtribuicaoComandos()
     {
@@ -17,12 +18,15 @@ public final class AAtribuicaoComandos extends PComandos
 
     public AAtribuicaoComandos(
         @SuppressWarnings("hiding") PVariavel _variavel_,
-        @SuppressWarnings("hiding") PExpressao _expressao_)
+        @SuppressWarnings("hiding") PExpressao _expressao_,
+        @SuppressWarnings("hiding") PExpressaoLogica _expressaoLogica_)
     {
         // Constructor
         setVariavel(_variavel_);
 
         setExpressao(_expressao_);
+
+        setExpressaoLogica(_expressaoLogica_);
 
     }
 
@@ -31,7 +35,8 @@ public final class AAtribuicaoComandos extends PComandos
     {
         return new AAtribuicaoComandos(
             cloneNode(this._variavel_),
-            cloneNode(this._expressao_));
+            cloneNode(this._expressao_),
+            cloneNode(this._expressaoLogica_));
     }
 
     @Override
@@ -90,12 +95,38 @@ public final class AAtribuicaoComandos extends PComandos
         this._expressao_ = node;
     }
 
+    public PExpressaoLogica getExpressaoLogica()
+    {
+        return this._expressaoLogica_;
+    }
+
+    public void setExpressaoLogica(PExpressaoLogica node)
+    {
+        if(this._expressaoLogica_ != null)
+        {
+            this._expressaoLogica_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._expressaoLogica_ = node;
+    }
+
     @Override
     public String toString()
     {
         return ""
             + toString(this._variavel_)
-            + toString(this._expressao_);
+            + toString(this._expressao_)
+            + toString(this._expressaoLogica_);
     }
 
     @Override
@@ -111,6 +142,12 @@ public final class AAtribuicaoComandos extends PComandos
         if(this._expressao_ == child)
         {
             this._expressao_ = null;
+            return;
+        }
+
+        if(this._expressaoLogica_ == child)
+        {
+            this._expressaoLogica_ = null;
             return;
         }
 
@@ -130,6 +167,12 @@ public final class AAtribuicaoComandos extends PComandos
         if(this._expressao_ == oldChild)
         {
             setExpressao((PExpressao) newChild);
+            return;
+        }
+
+        if(this._expressaoLogica_ == oldChild)
+        {
+            setExpressaoLogica((PExpressaoLogica) newChild);
             return;
         }
 

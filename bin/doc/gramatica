@@ -101,7 +101,7 @@ Ignored Tokens
 Productions
     start {-> start}= {start} esqueleto_programa {-> New start(esqueleto_programa)};
     esqueleto_programa {-> esqueleto_programa}= programa identificador ponto_e_virgula declaracao? inicio parte_comandos? fim_ponto
-    {-> New esqueleto_programa(identificador,[declaracao.parte_declaracao],[parte_comandos.comandos])};
+    	{-> New esqueleto_programa(identificador,[declaracao.parte_declaracao],[parte_comandos.comandos])};
     
     declaracao {-> parte_declaracao*} = parte_declaracao+ {-> [parte_declaracao]};
     parte_declaracao = {pd} declaracao_variavel {-> declaracao_variavel.parte_declaracao}
@@ -112,75 +112,50 @@ Productions
     	{-> New parte_declaracao.declaracao_constante(identificador,valor)};
 	    
     parte_comandos {-> comandos*} = comandos+ {-> [comandos]};
-    comandos {-> comandos} = {atribuicao} variavel seta expressao ponto_e_virgula {-> New comandos.atribuicao(variavel,expressao)}
+    comandos {-> comandos} = {atribuicao} variavel seta [expressao]:expressao [expressao_logica]:expressao_logica ponto_e_virgula 
+    			{-> New comandos.atribuicao(variavel,expressao,expressao_logica)}
 			| {leia} leia abre_paren id_virgula fecha_paren ponto_e_virgula {-> New comandos.leia(id_virgula)}
-			| {escreva} escreva abre_paren exp_virgula_lista? expressao fecha_paren ponto_e_virgula {-> New comandos.escreva([exp_virgula_lista.exp_virgula],expressao)}
-			| {condicional} condicional {-> New comandos.condicional(condicional)}
-			| {avalie} avalie abre_paren expressao fecha_paren avalie_caso? avalie_senao? fim_avalie {-> New comandos.avalie(expressao)}
-			| {repeticao} repeticao {-> New comandos.repeticao(repeticao)};
-    
-    condicional {-> condicional} = se abre_paren expressao_logica fecha_paren entao parte_comandos cond_senao fim_se ponto_e_virgula
-    {-> New condicional(expressao_logica,[parte_comandos.comandos],cond_senao)};
-    cond_senao {-> cond_senao} = {c1} senao parte_comandos {-> New cond_senao([parte_comandos.comandos])};
-    
-    repeticao {-> repeticao} = {enquanto} enquanto abre_paren expressao_logica fecha_paren faca comandos+ fim_enquanto
-    {-> New repeticao.enquanto(expressao_logica,[comandos])}
+			| {escreva} escreva abre_paren exp_virgula_lista? [expressao]:expressao [expressao_logica]:expressao_logica fecha_paren ponto_e_virgula 
+				{-> New comandos.escreva([exp_virgula_lista.exp_virgula],expressao,expressao_logica)}
+			| {condicional} se abre_paren expressao_logica fecha_paren entao parte_comandos fim_se ponto_e_virgula 
+				{-> New comandos.condicional(expressao_logica,[parte_comandos.comandos])}
+			| {condicional_senao} se abre_paren expressao_logica fecha_paren entao [entao_cmd]:parte_comandos senao [senao_cmd]:parte_comandos fim_se ponto_e_virgula 
+				{-> New comandos.condicional_senao(expressao_logica,[entao_cmd.comandos],[senao_cmd.comandos])}
+			| {avalie} avalie abre_paren [expressao]:expressao [expressao_logica]:expressao_logica fecha_paren avalie_caso? avalie_senao? fim_avalie 
+				{-> New comandos.avalie(expressao,expressao_logica)}
+    		| {enquanto} enquanto abre_paren expressao_logica fecha_paren faca comandos+ fim_enquanto
+    			{-> New comandos.enquanto(expressao_logica,[comandos])}
             | {repita} repita comandos+ ate abre_paren expressao_logica fecha_paren ponto_e_virgula
-            {-> New repeticao.repita([comandos],expressao_logica)}
-            | {para} para identificador de numero_inteiro para_sub comandos+ fim_para ponto_e_virgula
-            {-> New repeticao.para(numero_inteiro,[comandos])};
+            	{-> New comandos.repita([comandos],expressao_logica)}
+            | {para} para identificador de [de_num]:numero_inteiro ate [ate_num]:numero_inteiro comandos+ fim_para ponto_e_virgula
+            	{-> New comandos.para(de_num,ate_num,[comandos])}
+            | {para_passo} para identificador de [de_num]:numero_inteiro passo [passo_num]:numero_inteiro ate [ate_num]:numero_inteiro comandos+ fim_para ponto_e_virgula
+            	{-> New comandos.para_passo(de_num,passo_num,ate_num,[comandos])};
     
     id_virgula {-> id_virgula}= {id} variavel {-> New id_virgula.id(variavel)}    		
     		| {idv} variavel virgula id_virgula {-> New id_virgula.idvirgula(variavel,id_virgula)};    
     exp_virgula_lista {-> exp_virgula*} = exp_virgula+ {-> [exp_virgula]};
-    exp_virgula {-> exp_virgula} = expressao virgula {-> New exp_virgula(expressao)};    
-    fim_para_ponto_virgula = {fp_pv} fim_para ponto_e_virgula;
-    atrib1 {-> atrib1} = {atrib_id} identificador {-> New atrib1.identificador(identificador)}
-    				| {atrib_numi} numero_inteiro {-> New atrib1.numero_inteiro(numero_inteiro)} 
-    				| {atrib_numr} numero_real {-> New atrib1.numero_real(numero_real)}
-    				| {atrib_str} string {-> New atrib1.string(string)};
-    para_sub {-> para_sub} = {p_sub_ate} ate numero_inteiro para_sub_passo {-> New para_sub(ate,numero_inteiro,para_sub_passo)};
-    para_sub_passo {-> para_sub_passo} = {p_sub_passo1} passo numero_inteiro para_sub_ate {-> New para_sub_passo.passoate(passo,numero_inteiro,para_sub_ate)} 
-    				| {p_sub_passo2} para_sub_ate {-> New para_sub_passo.ate(para_sub_ate)};
-    para_sub_ate {-> para_sub_ate} = {p_sub_ate} ate numero_inteiro {-> New para_sub_ate(ate,numero_inteiro)};
+    exp_virgula {-> exp_virgula} = [expressao]:expressao [expressao_logica]:expressao_logica virgula {-> New exp_virgula(expressao,expressao_logica)};    
+    
     avalie_caso {-> avalie_caso_sub*} = avalie_caso_sub+ {-> [avalie_caso_sub]};
     avalie_caso_sub = caso valor dois_pontos parte_comandos {-> New avalie_caso_sub([parte_comandos.comandos])};
     avalie_senao {-> avalie_senao}= senao dois_pontos parte_comandos {-> New avalie_senao([parte_comandos.comandos])};
     
     valor {-> valor}= {v1} string {-> New valor.string(string)} 
-    				| {v2} numero_inteiro {-> New valor.numero_inteiro(numero_inteiro)} 
-    				| {v3} numero_real {-> New valor.numero_real(numero_real)};
+    		| {v2} numero_inteiro {-> New valor.numero_inteiro(numero_inteiro)} 
+    		| {v3} numero_real {-> New valor.numero_real(numero_real)};
     variavel {-> variavel}= {v1} identificador {-> New variavel.identificador(identificador)} 
-    				| {v2} identificador abre_colchete numero_inteiro fecha_colchete
-    				{-> New variavel.vetor(identificador,numero_inteiro)};
+    		| {v2} identificador abre_colchete numero_inteiro fecha_colchete
+    		{-> New variavel.vetor(identificador,numero_inteiro)};
      
     tipo {-> tipo} = {real} real {-> New tipo.real(real)}
-    				| {int} inteiro {-> New tipo.inteiro(inteiro)}
-    				| {char} caractere {-> New tipo.caractere(caractere)};
+    		| {int} inteiro {-> New tipo.inteiro(inteiro)}
+    		| {char} caractere {-> New tipo.caractere(caractere)};
     soma = {mais} mais | {menos} menos;
     multiplicacao = {mult} mult | {div} divisao;
     
-    /*
-    op_relacional = {opr1} op_relacional_igual | {opr2} op_relacional_comp; 
-	op_relacional_igual {-> op_relacional_igual} = {igual} igual {-> New op_relacional_igual.igual(igual)}
-						| {diferente} diferente {-> New op_relacional_igual.diferente(diferente)};
-	op_relacional_comp {-> op_relacional_comp} = {menor} menor {-> New op_relacional_comp.menor(menor)} 
-					| {menor_igual} menor_igual {-> New op_relacional_comp.menor_igual(menor_igual)}
-					| {maior} maior {-> New op_relacional_comp.maior(maior)}
-					| {maior_igual} maior_igual {-> New op_relacional_comp.maior_igual(maior_igual)};
-    op_logico = {e} e | {ou} ou | {xor} xor;
-    op_logico_ou {-> op_logico_ou} = {ou} ou {-> New op_logico_ou.ou(ou)}| {xor} xor {-> New op_logico_ou.xor(xor)};
-    */
-    
     expressao {-> expressao} = {exp1} expressao mais termo {-> New expressao.mais(expressao,termo.expressao)} 
-    			| {exp2} expressao menos termo {-> New expressao.menos(expressao,termo.expressao)}
-    			/*| {exp3} expressao igual termo {-> New expressao.igual(expressao,termo.expressao)}
-    			| {exp4} expressao diferente termo {-> New expressao.diferente(expressao,termo.expressao)}
-    			| {exp5} expressao menor_igual termo {-> New expressao.menor_igual(expressao,termo.expressao)}
-    			| {exp6} expressao maior_igual termo {-> New expressao.maior_igual(expressao,termo.expressao)}
-    			| {exp7} expressao menor termo {-> New expressao.menor(expressao,termo.expressao)}
-    			| {exp8} expressao maior termo {-> New expressao.maior(expressao,termo.expressao)}*/
-    			//| {exp9} expressao_comp {-> expressao_comp.expressao}
+    			| {exp2} expressao menos termo {-> New expressao.menos(expressao,termo.expressao)}    			
     			| {termo} termo {-> termo.expressao};
     termo {-> expressao} = {term1} termo mult fator {-> New expressao.mult(termo.expressao,fator.expressao)}
     		| {term2} termo divisao fator {-> New expressao.divisao(termo.expressao,fator.expressao)}
@@ -192,24 +167,11 @@ Productions
     expressao_logica {-> expressao_logica} = {expl1} expressao_logica ou termo_log {-> New expressao_logica.ou(expressao_logica,termo_log.expressao_logica)}
     		| {expl2} expressao_logica xor termo_log {-> New expressao_logica.xor(expressao_logica,termo_log.expressao_logica)}	
     		| {expl3} termo_log {-> termo_log.expressao_logica};
-    termo_log {-> expressao_logica} = {termol1} termo_log e fator_rel {-> New expressao_logica.e(termo_log.expressao_logica,fator_rel.expressao_logica)} 
-    		//| {termol2} exp_rel {-> exp_rel.expressao_logica};
+    termo_log {-> expressao_logica} = {termol1} termo_log e fator_rel {-> New expressao_logica.e(termo_log.expressao_logica,fator_rel.expressao_logica)}
     		| {termol2} fator_rel {-> fator_rel.expressao_logica}
-    		| {termol3} expressao_comp {-> expressao_comp.expressao_logica};
-    		
-    /*exp_rel {-> expressao_logica} = {expr1} fator_rel igual termo_rel {-> New expressao_logica.igual(fator_rel.expressao_logica,termo_rel.expressao_logica)} 
-    		| {expr2} fator_rel diferente termo_rel {-> New exp_rel.igual(fator_rel.expressao_logica,termo_rel.expressao_logica)}
-    		| {expr3} termo_rel {-> termo_rel.expressao_logica};
-    termo_rel {-> expressao_logica} = {termor1} termo_rel menor fator_rel {-> New expressao_logica.menor(termo_rel.expressao_logica,fator_rel.expressao_logica)}
-    		| {termor2} termo_rel menor_igual fator_rel {-> New expressao_logica.menor_igual(termo_rel.expressao_logica,fator_rel.expressao_logica)}
-    		| {termor3} termo_rel maior fator_rel {-> New expressao_logica.maior(termo_rel.expressao_logica,fator_rel.expressao_logica)}
-    		| {termor4} termo_rel maior_igual fator_rel {-> New expressao_logica.maior_igual(termo_rel.expressao_logica,fator_rel.expressao_logica)} 
-    		| {termor5} fator_rel {-> New termo_rel.fator_rel(fator_rel)};*/
-    		
+    		| {termol3} expressao_comp {-> expressao_comp.expressao_logica};    		
     fator_rel {-> expressao_logica} = {fr1} abre_paren expressao_logica fecha_paren {-> expressao_logica} 
     		| {fr2} nao abre_paren expressao_logica fecha_paren {-> expressao_logica};
-    		//| {fr3} valor {-> New expressao_logica.valor(valor)} 
-    		//| {fr4} variavel {-> New expressao_logica.variavel(variavel)};
     		
     expressao_comp {-> expressao_logica} = {exp3} expressao igual termo {-> New expressao_logica.igual(expressao,termo.expressao)}
     		| {exp4} expressao diferente termo {-> New expressao_logica.diferente(expressao,termo.expressao)}
@@ -227,56 +189,32 @@ Abstract Syntax Tree
    	
    	tipo = {real} real | {inteiro} inteiro | {caractere} caractere;
 	
-	comandos = {atribuicao} variavel expressao
+	comandos = {atribuicao} variavel [expressao]:expressao [expressao_logica]:expressao_logica
                     | {leia} id_virgula
-                    | {escreva} exp_virgula* expressao
-                    | {condicional} condicional
-                    | {avalie} expressao
-                    | {repeticao} repeticao;
-	
+                    | {escreva} exp_virgula* [expressao]:expressao [expressao_logica]:expressao_logica
+                    | {condicional} expressao_logica comandos*
+                    | {condicional_senao} expressao_logica [entao_cmd]:comandos* [senao_cmd]:comandos*
+                    | {avalie} [expressao]:expressao [expressao_logica]:expressao_logica
+                    | {enquanto} expressao_logica comandos+
+		            | {repita} comandos+ expressao_logica
+		            | {para} [de_num]:numero_inteiro [ate_num]:numero_inteiro comandos+
+		            | {para_passo} [de_num]:numero_inteiro [passo_num]:numero_inteiro [ate_num]:numero_inteiro comandos+;
+                    
 	id_virgula = {id} variavel | {idvirgula} variavel id_virgula;
-	atrib1 = {identificador} identificador | {numero_inteiro} numero_inteiro | {numero_real} numero_real | {string} string;
-	exp_virgula = expressao;
-	condicional = expressao_logica comandos* cond_senao;	
-	cond_senao = comandos*;
-	repeticao  = {enquanto} expressao_logica comandos+
-            | {repita} comandos+ expressao_logica
-            | {para} numero_inteiro comandos+;
-
-	para_sub = ate numero_inteiro para_sub_passo;
-    para_sub_passo = {passoate} passo numero_inteiro para_sub_ate | {ate} para_sub_ate;
-    para_sub_ate = ate numero_inteiro;
+	exp_virgula = [expressao]:expressao [expressao_logica]:expressao_logica;	
+	
 	avalie_caso_sub = comandos*;
     avalie_senao = comandos*;
 	
 	valor = {string} string | {numero_inteiro} numero_inteiro | {numero_real} numero_real;
-	variavel = {identificador} identificador | {vetor} identificador numero_inteiro;	
-
-    /*
-    op_relacional_igual = {igual} igual | {diferente} diferente;
-    op_logico_ou = {ou} ou | {xor} xor;    
-	op_relacional_comp = {menor} menor | {menor_igual} menor_igual | {maior} maior | {maior_igual} maior_igual;
-    */
+	variavel = {identificador} identificador | {vetor} identificador numero_inteiro;
     
     expressao = {mais} [l]:expressao [r]:expressao
     		| {menos} [l]:expressao [r]:expressao
     		| {mult} [l]:expressao [r]:expressao
     		| {divisao} [l]:expressao [r]:expressao
-    		/*| {igual} [l]:expressao [r]:expressao
-    		| {diferente} [l]:expressao [r]:expressao
-    		| {menor} [l]:expressao [r]:expressao
-    		| {menor_igual} [l]:expressao [r]:expressao
-    		| {maior} [l]:expressao [r]:expressao
-    		| {maior_igual} [l]:expressao [r]:expressao*/
     		| {variavel} variavel 
     		| {valor} valor;
-    
-    /*expressao_logica = {op_logico} expressao_logica op_logico_ou termo_log | {termo_log} termo_log;
-    termo_log = {e} termo_log e exp_rel | {exp_rel} exp_rel;    
-    exp_rel = {igual} fator_rel op_relacional_igual termo_rel | {termo_rel} termo_rel;
-    termo_rel = {comp} termo_rel op_relacional_comp fator_rel | {fator_rel} fator_rel;
-    fator_rel = {paren} paren | {naoparen} nao paren | {valor} valor | {variavel} variavel;
-    paren = abre_paren expressao_logica fecha_paren;*/
     
     expressao_logica = {ou} [l]:expressao_logica [r]:expressao_logica
     		| {xor} [l]:expressao_logica [r]:expressao_logica
@@ -287,13 +225,3 @@ Abstract Syntax Tree
     		| {menor_igual} [l]:expressao [r]:expressao
     		| {maior} [l]:expressao [r]:expressao
     		| {maior_igual} [l]:expressao [r]:expressao;
-    		//| {variavel} variavel 
-    		//| {valor} valor;
-    		
-    /*expressao_comp = {igual} [l]:expressao [r]:expressao
-    		| {diferente} [l]:expressao [r]:expressao
-    		| {menor} [l]:expressao [r]:expressao
-    		| {menor_igual} [l]:expressao [r]:expressao
-    		| {maior} [l]:expressao [r]:expressao
-    		| {maior_igual} [l]:expressao [r]:expressao;*/
-    

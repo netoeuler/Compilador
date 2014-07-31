@@ -221,6 +221,10 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAAtribuicaoComandos(AAtribuicaoComandos node)
     {
         inAAtribuicaoComandos(node);
+        if(node.getExpressaoLogica() != null)
+        {
+            node.getExpressaoLogica().apply(this);
+        }
         if(node.getExpressao() != null)
         {
             node.getExpressao().apply(this);
@@ -267,6 +271,10 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAEscrevaComandos(AEscrevaComandos node)
     {
         inAEscrevaComandos(node);
+        if(node.getExpressaoLogica() != null)
+        {
+            node.getExpressaoLogica().apply(this);
+        }
         if(node.getExpressao() != null)
         {
             node.getExpressao().apply(this);
@@ -362,6 +370,10 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAAvalieComandos(AAvalieComandos node)
     {
         inAAvalieComandos(node);
+        if(node.getExpressaoLogica() != null)
+        {
+            node.getExpressaoLogica().apply(this);
+        }
         if(node.getExpressao() != null)
         {
             node.getExpressao().apply(this);
@@ -369,25 +381,132 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAAvalieComandos(node);
     }
 
-    public void inARepeticaoComandos(ARepeticaoComandos node)
+    public void inAEnquantoComandos(AEnquantoComandos node)
     {
         defaultIn(node);
     }
 
-    public void outARepeticaoComandos(ARepeticaoComandos node)
+    public void outAEnquantoComandos(AEnquantoComandos node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseARepeticaoComandos(ARepeticaoComandos node)
+    public void caseAEnquantoComandos(AEnquantoComandos node)
     {
-        inARepeticaoComandos(node);
-        if(node.getRepeticao() != null)
+        inAEnquantoComandos(node);
         {
-            node.getRepeticao().apply(this);
+            List<PComandos> copy = new ArrayList<PComandos>(node.getComandos());
+            Collections.reverse(copy);
+            for(PComandos e : copy)
+            {
+                e.apply(this);
+            }
         }
-        outARepeticaoComandos(node);
+        if(node.getExpressaoLogica() != null)
+        {
+            node.getExpressaoLogica().apply(this);
+        }
+        outAEnquantoComandos(node);
+    }
+
+    public void inARepitaComandos(ARepitaComandos node)
+    {
+        defaultIn(node);
+    }
+
+    public void outARepitaComandos(ARepitaComandos node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseARepitaComandos(ARepitaComandos node)
+    {
+        inARepitaComandos(node);
+        if(node.getExpressaoLogica() != null)
+        {
+            node.getExpressaoLogica().apply(this);
+        }
+        {
+            List<PComandos> copy = new ArrayList<PComandos>(node.getComandos());
+            Collections.reverse(copy);
+            for(PComandos e : copy)
+            {
+                e.apply(this);
+            }
+        }
+        outARepitaComandos(node);
+    }
+
+    public void inAParaComandos(AParaComandos node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAParaComandos(AParaComandos node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAParaComandos(AParaComandos node)
+    {
+        inAParaComandos(node);
+        {
+            List<PComandos> copy = new ArrayList<PComandos>(node.getComandos());
+            Collections.reverse(copy);
+            for(PComandos e : copy)
+            {
+                e.apply(this);
+            }
+        }
+        if(node.getAteNum() != null)
+        {
+            node.getAteNum().apply(this);
+        }
+        if(node.getDeNum() != null)
+        {
+            node.getDeNum().apply(this);
+        }
+        outAParaComandos(node);
+    }
+
+    public void inAParaPassoComandos(AParaPassoComandos node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAParaPassoComandos(AParaPassoComandos node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAParaPassoComandos(AParaPassoComandos node)
+    {
+        inAParaPassoComandos(node);
+        {
+            List<PComandos> copy = new ArrayList<PComandos>(node.getComandos());
+            Collections.reverse(copy);
+            for(PComandos e : copy)
+            {
+                e.apply(this);
+            }
+        }
+        if(node.getAteNum() != null)
+        {
+            node.getAteNum().apply(this);
+        }
+        if(node.getPassoNum() != null)
+        {
+            node.getPassoNum().apply(this);
+        }
+        if(node.getDeNum() != null)
+        {
+            node.getDeNum().apply(this);
+        }
+        outAParaPassoComandos(node);
     }
 
     public void inAIdIdVirgula(AIdIdVirgula node)
@@ -450,139 +569,15 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAExpVirgula(AExpVirgula node)
     {
         inAExpVirgula(node);
+        if(node.getExpressaoLogica() != null)
+        {
+            node.getExpressaoLogica().apply(this);
+        }
         if(node.getExpressao() != null)
         {
             node.getExpressao().apply(this);
         }
         outAExpVirgula(node);
-    }
-
-    public void inAEnquantoRepeticao(AEnquantoRepeticao node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAEnquantoRepeticao(AEnquantoRepeticao node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAEnquantoRepeticao(AEnquantoRepeticao node)
-    {
-        inAEnquantoRepeticao(node);
-        {
-            List<PComandos> copy = new ArrayList<PComandos>(node.getComandos());
-            Collections.reverse(copy);
-            for(PComandos e : copy)
-            {
-                e.apply(this);
-            }
-        }
-        if(node.getExpressaoLogica() != null)
-        {
-            node.getExpressaoLogica().apply(this);
-        }
-        outAEnquantoRepeticao(node);
-    }
-
-    public void inARepitaRepeticao(ARepitaRepeticao node)
-    {
-        defaultIn(node);
-    }
-
-    public void outARepitaRepeticao(ARepitaRepeticao node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseARepitaRepeticao(ARepitaRepeticao node)
-    {
-        inARepitaRepeticao(node);
-        if(node.getExpressaoLogica() != null)
-        {
-            node.getExpressaoLogica().apply(this);
-        }
-        {
-            List<PComandos> copy = new ArrayList<PComandos>(node.getComandos());
-            Collections.reverse(copy);
-            for(PComandos e : copy)
-            {
-                e.apply(this);
-            }
-        }
-        outARepitaRepeticao(node);
-    }
-
-    public void inAParaRepeticao(AParaRepeticao node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAParaRepeticao(AParaRepeticao node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAParaRepeticao(AParaRepeticao node)
-    {
-        inAParaRepeticao(node);
-        {
-            List<PComandos> copy = new ArrayList<PComandos>(node.getComandos());
-            Collections.reverse(copy);
-            for(PComandos e : copy)
-            {
-                e.apply(this);
-            }
-        }
-        if(node.getAteNum() != null)
-        {
-            node.getAteNum().apply(this);
-        }
-        if(node.getDeNum() != null)
-        {
-            node.getDeNum().apply(this);
-        }
-        outAParaRepeticao(node);
-    }
-
-    public void inAParaPassoRepeticao(AParaPassoRepeticao node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAParaPassoRepeticao(AParaPassoRepeticao node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAParaPassoRepeticao(AParaPassoRepeticao node)
-    {
-        inAParaPassoRepeticao(node);
-        {
-            List<PComandos> copy = new ArrayList<PComandos>(node.getComandos());
-            Collections.reverse(copy);
-            for(PComandos e : copy)
-            {
-                e.apply(this);
-            }
-        }
-        if(node.getAteNum() != null)
-        {
-            node.getAteNum().apply(this);
-        }
-        if(node.getPassoNum() != null)
-        {
-            node.getPassoNum().apply(this);
-        }
-        if(node.getDeNum() != null)
-        {
-            node.getDeNum().apply(this);
-        }
-        outAParaPassoRepeticao(node);
     }
 
     public void inAAvalieCasoSub(AAvalieCasoSub node)

@@ -153,7 +153,25 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseARepeticaoComandos(ARepeticaoComandos node)
+    public void caseAEnquantoComandos(AEnquantoComandos node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseARepitaComandos(ARepitaComandos node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAParaComandos(AParaComandos node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAParaPassoComandos(AParaPassoComandos node)
     {
         defaultCase(node);
     }
@@ -172,30 +190,6 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseAExpVirgula(AExpVirgula node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAEnquantoRepeticao(AEnquantoRepeticao node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseARepitaRepeticao(ARepitaRepeticao node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAParaRepeticao(AParaRepeticao node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAParaPassoRepeticao(AParaPassoRepeticao node)
     {
         defaultCase(node);
     }
