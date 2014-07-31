@@ -112,30 +112,30 @@ Productions
     	{-> New parte_declaracao.declaracao_constante(identificador,valor)};
 	    
     parte_comandos {-> comandos*} = comandos+ {-> [comandos]};
-    comandos {-> comandos} = {atribuicao} variavel seta [expressao]:expressao [expressao_logica]:expressao_logica ponto_e_virgula 
-    			{-> New comandos.atribuicao(variavel,expressao,expressao_logica)}
+    comandos {-> comandos} = {atribuicao} variavel seta expressao ponto_e_virgula 
+    			{-> New comandos.atribuicao(variavel,expressao)}
 			| {leia} leia abre_paren id_virgula fecha_paren ponto_e_virgula {-> New comandos.leia(id_virgula)}
-			| {escreva} escreva abre_paren exp_virgula_lista? [expressao]:expressao [expressao_logica]:expressao_logica fecha_paren ponto_e_virgula 
-				{-> New comandos.escreva([exp_virgula_lista.exp_virgula],expressao,expressao_logica)}
+			| {escreva} escreva abre_paren exp_virgula_lista? expressao fecha_paren ponto_e_virgula 
+				{-> New comandos.escreva([exp_virgula_lista.exp_virgula],expressao)}
 			| {condicional} se abre_paren expressao_logica fecha_paren entao parte_comandos fim_se ponto_e_virgula 
 				{-> New comandos.condicional(expressao_logica,[parte_comandos.comandos])}
 			| {condicional_senao} se abre_paren expressao_logica fecha_paren entao [entao_cmd]:parte_comandos senao [senao_cmd]:parte_comandos fim_se ponto_e_virgula 
 				{-> New comandos.condicional_senao(expressao_logica,[entao_cmd.comandos],[senao_cmd.comandos])}
-			| {avalie} avalie abre_paren [expressao]:expressao [expressao_logica]:expressao_logica fecha_paren avalie_caso? avalie_senao? fim_avalie 
-				{-> New comandos.avalie(expressao,expressao_logica)}
-    		| {enquanto} enquanto abre_paren expressao_logica fecha_paren faca comandos+ fim_enquanto
+			| {avalie} avalie abre_paren expressao fecha_paren avalie_caso? avalie_senao? fim_avalie ponto_e_virgula
+				{-> New comandos.avalie(expressao)}
+    		| {enquanto} enquanto abre_paren expressao_logica fecha_paren faca comandos+ fim_enquanto ponto_e_virgula
     			{-> New comandos.enquanto(expressao_logica,[comandos])}
             | {repita} repita comandos+ ate abre_paren expressao_logica fecha_paren ponto_e_virgula
             	{-> New comandos.repita([comandos],expressao_logica)}
-            | {para} para identificador de [de_num]:numero_inteiro ate [ate_num]:numero_inteiro comandos+ fim_para ponto_e_virgula
+            | {para} para identificador de [de_num]:numero_inteiro ate [ate_num]:numero_inteiro faca comandos+ fim_para ponto_e_virgula
             	{-> New comandos.para(de_num,ate_num,[comandos])}
-            | {para_passo} para identificador de [de_num]:numero_inteiro passo [passo_num]:numero_inteiro ate [ate_num]:numero_inteiro comandos+ fim_para ponto_e_virgula
+            | {para_passo} para identificador de [de_num]:numero_inteiro passo [passo_num]:numero_inteiro ate [ate_num]:numero_inteiro faca comandos+ fim_para ponto_e_virgula
             	{-> New comandos.para_passo(de_num,passo_num,ate_num,[comandos])};
     
     id_virgula {-> id_virgula}= {id} variavel {-> New id_virgula.id(variavel)}    		
     		| {idv} variavel virgula id_virgula {-> New id_virgula.idvirgula(variavel,id_virgula)};    
     exp_virgula_lista {-> exp_virgula*} = exp_virgula+ {-> [exp_virgula]};
-    exp_virgula {-> exp_virgula} = [expressao]:expressao [expressao_logica]:expressao_logica virgula {-> New exp_virgula(expressao,expressao_logica)};    
+    exp_virgula {-> exp_virgula} = expressao {-> New exp_virgula(expressao)};    
     
     avalie_caso {-> avalie_caso_sub*} = avalie_caso_sub+ {-> [avalie_caso_sub]};
     avalie_caso_sub = caso valor dois_pontos parte_comandos {-> New avalie_caso_sub([parte_comandos.comandos])};
@@ -189,19 +189,19 @@ Abstract Syntax Tree
    	
    	tipo = {real} real | {inteiro} inteiro | {caractere} caractere;
 	
-	comandos = {atribuicao} variavel [expressao]:expressao [expressao_logica]:expressao_logica
+	comandos = {atribuicao} variavel expressao
                     | {leia} id_virgula
-                    | {escreva} exp_virgula* [expressao]:expressao [expressao_logica]:expressao_logica
+                    | {escreva} exp_virgula* expressao
                     | {condicional} expressao_logica comandos*
                     | {condicional_senao} expressao_logica [entao_cmd]:comandos* [senao_cmd]:comandos*
-                    | {avalie} [expressao]:expressao [expressao_logica]:expressao_logica
+                    | {avalie} expressao
                     | {enquanto} expressao_logica comandos+
 		            | {repita} comandos+ expressao_logica
 		            | {para} [de_num]:numero_inteiro [ate_num]:numero_inteiro comandos+
 		            | {para_passo} [de_num]:numero_inteiro [passo_num]:numero_inteiro [ate_num]:numero_inteiro comandos+;
                     
 	id_virgula = {id} variavel | {idvirgula} variavel id_virgula;
-	exp_virgula = [expressao]:expressao [expressao_logica]:expressao_logica;	
+	exp_virgula = expressao;	
 	
 	avalie_caso_sub = comandos*;
     avalie_senao = comandos*;

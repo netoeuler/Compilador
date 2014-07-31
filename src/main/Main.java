@@ -23,7 +23,7 @@ class Main {
 	public static void main(String args[]) {
 		String arquivo = "";
 		if (args.length == 0)
-			arquivo = System.getProperty("user.dir") + "/src/teste/sintatica/programaParaTeste3";
+			arquivo = System.getProperty("user.dir") + "/src/teste/semantica/programaParaTeste5";
 		else
 			arquivo = args[0];
 		

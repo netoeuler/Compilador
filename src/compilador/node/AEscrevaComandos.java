@@ -10,7 +10,6 @@ public final class AEscrevaComandos extends PComandos
 {
     private final LinkedList<PExpVirgula> _expVirgula_ = new LinkedList<PExpVirgula>();
     private PExpressao _expressao_;
-    private PExpressaoLogica _expressaoLogica_;
 
     public AEscrevaComandos()
     {
@@ -19,15 +18,12 @@ public final class AEscrevaComandos extends PComandos
 
     public AEscrevaComandos(
         @SuppressWarnings("hiding") List<?> _expVirgula_,
-        @SuppressWarnings("hiding") PExpressao _expressao_,
-        @SuppressWarnings("hiding") PExpressaoLogica _expressaoLogica_)
+        @SuppressWarnings("hiding") PExpressao _expressao_)
     {
         // Constructor
         setExpVirgula(_expVirgula_);
 
         setExpressao(_expressao_);
-
-        setExpressaoLogica(_expressaoLogica_);
 
     }
 
@@ -36,8 +32,7 @@ public final class AEscrevaComandos extends PComandos
     {
         return new AEscrevaComandos(
             cloneList(this._expVirgula_),
-            cloneNode(this._expressao_),
-            cloneNode(this._expressaoLogica_));
+            cloneNode(this._expressao_));
     }
 
     @Override
@@ -97,38 +92,12 @@ public final class AEscrevaComandos extends PComandos
         this._expressao_ = node;
     }
 
-    public PExpressaoLogica getExpressaoLogica()
-    {
-        return this._expressaoLogica_;
-    }
-
-    public void setExpressaoLogica(PExpressaoLogica node)
-    {
-        if(this._expressaoLogica_ != null)
-        {
-            this._expressaoLogica_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._expressaoLogica_ = node;
-    }
-
     @Override
     public String toString()
     {
         return ""
             + toString(this._expVirgula_)
-            + toString(this._expressao_)
-            + toString(this._expressaoLogica_);
+            + toString(this._expressao_);
     }
 
     @Override
@@ -143,12 +112,6 @@ public final class AEscrevaComandos extends PComandos
         if(this._expressao_ == child)
         {
             this._expressao_ = null;
-            return;
-        }
-
-        if(this._expressaoLogica_ == child)
-        {
-            this._expressaoLogica_ = null;
             return;
         }
 
@@ -180,12 +143,6 @@ public final class AEscrevaComandos extends PComandos
         if(this._expressao_ == oldChild)
         {
             setExpressao((PExpressao) newChild);
-            return;
-        }
-
-        if(this._expressaoLogica_ == oldChild)
-        {
-            setExpressaoLogica((PExpressaoLogica) newChild);
             return;
         }
 

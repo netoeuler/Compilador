@@ -227,10 +227,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getExpressao().apply(this);
         }
-        if(node.getExpressaoLogica() != null)
-        {
-            node.getExpressaoLogica().apply(this);
-        }
         outAAtribuicaoComandos(node);
     }
 
@@ -279,10 +275,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         if(node.getExpressao() != null)
         {
             node.getExpressao().apply(this);
-        }
-        if(node.getExpressaoLogica() != null)
-        {
-            node.getExpressaoLogica().apply(this);
         }
         outAEscrevaComandos(node);
     }
@@ -367,10 +359,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         if(node.getExpressao() != null)
         {
             node.getExpressao().apply(this);
-        }
-        if(node.getExpressaoLogica() != null)
-        {
-            node.getExpressaoLogica().apply(this);
         }
         outAAvalieComandos(node);
     }
@@ -562,10 +550,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         if(node.getExpressao() != null)
         {
             node.getExpressao().apply(this);
-        }
-        if(node.getExpressaoLogica() != null)
-        {
-            node.getExpressaoLogica().apply(this);
         }
         outAExpVirgula(node);
     }

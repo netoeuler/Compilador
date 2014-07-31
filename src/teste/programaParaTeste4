@@ -1,7 +1,0 @@
-programa ola;
-var inteiro : teste;
-inicio	
-	se ((a = b) = (c)) entao
-		escreva(ok);
-	fim se;
-fim.

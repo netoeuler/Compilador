@@ -174,23 +174,23 @@ public class AnalisadorSemantico extends DepthFirstAdapter{
 			}		
 				
 				
-				if (expressao instanceof ANumeroInteiroValor && dadosSimbolo[0] instanceof AInteiroTipo){
-					dadosSimbolo[2] = ((ANumeroInteiroValor) expressao).getNumeroInteiro();
-					tabelaDeSimbolos.put(identificador.getText(), dadosSimbolo);
-				}
-				else if (expressao instanceof ANumeroRealValor && dadosSimbolo[0] instanceof ARealTipo){
-					dadosSimbolo[2] = ((ANumeroRealValor) expressao).getNumeroReal();
-					tabelaDeSimbolos.put(identificador.getText(), dadosSimbolo);
-				}
-				else if (expressao instanceof AStringValor && dadosSimbolo[0] instanceof ACaractereTipo){
-					dadosSimbolo[2] = ((AStringValor) expressao).getString();
-					tabelaDeSimbolos.put(identificador.getText(), dadosSimbolo);
-				}
-				else{
-					System.out.print("["+identificador.getLine()+","+identificador.getPos()+"] ");
-					System.out.println("Atribuição inválida");
-				}
-			}	
+			if (expressao instanceof ANumeroInteiroValor && dadosSimbolo[0] instanceof AInteiroTipo){
+				dadosSimbolo[2] = ((ANumeroInteiroValor) expressao).getNumeroInteiro();
+				tabelaDeSimbolos.put(identificador.getText(), dadosSimbolo);
+			}
+			else if (expressao instanceof ANumeroRealValor && dadosSimbolo[0] instanceof ARealTipo){
+				dadosSimbolo[2] = ((ANumeroRealValor) expressao).getNumeroReal();
+				tabelaDeSimbolos.put(identificador.getText(), dadosSimbolo);
+			}
+			else if (expressao instanceof AStringValor && dadosSimbolo[0] instanceof ACaractereTipo){
+				dadosSimbolo[2] = ((AStringValor) expressao).getString();
+				tabelaDeSimbolos.put(identificador.getText(), dadosSimbolo);
+			}
+			else{
+				System.out.print("["+identificador.getLine()+","+identificador.getPos()+"] ");
+				System.out.println("Atribuição inválida");
+			}
+		}
 		
 	}
 	
@@ -200,6 +200,11 @@ public class AnalisadorSemantico extends DepthFirstAdapter{
 		
 		if (dadosSimbolo == null)
 			return;
+		else if (!dadosSimbolo[1].equals(VETOR)){
+			System.out.print("["+node.getIdentificador().getLine()+","+node.getIdentificador().getPos()+"] ");
+			System.out.println("A variável "+node.getIdentificador().getText()+" não é um vetor");
+			return;
+		}
 		
 		int tamLimiteVetor = Integer.parseInt(dadosSimbolo[3].toString().trim());
 		int posicaoRequisitada = Integer.parseInt(node.getNumeroInteiro().getText());
@@ -280,25 +285,39 @@ public class AnalisadorSemantico extends DepthFirstAdapter{
 					pos = ((TString) left).getPos();
 				}
 				
-				System.out.println("["+linha+","+pos+"] "+operacao+" inválida");				
+				System.out.println("["+linha+","+pos+"] "+operacao+" inválida");
+				return;
 			}			
 		}
-		//else{
-			if (left instanceof TNumeroInteiro){
-				Integer soma = Integer.parseInt( ((TNumeroInteiro) left).getText() );
-				soma += Integer.parseInt( ((TNumeroInteiro) right).getText() );
-				
-				valorExpressaoAritmetica = definirNovoValorExpressaoAritmetica(soma.toString());
-			}
-			else if (left instanceof TNumeroReal){
-				Integer soma = Integer.parseInt( ((TNumeroReal) left).getText() );
-				soma += Integer.parseInt( ((TNumeroReal) right).getText() );
-				
-				AValorExpressao aux = (AValorExpressao) nodeL;
-				((ANumeroRealValor)aux.getValor()).getNumeroReal().setText(soma.toString());
-				valorExpressaoAritmetica = aux;				
-			}
+		//else{				
+		if (left instanceof TNumeroInteiro){
+			Integer resultado = Integer.parseInt( ((TNumeroInteiro) left).getText() );
 			
+			if (operacao.equals("Soma"))
+				resultado += Integer.parseInt( ((TNumeroInteiro) right).getText() );
+			else if (operacao.equals("Subtracao"))
+				resultado -= Integer.parseInt( ((TNumeroInteiro) right).getText() );
+			else if (operacao.equals("Multiplicacao"))
+				resultado *= Integer.parseInt( ((TNumeroInteiro) right).getText() );
+			else if (operacao.equals("Divisao"))
+				resultado /= Integer.parseInt( ((TNumeroInteiro) right).getText() );
+			
+			valorExpressaoAritmetica = definirNovoValorExpressaoAritmetica(resultado.toString());
+		}
+		else if (left instanceof TNumeroReal){
+			Double resultado = Double.parseDouble( ((TNumeroInteiro) left).getText() );
+			
+			if (operacao.equals("Soma"))
+				resultado += Double.parseDouble( ((TNumeroInteiro) right).getText() );
+			else if (operacao.equals("Subtracao"))
+				resultado -= Double.parseDouble( ((TNumeroInteiro) right).getText() );
+			else if (operacao.equals("Multiplicacao"))
+				resultado *= Double.parseDouble( ((TNumeroInteiro) right).getText() );
+			else if (operacao.equals("Divisao"))
+				resultado /= Double.parseDouble( ((TNumeroInteiro) right).getText() );
+			
+			valorExpressaoAritmetica = definirNovoValorExpressaoAritmetica(resultado.toString());			
+		}
 		//}
 	}
 	

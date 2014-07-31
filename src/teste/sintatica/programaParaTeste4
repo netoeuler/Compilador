@@ -1,0 +1,21 @@
+programa ola;
+var inteiro : teste;
+inicio	
+	se ((a = b) e (c + 1 = b)) entao
+		escreva(ok);
+	fim se;
+	
+	avalie(a)
+		caso 1: escreva(x);
+		caso 2: escreva(y);
+		caso 3: escreva(z);
+	fim avalie;
+	
+	enquanto (1 <> 2) faca
+		leia(x,y);		
+	fim enquanto;
+	
+	para x de 1 ate 5 faca
+		escreva(x/5);
+	fim para;
+fim.

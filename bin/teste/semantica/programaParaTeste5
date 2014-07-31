@@ -8,11 +8,9 @@ inicio
 	//teste3 <- 5;	
 	
 	teste <- 0;
+	teste4[1] <- 500;
 	teste3[1] <- 1;
+	teste3[2] <- 2;	
 	
-	avalie (teste2)
-		caso 1: escreva('a');
-		caso 2: escreva('a2');
-		senao: escreva('b');
-	fim avalie
+		
 fim.

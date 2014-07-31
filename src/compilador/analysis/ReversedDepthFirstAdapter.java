@@ -221,10 +221,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAAtribuicaoComandos(AAtribuicaoComandos node)
     {
         inAAtribuicaoComandos(node);
-        if(node.getExpressaoLogica() != null)
-        {
-            node.getExpressaoLogica().apply(this);
-        }
         if(node.getExpressao() != null)
         {
             node.getExpressao().apply(this);
@@ -271,10 +267,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAEscrevaComandos(AEscrevaComandos node)
     {
         inAEscrevaComandos(node);
-        if(node.getExpressaoLogica() != null)
-        {
-            node.getExpressaoLogica().apply(this);
-        }
         if(node.getExpressao() != null)
         {
             node.getExpressao().apply(this);
@@ -370,10 +362,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAAvalieComandos(AAvalieComandos node)
     {
         inAAvalieComandos(node);
-        if(node.getExpressaoLogica() != null)
-        {
-            node.getExpressaoLogica().apply(this);
-        }
         if(node.getExpressao() != null)
         {
             node.getExpressao().apply(this);
@@ -569,10 +557,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAExpVirgula(AExpVirgula node)
     {
         inAExpVirgula(node);
-        if(node.getExpressaoLogica() != null)
-        {
-            node.getExpressaoLogica().apply(this);
-        }
         if(node.getExpressao() != null)
         {
             node.getExpressao().apply(this);
