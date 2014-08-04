@@ -12,5 +12,13 @@ inicio
 	teste3[1] <- 1;
 	teste3[2] <- 2;	
 	
+	se ((teste4+teste3)=teste3) entao
+		escreva('x');
+	fim se;
+	
+	//escreva(teste3,teste2,teste);
+	//escreva(teste2[3]);
+	//escreva('ab');
+	
 		
 fim.

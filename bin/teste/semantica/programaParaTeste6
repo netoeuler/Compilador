@@ -1,22 +1,37 @@
 programa ola;
-var real : teste[2];
-var caractere : teste2[2];
-var inteiro : teste3;
-var inteiro : teste4;
+var inteiro : teste;
+//Teste 1:
+//var caractere : teste;
+var real : teste2;
+var caractere : teste3;
+var caractere : teste4[3];
 inicio
+	//Teste 2:
+	//teste <- teste99;
+	
+	//Teste 3:
+	//3.1:
+	//teste <- 'a';
 	//teste <- 2,0;
-	//teste[0] <- 2,0;
-	//teste2 <- 'abcdasd';
-	teste4 <- 5;
-	teste3 <- teste4 + 2;
-	//teste3 <- 6;
 	
-	se ((teste4+teste3)=teste3) entao
-		escreva('x');
-	fim se;
+	//3.2:
+	//teste2 <- 'a';
+	//teste2 <- 2;
 	
-	//escreva(teste3,teste2,teste);
-	//escreva(teste2[3]);
-	//escreva('ab');
+	//3.3:
+	//teste3 <- 1;
+	//teste3 <- 0,1;
+	
+	//Teste 4:
+	//4.1:
+	//teste4[0] <- 'a';
+	//teste4[1] <- 'b';
+	
+	//4.2:
+	//teste4[5] <- 5;
+	
+	//4.3:
+	teste3 <- 'z';
+	teste4[0] <- teste3;
 		
 fim.

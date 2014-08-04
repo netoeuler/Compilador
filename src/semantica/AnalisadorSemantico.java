@@ -22,8 +22,10 @@ import compilador.node.AValorExpressao;
 import compilador.node.AVariavelExpressao;
 import compilador.node.AVetorVariavel;
 import compilador.node.TIdentificador;
+import compilador.node.TInteiro;
 import compilador.node.TNumeroInteiro;
 import compilador.node.TNumeroReal;
+import compilador.node.TReal;
 import compilador.node.TString;
 
 public class AnalisadorSemantico extends DepthFirstAdapter{
@@ -117,57 +119,102 @@ public class AnalisadorSemantico extends DepthFirstAdapter{
 			System.out.println("Não é permitido atribuir valores a uma constante.");
 		}
 		else if (dadosSimbolo[1].equals(VETOR)){
-			boolean erro = false;
-			
-			if (node.getVariavel() instanceof AVetorVariavel || dadosSimbolo[0] instanceof ACaractereTipo)
-				erro = false;
-			else
-				erro = true;
-			
-			if (erro){
+			if (node.getVariavel() instanceof AVetorVariavel || dadosSimbolo[0] instanceof ACaractereTipo){
+			}
+			else{
 				System.out.print("["+identificador.getLine()+","+identificador.getPos()+"] ");
 				System.out.println("Atribuição inválida para vetor.");
 				return;
 			}
 			
-			Object expressao = node.getExpressao();
-			expressao = node.getExpressao().toString().substring(0,expressao.toString().length()-1);
+			Object expressao = null;
+			if (node.getExpressao() instanceof AValorExpressao)
+				expressao = ((AValorExpressao) node.getExpressao()).getValor();
+			else if (node.getExpressao() instanceof AVariavelExpressao){
+				AIdentificadorVariavel idvar = (AIdentificadorVariavel) ((AVariavelExpressao) node.getExpressao()).getVariavel();
+				TIdentificador tid = idvar.getIdentificador();
+				
+				Object[] dadosSimboloAux = tabelaDeSimbolos.get(tid.getText());
+				if (dadosSimboloAux != null){
+					if (dadosSimboloAux[2] != null)
+						expressao = dadosSimboloAux[2];
+					else{
+						System.out.print("["+identificador.getLine()+","+identificador.getPos()+"] ");
+						System.out.println("Sem valor associado à variável");
+						return;
+					}
+				}
+				else{
+					System.out.print("["+identificador.getLine()+","+identificador.getPos()+"] ");
+					System.out.println("Variável não declarada");
+					return;
+				}
+				
+			}
+			
 			int tamLimiteVetor = Integer.parseInt( ((TNumeroInteiro) dadosSimbolo[3]).getText() );
 			
 			if (dadosSimbolo[0] instanceof AInteiroTipo){
-				try{
-					Integer.parseInt(expressao.toString());
-				} catch (Exception e){
+				if (expressao instanceof ANumeroInteiroValor || expressao instanceof TInteiro){					
+				}
+				else{
 					System.out.print("["+identificador.getLine()+","+identificador.getPos()+"] ");
 					System.out.println("Atribuição inválida");
-				}				
+				}
 			}
 			else if (dadosSimbolo[0] instanceof ARealTipo){
-				try{
-					if (!expressao.toString().contains(","))
-						Integer.parseInt(expressao.toString()+",");
-				} catch (Exception e){
+				if (expressao instanceof ANumeroRealValor || expressao instanceof TReal){					
+				}
+				else{
 					System.out.print("["+identificador.getLine()+","+identificador.getPos()+"] ");
 					System.out.println("Atribuição inválida");
-				}				
+				}
 			}
 			else if (dadosSimbolo[0] instanceof ACaractereTipo){
-				String valorAtribuido = expressao.toString().replace("'", "");
+				if (expressao instanceof AStringValor || expressao instanceof TString){
+				}
+				else{
+					System.out.print("["+identificador.getLine()+","+identificador.getPos()+"] ");
+					System.out.println("Atribuição inválida");
+					return;
+				}
 				
-				int tamStringDecl = valorAtribuido.length();				
+				String valorAtribuido; 
+				if (expressao instanceof TString)
+					valorAtribuido = ((TString) expressao).getText().replace("'", "");
+				else
+					valorAtribuido = ((TString)((AStringValor)expressao).getString()).getText().replace("'", "");
+				
+				int tamStringDecl = valorAtribuido.length();
 				
 				if (node.getVariavel() instanceof AVetorVariavel){
-					if (valorAtribuido.length() > 1)
-						erro = true;
+					if (valorAtribuido.length() > 1){
+						System.out.print("["+identificador.getLine()+","+identificador.getPos()+"] ");
+						System.out.println("Atribuição inválida");
+					}
 				}				
-				if (tamStringDecl > tamLimiteVetor)
-					erro = true;
+				if (tamStringDecl > tamLimiteVetor){
+					System.out.print("["+identificador.getLine()+","+identificador.getPos()+"] ");
+					System.out.println("String atribuída com tamanho maior que limite");
+				}
 			}
 		}
 		else{
 			Object expressao = null;
 			if (node.getExpressao() instanceof AValorExpressao)
 				expressao = ((AValorExpressao) node.getExpressao()).getValor();
+			else if (node.getExpressao() instanceof AVariavelExpressao){
+				TIdentificador id = ((AIdentificadorVariavel)((AVariavelExpressao) node.getExpressao()).getVariavel()).getIdentificador();
+				TIdentificador id2 = ((TIdentificador) id);
+				Object[] dadosSimboloAux = tabelaDeSimbolos.get(id2.getText());
+				if (dadosSimboloAux == null){
+					System.out.print("["+identificador.getLine()+","+identificador.getPos()+"] ");
+					System.out.println("Variável "+id2.getText()+" não declarada.");
+					return;
+				}
+				else
+					expressao = dadosSimboloAux[2];
+			}
 			else if (valorExpressaoAritmetica != null){
 				expressao = ((AValorExpressao)valorExpressaoAritmetica).getValor();
 				valorExpressaoAritmetica = null;
@@ -176,6 +223,13 @@ public class AnalisadorSemantico extends DepthFirstAdapter{
 				
 			if (expressao instanceof ANumeroInteiroValor && dadosSimbolo[0] instanceof AInteiroTipo){
 				dadosSimbolo[2] = ((ANumeroInteiroValor) expressao).getNumeroInteiro();
+				tabelaDeSimbolos.put(identificador.getText(), dadosSimbolo);
+			}
+			else if (expressao instanceof ANumeroInteiroValor && dadosSimbolo[0] instanceof ARealTipo){
+				TNumeroInteiro numInteiro = ((ANumeroInteiroValor) expressao).getNumeroInteiro();
+				TNumeroReal numReal = new TNumeroReal(numInteiro.getText()+",0", numInteiro.getLine(), numInteiro.getPos()); 
+				
+				dadosSimbolo[2] = numReal;
 				tabelaDeSimbolos.put(identificador.getText(), dadosSimbolo);
 			}
 			else if (expressao instanceof ANumeroRealValor && dadosSimbolo[0] instanceof ARealTipo){
